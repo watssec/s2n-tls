@@ -164,7 +164,7 @@ ifndef COV_TOOL
 	endif
 endif
 
-try_compile = $(shell cat $(1) | $(CC) -Werror -o tmp.o -xc - > /dev/null 2>&1; echo $$?; rm tmp.o > /dev/null 2>&1)
+try_compile = $(shell cat $(1) | $(CC) ${DEFAULT_CFLAGS} -o tmp.o -xc - > /dev/null 2>&1; echo $$?; rm tmp.o > /dev/null 2>&1)
 
 # Determine if execinfo.h is available
 TRY_COMPILE_EXECINFO := $(call try_compile,$(S2N_ROOT)/tests/features/execinfo.c)
@@ -190,10 +190,16 @@ ifeq ($(TRY_COMPILE__RESTRICT__), 0)
 	DEFAULT_CFLAGS += -DS2N___RESTRICT__SUPPORTED
 endif
 
+# Determine if struct tm has tm_gmtoff or __tm_gmtoff
+TRY_COMPILE_TM_GMTOFF := $(call try_compile,$(S2N_ROOT)/tests/features/tm_gmtoff.c)
+ifeq ($(TRY_COMPILE_TM_GMTOFF), 0)
+	DEFAULT_CFLAGS += -DS2N_HAVE_TM_GMTOFF
+endif
+
 CFLAGS_LLVM = ${DEFAULT_CFLAGS} -emit-llvm -c -g -O1
 
 $(BITCODE_DIR)%.bc: %.c
-	$(CLANG) $(CFLAGS_LLVM) -o $@ $< 
+	$(CLANG) $(CFLAGS_LLVM) -o $@ $<
 
 
 INDENTOPTS = -npro -kr -i4 -ts4 -nut -sob -l180 -ss -ncs -cp1
@@ -203,11 +209,11 @@ indentsource:
 	( for source in ${SOURCES} ; do ${INDENT} ${INDENTOPTS} $$source; done )
 
 .PHONY : gcov
-gcov: 
+gcov:
 	( for source in ${SOURCES} ; do $(COV_TOOL) $$source;  done )
 
 .PHONY : lcov
-lcov: 
+lcov:
 	lcov --capture --directory . --gcov-tool $(COV_TOOL) --output ./coverage.info
 
 

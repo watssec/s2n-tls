@@ -202,39 +202,6 @@ else()
     endif()
 endif()
 
-# Probe for execinfo.h extensions (not present on some systems, notably android)
-include(CheckCSourceCompiles)
-
-# Determine if execinfo.h is available
-try_compile(
-        S2N_HAVE_EXECINFO
-        ${CMAKE_BINARY_DIR}
-        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/execinfo.c"
-)
-
-# Determine if cpuid.h is available
-try_compile(
-        S2N_CPUID_AVAILABLE
-        ${CMAKE_BINARY_DIR}
-        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/cpuid.c"
-)
-
-# Determine if __attribute__((fallthrough)) is available
-try_compile(
-        FALL_THROUGH_SUPPORTED
-        ${CMAKE_BINARY_DIR}
-        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/fallthrough.c"
-        COMPILE_DEFINITIONS "-Werror"
-)
-
-# Determine if __restrict__ is available
-try_compile(
-        __RESTRICT__SUPPORTED
-        ${CMAKE_BINARY_DIR}
-        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/__restrict__.c"
-        COMPILE_DEFINITIONS "-Werror"
-)
-
 if(APPLE)
     set(OS_LIBS c Threads::Threads)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
@@ -331,6 +298,51 @@ if(BIKE_R3_X86_64_OPT_SUPPORTED)
     message(STATUS "Enabling BIKE_R3 x86_64 optimizations")
 endif()
 
+# Probe for feature extensions, e.g. execinfo.h, cpuid.h and etc. (not present on some systems, notably android)
+include(CheckCSourceCompiles)
+
+get_target_property(TRY_COMPILE_CFLAGS ${PROJECT_NAME} COMPILE_OPTIONS)
+
+# Determine if execinfo.h is available
+try_compile(
+        S2N_HAVE_EXECINFO
+        ${CMAKE_BINARY_DIR}
+        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/execinfo.c"
+        COMPILE_DEFINITIONS "{TRY_COMPILE_CFLAGS}"
+)
+
+# Determine if cpuid.h is available
+try_compile(
+        S2N_CPUID_AVAILABLE
+        ${CMAKE_BINARY_DIR}
+        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/cpuid.c"
+        COMPILE_DEFINITIONS "{TRY_COMPILE_CFLAGS}"
+)
+
+# Determine if __attribute__((fallthrough)) is available
+try_compile(
+        FALL_THROUGH_SUPPORTED
+        ${CMAKE_BINARY_DIR}
+        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/fallthrough.c"
+        COMPILE_DEFINITIONS "{TRY_COMPILE_CFLAGS}"
+)
+
+# Determine if __restrict__ is available
+try_compile(
+        __RESTRICT__SUPPORTED
+        ${CMAKE_BINARY_DIR}
+        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/__restrict__.c"
+        COMPILE_DEFINITIONS "{TRY_COMPILE_CFLAGS}"
+)
+
+# Determine if struct tm has tm_gmtoff or __tm_gmtoff
+try_compile(
+        S2N_HAVE_TM_GMTOFF
+        ${CMAKE_BINARY_DIR}
+        SOURCES "${CMAKE_CURRENT_LIST_DIR}/tests/features/tm_gmtoff.c"
+        COMPILE_DEFINITIONS "{TRY_COMPILE_CFLAGS}"
+)
+
 if(ADX_SUPPORTED)
     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_ADX)
     message(STATUS "Support for ADX assembly instructions detected")
@@ -365,6 +377,10 @@ endif()
 
 if (__RESTRICT__SUPPORTED)
     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N___RESTRICT__SUPPORTED)
+endif()
+
+if (S2N_HAVE_TM_GMTOFF)
+    target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_HAVE_TM_GMTOFF)
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
