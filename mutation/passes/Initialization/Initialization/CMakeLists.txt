@@ -1,0 +1,6 @@
+add_library(Initialization MODULE Initialization.cpp)
+set(CMAKE_CXX_FLAGS "-Wall -fno-rtti")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+find_package(nlohmann_json 3.10.5 REQUIRED)
+add_executable(Initialization Initialization.cpp)
+target_link_libraries(Initialization nlohmann_json::nlohmann_json)
