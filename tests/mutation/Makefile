@@ -1,21 +1,103 @@
+#####################
+# Copyright 2016 Galois, Inc. All Rights Reserved
+#
+#  Authors:
+#	Joey Dodds : jdodds@galois.com
+#       Nathan Collins : conathan@galois.com
+#	
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://aws.amazon.com/apache2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+########################
 
-#Clean targets
+#The scripts are all of the saw files in this directory
+SCRIPTS = $(wildcard *.saw)
+#A log file will be created for each test in the temp dir
+LOGS=$(patsubst %.saw,tmp/%.log,$(SCRIPTS))
+SHELL:=/bin/bash
+YICES_VERSION=$(shell yices-smt2 --version)
+export LIBCRYPTO_ROOT:=$(shell pwd)/../../libcrypto-root
+
+.PHONY : all
+all:
+	@echo "Running formal verification with ${YICES_VERSION}"
+	@${MAKE} clean-logs
+	@${MAKE} clean_the_dir
+	@${MAKE} $(LOGS)
+	
+
+
+############################################
+## Clean targets
+############################################
+.PHONY : clean-logs
+clean-logs : 
+	$(RM) -- $(wildcard tmp/*.log)
+
+
+
+.PHONY : clean-failure-logs
+clean-failure-logs :
+	$(RM) -- $(wildcard failure_tests/*.log)
+
+.PHONY: clean
+clean: decruft
+
+.PHONY: decruft
+decruft : clean-logs
+	${MAKE} -C bitcode decruft
+	${RM} -r s2n
+	${RM} -r tmp
 
 clean_the_dir :
 	${RM} -r s2n
 	${RM} -r tmp
-	$(RM) -r sike_r1/*.log
-	$(RM) -r bike_r1/*.log
-	$(RM) -r bike_r2/*.log
+	${RM} -r failure_tests/*.log
+	${RM} -r sike_r1/*.log
+	${RM} -r bike_r1/*.log
+	${RM} -r bike_r2/*.log
 	${RM} -r bitcode/*.bc
 
-#lead the files to be mutated into 
 
 
-.PHONY : all
-all:
 
-# Rules to copy the s2n directory for patching and building
+#The bitcode files don't get deleted, in case we want to do tests on them
+.SECONDARY : $(wildcard bitcode/*.bc)
+
+
+
+#if we ask this makefile to create bitcode it will always completely rebuild it
+.PHONY : bitcode
+bitcode :
+	${MAKE} clean_the_dir
+
+
+.PHONY : sike_r1_patched_bitcode
+sike_r1_patched_bitcode :
+	${MAKE} clean_the_dir
+
+
+.PHONY : bike_r1_patched_bitcode
+bike_r1_patched_bitcode :
+	${MAKE} clean_the_dir
+	
+
+.PHONY : bike_r2_patched_bitcode
+bike_r2_patched_bitcode :
+	${MAKE} clean_the_dir
+
+
+########################################################
+## Rules to copy the s2n directory for patching and bulding
+########################################################
 
 CRYPTO_C = $(wildcard ../../crypto/*.c) $(wildcard ../../crypto/*.h) ../../crypto/Makefile
 CRYPTO_COPY = $(addprefix s2n/crypto/, $(notdir $(CRYPTO_C)))
@@ -108,7 +190,7 @@ s2n/utils :
 
 s2n/tls :
 	mkdir -p $(TLS_DIRS)
-
+ 
 s2n/stuffer :
 	mkdir -p $@
 
@@ -120,37 +202,6 @@ export BITCODE_DIR := $(CURDIR)/bitcode/
 tmp:
 	mkdir -p tmp
 
-bitcode/all_llvm.bc : s2n/crypto s2n/pq-crypto s2n/pq-crypto/sike_r1 s2n/utils s2n/tls s2n/api s2n/error s2n/stuffer s2n/Makefile s2n/s2n.mk $(CRYPTO_COPY) $(PQ_CRYPTO_COPY) $(SIKE_R1_COPY) $(UTILS_COPY) $(TLS_COPY) $(API_COPY) $(ERROR_COPY) $(STUFFER_COPY)
-	${MAKE} -C s2n bc
-	${MAKE} -C bitcode all_llvm.bc
-
-.PHONY : bitcode/sike_r1_llvm.bc
-bitcode/sike_r1_llvm.bc : s2n/crypto s2n/pq-crypto s2n/pq-crypto/sike_r1 s2n/utils s2n/tls s2n/api s2n/error s2n/stuffer s2n/Makefile s2n/s2n.mk $(CRYPTO_COPY) $(PQ_CRYPTO_COPY) $(SIKE_R1_COPY) $(UTILS_COPY) $(TLS_COPY) $(API_COPY) $(ERROR_COPY) $(STUFFER_COPY)
-	patch s2n/pq-crypto/sike_r1/ec_isogeny_r1.c sike_r1/patch/ec_isogeny_r1.c.patch
-	${MAKE} -C s2n sike_r1_bc
-	${MAKE} -C bitcode all_llvm.bc
-
-.PHONY : bitcode/bike_r1_llvm.bc
-bitcode/bike_r1_llvm.bc : s2n/crypto s2n/pq-crypto s2n/pq-crypto/bike_r1 s2n/utils s2n/tls s2n/api s2n/error s2n/stuffer s2n/Makefile s2n/s2n.mk $(CRYPTO_COPY) $(PQ_CRYPTO_COPY) $(BIKE_R1_COPY) $(UTILS_COPY) $(TLS_COPY) $(API_COPY) $(ERROR_COPY) $(STUFFER_COPY)
-	patch s2n/pq-crypto/bike_r1/cleanup.h bike_r1/patch/cleanup.h.patch
-	patch s2n/pq-crypto/bike_r1/sampling_portable.c bike_r1/patch/sampling_portable.c.patch
-	patch s2n/pq-crypto/bike_r1/sampling.c bike_r1/patch/sampling.c.patch
-	patch s2n/pq-crypto/bike_r1/bike_r1_kem.c bike_r1/patch/bike_r1_kem.c.patch
-	${MAKE} -C s2n bike_r1_bc
-	${MAKE} -C bitcode bike_r1_llvm.bc
-	${RM} -r s2n
-
-.PHONY : bitcode/bike_r2_llvm.bc
-bitcode/bike_r2_llvm.bc : s2n/crypto s2n/pq-crypto s2n/pq-crypto/bike_r2 s2n/utils s2n/tls s2n/api s2n/error s2n/stuffer s2n/Makefile s2n/s2n.mk $(CRYPTO_COPY) $(PQ_CRYPTO_COPY) $(BIKE_R2_COPY) $(UTILS_COPY) $(TLS_COPY) $(API_COPY) $(ERROR_COPY) $(STUFFER_COPY)
-	patch s2n/pq-crypto/bike_r2/cleanup.h bike_r2/patch/cleanup.h.patch
-	patch s2n/pq-crypto/bike_r2/aes_ctr_prf.h bike_r2/patch/aes_ctr_prf.h.patch
-	patch s2n/pq-crypto/bike_r2/aes_ctr_prf.c bike_r2/patch/aes_ctr_prf.c.patch
-	patch s2n/pq-crypto/bike_r2/sampling_portable.c bike_r2/patch/sampling_portable.c.patch
-	patch s2n/pq-crypto/bike_r2/sampling.c bike_r2/patch/sampling.c.patch
-	patch s2n/pq-crypto/bike_r2/bike_r2_kem.c bike_r2/patch/bike_r2_kem.c.patch
-	${MAKE} -C s2n bike_r2_bc
-	${MAKE} -C bitcode bike_r2_llvm.bc
-	${RM} -r s2n
 
 s2n/lib/libs2n.so : s2n/crypto s2n/pq-crypto s2n/pq-crypto/sike_r1 s2n/pq-crypto/sike_r3 s2n/pq-crypto/bike_r1 s2n/pq-crypto/bike_r2 s2n/pq-crypto/bike_r3 s2n/pq-crypto/kyber_r2 s2n/pq-crypto/kyber_90s_r2 s2n/pq-crypto/kyber_r3 s2n/utils s2n/tls s2n/api s2n/error s2n/stuffer s2n/lib s2n/Makefile s2n/s2n.mk $(CRYPTO_COPY) $(PQ_CRYPTO_COPY) $(SIKE_R1_COPY) $(SIKE_R3_COPY) $(BIKE_R1_COPY) $(BIKE_R2_COPY) $(BIKE_R3_COPY) $(KYBER_R2_COPY) $(KYBER_90S_R2_COPY) $(KYBER_R3_COPY) $(UTILS_COPY) $(TLS_COPY) $(API_COPY) $(ERROR_COPY) $(STUFFER_COPY) $(LIB_COPY)
 	${MAKE} -C s2n libs NO_STACK_PROTECTOR=1 NO_INLINE=1
@@ -175,5 +226,3 @@ s2n/s2n.mk : ../../s2n.mk
 
 s2n/pq-crypto/s2n_pq_asm.mk : ../../pq-crypto/s2n_pq_asm.mk
 	cp $< $@
-
-
