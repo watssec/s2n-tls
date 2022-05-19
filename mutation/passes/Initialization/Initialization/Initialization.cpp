@@ -21,29 +21,28 @@
 
 using namespace llvm;
 using json = nlohmann::json;
-std::ofstream o ("genesis_info.json", std::ofstream::out);
-json mutation_map = json::array();
+
+
 namespace {
-    void JsonDump(Function &F, Instruction &I){
+  
+    json JsonDump(Function &F, Instruction &I, const char *Opcode, json mutation_map){
     json mutation_object = json::object();
     MDNode *metadata = I.getMetadata("dbg");
     DILocation *debugLocation = dyn_cast<DILocation>(metadata);
+    const DebugLoc &debugLoc = DebugLoc(debugLocation);
     mutation_object["file_name"] = debugLocation->getFilename();
     mutation_object["function_name"] = F.getName();  
     mutation_object["instruction_line"] = debugLocation->getLine();
-    
-    mutation_map.push_back(mutation_object);
-    const DebugLoc &debugLoc = DebugLoc(debugLocation);
+    mutation_object["instruction_type"] = Opcode;
     mutation_object["instruction_col"] = debugLoc.getCol();
-    o << std::setw(4) << mutation_map << std::endl;
-	  }
-    //debugLocation->getFilename();
-    
-
-    
-  }
+    mutation_map.push_back(mutation_object);
+    return mutation_map;
+    }
+  
+  
   struct SkeletonPass : public FunctionPass {
     static char ID;
+    
     SkeletonPass() : FunctionPass(ID) {}
     int function_num = 0;
     virtual bool runOnFunction(Function &F) {
@@ -51,19 +50,26 @@ namespace {
       for (auto &B : F) {
 		
         for (auto &I : B) {
-
-		    // Varies based on mutation types
-	        
+	        json mutation_map; 
+          std::ifstream i("genesis_info.json");
+          if (i.good()){
+            i >> mutation_map;
+          }else{
+            mutation_map = json::array();
+          }
           if (auto *op = dyn_cast<BinaryOperator>(&I)) {
-            JsonDump(F, I);
+              const char *OpCode = op->getOpcodeName();
+            mutation_map = JsonDump(F, I, OpCode, mutation_map);
+            std::ofstream o ("genesis_info.json", std::ofstream::trunc);
+            o << std::setw(4) << mutation_map << std::endl;
           }
         }
       }
       return false;
-      }
+    }
   };
-
+}
 
 char SkeletonPass::ID = 0;
-static RegisterPass<SkeletonPass> X("hello", "Hello World Pass", false, false);
+static RegisterPass<SkeletonPass> X("Initialization", "Scanning out all the possible mutation points", false, false);
 
