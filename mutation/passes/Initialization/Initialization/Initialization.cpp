@@ -25,7 +25,8 @@ using json = nlohmann::json;
 
 namespace {
   
-    json JsonDump(Function &F, Instruction &I, const char *Opcode, json mutation_map){
+    json JsonDump(Function &F, Instruction &I, const char *Opcode, json mutation_map,
+    int instruction_num, int function_num, char *mutation_type){
     json mutation_object = json::object();
     MDNode *metadata = I.getMetadata("dbg");
     DILocation *debugLocation = dyn_cast<DILocation>(metadata);
@@ -33,8 +34,11 @@ namespace {
     mutation_object["file_name"] = debugLocation->getFilename();
     mutation_object["function_name"] = F.getName();  
     mutation_object["instruction_line"] = debugLocation->getLine();
-    mutation_object["instruction_type"] = Opcode;
+    mutation_object["opcode"] = Opcode;
     mutation_object["instruction_col"] = debugLoc.getCol();
+    mutation_object["instruction_num"] = instruction_num;
+    mutation_object["function_num"] = function_num;
+    mutation_object["mutation_type"] = mutation_type;
     mutation_map.push_back(mutation_object);
     return mutation_map;
     }
@@ -45,11 +49,13 @@ namespace {
     
     SkeletonPass() : FunctionPass(ID) {}
     int function_num = 0;
+    int instruction_num = 0;
     virtual bool runOnFunction(Function &F) {
       
       for (auto &B : F) {
-		
+        function_num = function_num + 1; 
         for (auto &I : B) {
+          instruction_num = instruction_num +1;
 	        json mutation_map; 
           std::ifstream i("genesis_info.json");
           if (i.good()){
@@ -59,7 +65,8 @@ namespace {
           }
           if (auto *op = dyn_cast<BinaryOperator>(&I)) {
               const char *OpCode = op->getOpcodeName();
-            mutation_map = JsonDump(F, I, OpCode, mutation_map);
+              char *mutation_type = "Binop";
+            mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, mutation_type);
             std::ofstream o ("genesis_info.json", std::ofstream::trunc);
             o << std::setw(4) << mutation_map << std::endl;
           }
