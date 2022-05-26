@@ -10,9 +10,8 @@ saw_file_dir = "../saw/"
 bc_dir = "./bitcode/"
 database_file_path = "database.json"
 history_file_path = "history.json"
-mutation_pass_dir = "../../mutation/"
-json_file = open("genesis_info.json")
-random_pool_data = json.load(json_file)
+mutation_pass_dir = "../../mutation/passes/"
+
 mutation_round = 100
 # Initialize the database json with 0, initialized mark == 10
 database_json = []
@@ -26,15 +25,20 @@ function_name {{point_label,}}
 
 # TODO: Create history database
 # Match the mutation type then construct the argument to pass into the mutation pass
-def mutation_match(type, selected_seed):    
+def mutation_match(selected_seed):    
     #Match the seed number with seed location
+
+    json_file = open("genesis_info.json")
+    random_pool_data = json.load(json_file)
+
     selected_seed_info = random_pool_data[selected_seed-1]
     print(selected_seed_info)
     file_name = selected_seed_info["file_name"]
     function_num = selected_seed_info["function_num"]
     instruction_num = selected_seed_info["instruction_num"]
-    command = "opt -load " + mutation_pass_dir + type + " -"+type + " -file_name " + file_name + \
-    "-function_num " + function_num + "-instruction_num " + instruction_num   + " ./all_llvm.bc"  + " > /dev/null"
+    mutation_type = selected_seed_info["mutation_type"]
+    command = "opt -load " + mutation_pass_dir + mutation_type + " -"+ mutation_type + " -file_name " + file_name + \
+    "-function_num " + str(function_num) + "-instruction_num " + str(instruction_num)   + " ./all_llvm.bc"  + " > /dev/null"
     print(command)
     os.system(command)
     
@@ -67,17 +71,29 @@ def random_select_from_pool(random_pool_data, database_json):
     return selected_label
 
 def reward():
-    pass
+     # process the redicted information
+     pass
 
-def test():
+def test(selected_seed, round):
+    # TODO: Even if the mutation unit is chosen to be all_llvm.bc, 
+    # The link from .saw to .bc can still be found to make the testing process faster
+
     # saw $< | tee $@
     # Currently achieved by saw every saw file in the dir, under the condition that 
     # functions that belong to one cluster might be dependent on another
+    
+    # redirect the information from the terminal to logfile
+    
     for saw_file in glob.glob("*.saw"):
-        os.system("saw "+ saw_file)
-    # redirect the information from 
+        os.system("saw "+ saw_file + "| tee ./log/"+ str(selected_seed) + "_" + str(round) + ".log")
+    
+
 
 def one_mutation_round(database_json):
+
+    json_file = open("genesis_info.json")
+    random_pool_data = json.load(json_file)
+
     print("in one_mutation_round")
     print(database_json)
         # check if the database is empty or not
@@ -93,6 +109,8 @@ def one_mutation_round(database_json):
     # randomly select one
     if selected_seed == 0:
         selected_seed = random_select_from_pool(random_pool_data, database_json)
+        # add the selected_seed into the database
+        database_json.append({"label":selected_seed, "grade": 10})
     return (database_json,  selected_seed)
 
 # Makefile is edited to the steps before llvm link
@@ -104,6 +122,9 @@ def one_mutation_round(database_json):
 Copy .saw file under tests/saw and copy spec dir under tests/saw/spec
 '''
 if __name__ == '__main__':
+
+    # Open history json, if that does not exist, create an empty one
+
     for saw_file in glob.glob(saw_file_dir+"*.saw"):
         os.system("cp " + saw_file_dir + saw_file + " .")
 
@@ -112,8 +133,10 @@ if __name__ == '__main__':
     for bc_file in glob.glob(bc_dir+"*.bc"):
         
         command = "opt -load " + Initialization_pass_dir + " -Initialization < " +  bc_file + " > /dev/null"
-    
-        os.system(command)
+        if bc_file == "all_llvm.bc":
+            continue
+        print(command)
+        #os.system(command)
         
     # llvm link
 
@@ -124,6 +147,9 @@ if __name__ == '__main__':
         bc_file_command = bc_file_command + bc_file + " "
 
     os.system("llvm-link-3.9 -o ./bitcode/all_llvm.bc "+bc_file_command)
+
+    json_file = open("genesis_info.json")
+    random_pool_data = json.load(json_file)
 
     # read the genesis_info.json file, temporarily grouped by function
     # It should be changed to other rules later
@@ -138,7 +164,7 @@ if __name__ == '__main__':
             database_json = json.load(database_file)
    
     # One round stops at a bad seed
-    #for round in range(mutation_round):
+ 
     for round in range(1):
         test_result = True
         
@@ -146,15 +172,15 @@ if __name__ == '__main__':
         while test_result == True:
             (database_json,  selected_seed) = one_mutation_round(database_json)
             # write into file the new database_json
-            with open(database_file_path,"w") as database_file:
+            with open(database_file_path, "w") as database_file:
                 json.dump(database_json, database_file)
 
             mutation_point_list.append(selected_seed)
             print(selected_seed)
             # mutation passes
-            mutation_match(type, selected_seed)
-            test_result = False
-        #test_result = test()
+            mutation_match(selected_seed)
+        
+            test_result = test(selected_seed, round)
             # Match the mutation point then call the according pass with the command line argument
             
 
