@@ -45,7 +45,7 @@ def target_type_selection(selected_seed):
                     mutation_selection = random.choice(binop_rules[key])
     return mutation_selection
 
-    
+
 def mutation_match(selected_seed):    
     #Match the seed number with seed location
     selected_seed_info = random_pool_data[selected_seed-1]
@@ -101,6 +101,7 @@ def test_result(round):
     return flag
 
 def error_message_extraction():
+    # extract out the error message to 
     return ""
 
 def reward(mutation_point_list, test_result):
@@ -129,6 +130,8 @@ def test(round):
     # redirect the information from the terminal to logfile
     
     for saw_file in glob.glob("*.saw"):
+        if saw_file == "verify_HMAC.saw":
+            continue
         os.system("saw "+ saw_file + "| tee -a ./log/"+ str(round) + ".log")
     return test_result(round)
 
@@ -151,7 +154,7 @@ def one_mutation_round(database_json, mutation_point_list):
     selected_seed = database_seed_selection(database_json, mutation_point_list)
 
     # if the selected seed is [], then take one step further to 
-    # randomly select one
+    # randomly select onec
     if selected_seed == 0:
         selected_seed = random_select_from_pool(random_pool_data, database_json)
 
