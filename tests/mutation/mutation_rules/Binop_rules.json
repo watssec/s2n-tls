@@ -1,0 +1,1 @@
+{"Binop":["add","sub","mul"],"fBinop":["fadd","fsub","fmul"],"udiv":["udiv","urem"],"fdiv":["fdiv","frem"],"sdiv":["sdiv","srem"],"BitwiseBinop":["shl","lshr","ashr",""],"BitwiseCompare":["and","or","xor"]}
