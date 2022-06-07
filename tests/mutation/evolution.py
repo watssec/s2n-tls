@@ -41,6 +41,8 @@ def mutation_match(selected_seed_list):
 
     for selected_seed in selected_seed_list:    
         #Match the seed number with seed location
+        if selected_seed == 0:
+            continue
         selected_seed_info = random_pool_data[selected_seed-1]
         file_name = selected_seed_info["file_name"]
         function_num = selected_seed_info["function_num"]
@@ -57,7 +59,7 @@ def mutation_match(selected_seed_list):
                     mutation_selection = random.choice(binop_rules[key])
                     while mutation_selection == opcode :
                         mutation_selection = random.choice(binop_rules[key])
-
+            print("mutation_selection" + mutation_selection)
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
             " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) +" -target_type " + mutation_selection + " ./bitcode/all_llvm.bc"  + " > /dev/null"
         else:
@@ -133,10 +135,10 @@ def error_elimination_check(history_json, seed, current_error_message):
         if record["mutation_point_list"] == seed:
             seed_error_message = record["error_message"]
             break
-    if current_error_message in seed_error_message:
-        return True
-    else:
-        return False
+    for errmsg in seed_error_message:
+        if errmsg not in current_error_message:
+            return True
+    return False        
 
 def feedback(mutation_point_list, test_result, round):
     history_json = []
@@ -152,6 +154,7 @@ def feedback(mutation_point_list, test_result, round):
     temp_history_json = {}
     temp_history_json["round"] = round
     temp_history_json["mutaion_point_list"] = mutation_point_list
+
     current_error_message = ""
     if not test_result:
         temp_history_json["error_message"] = ""
@@ -169,7 +172,7 @@ def feedback(mutation_point_list, test_result, round):
             temp_report[i] = selected_seed_info
         report_json.append(temp_report)
         with open(report_file_path, "w") as report_file:
-            json.dump(report_json, report_file)    
+            json.dump(report_json, report_file, indent =4)    
     else:
         
         
@@ -304,7 +307,7 @@ if __name__ == '__main__':
     
     report_json = []
 
-    for round in range(10):
+    for round in tqdm(range(1000)):
         print("round number"+ str(round))
         selected_seed_list = one_mutation_round(database_json)
     

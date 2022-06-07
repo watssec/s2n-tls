@@ -16,11 +16,10 @@ using namespace llvm;
 static cl::opt<std::string> InputFileName("file_name", cl::desc("Specify input filename"), cl::value_desc("filename"));
 static cl::opt<int> FunctionId("function_num", cl::desc("Specify function number"), cl::value_desc("function number"));
 static cl::opt<int> InstructionId("instruction_num", cl::desc("Specify instruction number"), cl::value_desc("instruction number"));
+static cl::opt<std::string> TargetType("target_type", cl::desc("Specify target type"), cl::value_desc("target type"));
 
 
 namespace {
-
-
   struct SkeletonPass : public FunctionPass {
     static char ID;
     int function_num = 0;
@@ -36,11 +35,20 @@ namespace {
                 for(Use &U:inst->operands())
                 {
                     Value *V = U.get();
-                    auto *op = dyn_cast<Constant>(V);
+                    if(auto *op = dyn_cast<ConstantInt>(V)){
+                    errs() << "getType" << *op->getType() << "\n";
+                    Value *newvalue = ConstantInt::get(op->getType(),0);
+                    inst->setOperand(U.getOperandNo(),newvalue);
+                    errs() << "inst" << *inst << "\n";
+                    errs() << "U" << *U << "\n";
+                    errs() << "V" << *V << "\n";
+                    errs() << "op" << *op << "\n";
+                    }
                 }
             }
         }
-      return true;  }
+      return true;  
+    }
   };
 }
 
