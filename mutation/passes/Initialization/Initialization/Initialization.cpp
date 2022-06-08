@@ -48,10 +48,10 @@ namespace {
     static char ID;
     
     SkeletonPass() : FunctionPass(ID) {}
+
+    virtual bool runOnFunction(Function &F) {
     int function_num = 0;
     int instruction_num = 0;
-    virtual bool runOnFunction(Function &F) {
-      
       for (auto &B : F) {
         function_num = function_num + 1; 
         for (auto &I : B) {
@@ -63,20 +63,7 @@ namespace {
           }else{
             mutation_map = json::array();
           }
-          // Constant Value mutation
-          for(Use &U:I->operands())
-            {
-              Value *V = U.get();
-              // With constant value , choose among <>
-              if(auto *op = dyn_cast<ConstantInt>(V) || auto *op = dyn_cast<ConstantFP>(V)){
-              const char *OpCode = op -> getOpcodeName();
-              char *mutation_type = "Constant";
-              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, mutation_type);
-              std::ofstream o ("genesis_info.json", std::ofstream::trunc);
-              o << std::setw(4) << mutation_map << std::endl;
-             }
-             
-          }
+
           
           // opcode mutation
 

@@ -24,45 +24,40 @@ namespace {
   struct SkeletonPass : public FunctionPass {
     static char ID;
 
+
     SkeletonPass() : FunctionPass(ID) {}
 
     virtual bool runOnFunction(Function &F) {
       int function_num = 0;
       int instruction_num = 0;
+
       for (auto &B : F) {
         function_num = function_num + 1;
         for (auto &I : B) {
           instruction_num = instruction_num +1;
-          //if (!(function_num == FunctionId and instruction_num == InstructionId)){
-            //continue;
-          //}
-
-          if (auto *op = dyn_cast<FCmpInst>(&I)) {
-            IRBuilder<> builder(op);
-            // Make a multiply with the same operands as `op`.
-            CmpInst::Predicate predicate= op->getPredicate();
-
-            Value *lhs = op->getOperand(0);
-            Value *rhs = op->getOperand(1);
-            errs() << "oldinst" << *op << "\n";
-            Value *newinst = builder.CreateFCmp(predicate, rhs, lhs, "");
-            for (auto &U: op->uses()) {
-              User *user = U.getUser();
-              user->setOperand(U.getOperandNo(),newinst);
+          MDNode *metadata = I.getMetadata("dbg");
+          DILocation *debugLocation = dyn_cast<DILocation>(metadata);
+          const DebugLoc &debugLoc = DebugLoc(debugLocation);
+          if (!(function_num == FunctionId and instruction_num == InstructionId and debugLocation->getFilename() == InputFileName)){
+            continue;
+          }
+         
+          if (auto *op = dyn_cast<BranchInst>(&I)) {
+            if (op->isConditional() == true)
+            {
+              errs() << "old op" << *op << "\n";
+              op->swapSuccessors();
+              errs() << "new op" << *op << "\n";
+              
             }
-            errs() << "newinst" << *newinst << "\n";
-            // op->swapOperands();
-        
-            // Everywhere the old instruction was used as an operand, use our
-            // new multiply instruction instead.
-            
-
+           
             // We modified the code.
+            return true; 
           }
         }
       }
 
-      return true;  }
+       return false;}
   };
 }
 
@@ -70,4 +65,4 @@ char SkeletonPass::ID = 0;
 
 // Automatically enable the pass.
 // http://adriansampson.net/blog/clangpass.html
-static RegisterPass<SkeletonPass> X("Fcmp", "Fcmp operator mutation", false, false);
+static RegisterPass<SkeletonPass> X("Branch", "Switching branches", false, false);

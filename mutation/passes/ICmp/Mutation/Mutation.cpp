@@ -23,19 +23,24 @@ namespace {
 
   struct SkeletonPass : public FunctionPass {
     static char ID;
-    int function_num = 0;
-    int instruction_num = 0;
+
 
     SkeletonPass() : FunctionPass(ID) {}
 
     virtual bool runOnFunction(Function &F) {
+      int function_num = 0;
+      int instruction_num = 0;
       for (auto &B : F) {
         function_num = function_num + 1;
         for (auto &I : B) {
           instruction_num = instruction_num +1;
-          //if (!(function_num == FunctionId and instruction_num == InstructionId)){
-            //continue;
-          //}
+          MDNode *metadata = I.getMetadata("dbg");
+          DILocation *debugLocation = dyn_cast<DILocation>(metadata);
+          const DebugLoc &debugLoc = DebugLoc(debugLocation);
+          
+          if (!(function_num == FunctionId and instruction_num == InstructionId and debugLocation->getFilename() == InputFileName)){
+            continue;
+          }
 
           if (auto *op = dyn_cast<ICmpInst>(&I)) {
             IRBuilder<> builder(op);
