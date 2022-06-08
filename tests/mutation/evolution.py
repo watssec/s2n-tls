@@ -61,13 +61,14 @@ def mutation_match(selected_seed_list):
                         mutation_selection = random.choice(binop_rules[key])
             print("mutation_selection" + mutation_selection)
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
-            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) +" -target_type " + mutation_selection + " ./bitcode/all_llvm.bc"  + " > /dev/null"
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) +" -target_type " + mutation_selection + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         else:
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
-            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " ./bitcode/all_llvm.bc"  + " > /dev/null"
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         print(command)
         os.system(command)
-        
+        os.system("rm ./bitcode/all_llvm.bc")
+        os.system("mv ./bitcode/all_llvm_mutated.bc ./bitcode/all_llvm.bc")
 
 # This function finds the mutation seed in the dataset with the largest grade
 def database_seed_selection(database_json):
@@ -217,6 +218,7 @@ def test(round):
     # redirect the information from the terminal to logfile
     
     for saw_file in glob.glob("*.saw"):
+        print(saw_file)
         if saw_file == "verify_HMAC.saw":
             continue
 
@@ -262,8 +264,10 @@ def llvm_link():
     bc_file_list = []
     bc_file_command = ""
     for bc_file in glob.glob(bc_dir+"*.bc"):
-        bc_file_list.append(bc_file)
-        bc_file_command = bc_file_command + bc_file + " "
+        if bc_file != "./bitcode/all_llvm.bc":
+            bc_file_list.append(bc_file)
+            bc_file_command = bc_file_command + bc_file + " "
+    print(bc_file_command)
     os.system("llvm-link-3.9 -o ./bitcode/all_llvm.bc "+bc_file_command)
 
 '''
@@ -296,7 +300,7 @@ if __name__ == '__main__':
     random_pool_data = json.load(json_file)
 
     # Normal labels start from 1, 0 represents []
-    
+    llvm_link()
     database_json = []
     #Initialize database, if the file is empty, then set it as 
     if not os.path.isfile(database_file_path):
