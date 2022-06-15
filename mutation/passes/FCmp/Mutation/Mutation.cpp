@@ -1,5 +1,6 @@
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/Module.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/InstrTypes.h"
@@ -21,21 +22,27 @@ static cl::opt<int> InstructionId("instruction_num", cl::desc("Specify instructi
 namespace {
 
 
-  struct SkeletonPass : public FunctionPass {
+  struct SkeletonPass : public ModulePass {
     static char ID;
 
-    SkeletonPass() : FunctionPass(ID) {}
+    SkeletonPass() : ModulePass(ID) {}
 
-    virtual bool runOnFunction(Function &F) {
+    virtual bool runOnModule(Module &M) {
       int function_num = 0;
       int instruction_num = 0;
+      for (auto &F : M){
+      function_num = function_num + 1;
       for (auto &B : F) {
-        function_num = function_num + 1;
         for (auto &I : B) {
           instruction_num = instruction_num +1;
-          //if (!(function_num == FunctionId and instruction_num == InstructionId)){
-            //continue;
-          //}
+          MDNode *metadata = I.getMetadata("dbg");
+          if (metadata == 0x0){
+            continue;
+          }
+          DILocation *debugLocation = dyn_cast<DILocation>(metadata);
+          if (!(function_num == FunctionId and instruction_num == InstructionId)){
+            continue;
+          }
 
           if (auto *op = dyn_cast<FCmpInst>(&I)) {
             IRBuilder<> builder(op);
@@ -61,7 +68,7 @@ namespace {
           }
         }
       }
-
+}
       return true;  }
   };
 }
@@ -70,4 +77,4 @@ char SkeletonPass::ID = 0;
 
 // Automatically enable the pass.
 // http://adriansampson.net/blog/clangpass.html
-static RegisterPass<SkeletonPass> X("Fcmp", "Fcmp operator mutation", false, false);
+static RegisterPass<SkeletonPass> X("FCmp", "Fcmp operator mutation", false, false);

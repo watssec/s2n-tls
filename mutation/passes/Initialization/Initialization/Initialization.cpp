@@ -1,6 +1,7 @@
 
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/Module.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/InstrTypes.h"
@@ -29,8 +30,12 @@ namespace {
     int instruction_num, int function_num, char *mutation_type){
     json mutation_object = json::object();
     MDNode *metadata = I.getMetadata("dbg");
+    if(metadata == 0x0){
+      return mutation_map;
+    }
     DILocation *debugLocation = dyn_cast<DILocation>(metadata);
     const DebugLoc &debugLoc = DebugLoc(debugLocation);
+
     mutation_object["file_name"] = debugLocation->getFilename();
     mutation_object["function_name"] = F.getName();  
     mutation_object["instruction_line"] = debugLocation->getLine();
@@ -44,16 +49,18 @@ namespace {
     }
   
   
-  struct SkeletonPass : public FunctionPass {
+  struct SkeletonPass : public ModulePass {
     static char ID;
     
-    SkeletonPass() : FunctionPass(ID) {}
+    SkeletonPass() : ModulePass(ID) {}
 
-    virtual bool runOnFunction(Function &F) {
+    virtual bool runOnModule(Module &M) {
     int function_num = 0;
     int instruction_num = 0;
-      for (auto &B : F) {
+    for (auto &F: M){
+     
         function_num = function_num + 1; 
+        for (auto &B : F){
         for (auto &I : B) {
           instruction_num = instruction_num +1;
 	        json mutation_map; 
@@ -91,12 +98,15 @@ namespace {
               o << std::setw(4) << mutation_map << std::endl;
           }
           if (auto *op = dyn_cast<BranchInst>(&I)) {
+              if (op->isConditional() == true){
               const char *OpCode = op-> getOpcodeName();
               char *mutation_type = "Branch";
               mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, mutation_type);
               std::ofstream o ("genesis_info.json", std::ofstream::trunc);
               o << std::setw(4) << mutation_map << std::endl;
+            }
           }
+        }
         }
       }
       return false;
