@@ -21,24 +21,23 @@ static cl::opt<std::string> TargetType("target_type", cl::desc("Specify the targ
 namespace {
 
 
-  struct SkeletonPass : public FunctionPass {
+  struct SkeletonPass : public ModulePass {
     static char ID;
 
 
-    SkeletonPass() : FunctionPass(ID) {}
+    SkeletonPass() : ModulePass(ID) {}
 
-    virtual bool runOnFunction(Function &F) {    
+    virtual bool runOnModule(Module &M) {    
     int function_num = 0;
     int instruction_num = 0;
+    for (auto &F: M){
       for (auto &B : F) {
         function_num = function_num + 1;
         for (auto &I : B) {
-          MDNode *metadata = I.getMetadata("dbg");
-          DILocation *debugLocation = dyn_cast<DILocation>(metadata);
-          const DebugLoc &debugLoc = DebugLoc(debugLocation);
+
           
           instruction_num = instruction_num +1;
-          if (!(function_num == FunctionId and instruction_num == InstructionId and debugLocation->getFilename() == InputFileName)){
+          if (!(function_num == FunctionId and instruction_num == InstructionId)){
             continue;
           }
         errs() << "target_type" << TargetType << "\n";
@@ -108,6 +107,7 @@ namespace {
             // We modified the code.
             return true; 
           }
+        }
         }
       }
 
