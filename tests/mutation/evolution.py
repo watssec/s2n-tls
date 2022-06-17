@@ -5,7 +5,7 @@ import json
 import shlex
 import os  
 import random
-import re 
+import regex as re
 from tqdm import tqdm
 
 Initialization_pass_dir = "../../mutation/passes/Initialization/build/Initialization/libInitialization.so"
@@ -288,6 +288,7 @@ if __name__ == '__main__':
 
     os.system("cp -r "+ saw_file_dir+ "spec/ ./spec" )
 
+    os.system("mkdir log")
 
     # Makefile is edited to the steps before llvm link
     make_process = subprocess.Popen("make") 
