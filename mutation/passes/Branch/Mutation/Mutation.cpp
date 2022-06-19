@@ -1,5 +1,6 @@
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/Module.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/InstrTypes.h"
@@ -21,24 +22,25 @@ static cl::opt<int> InstructionId("instruction_num", cl::desc("Specify instructi
 namespace {
 
 
-  struct SkeletonPass : public FunctionPass {
+  struct SkeletonPass : public ModulePass {
     static char ID;
 
 
-    SkeletonPass() : FunctionPass(ID) {}
+    SkeletonPass() : ModulePass(ID) {}
 
-    virtual bool runOnFunction(Function &F) {
+    virtual bool runOnModule(Module &M) {
       int function_num = 0;
       int instruction_num = 0;
-
+      for (auto &F : M){ 
+      function_num = function_num + 1;
       for (auto &B : F) {
-        function_num = function_num + 1;
+    
         for (auto &I : B) {
           instruction_num = instruction_num +1;
           MDNode *metadata = I.getMetadata("dbg");
           DILocation *debugLocation = dyn_cast<DILocation>(metadata);
           const DebugLoc &debugLoc = DebugLoc(debugLocation);
-          if (!(function_num == FunctionId and instruction_num == InstructionId and debugLocation->getFilename() == InputFileName)){
+          if (!(function_num == FunctionId and instruction_num == InstructionId)){
             continue;
           }
          
@@ -55,6 +57,7 @@ namespace {
             return true; 
           }
         }
+      }
       }
 
        return false;}
