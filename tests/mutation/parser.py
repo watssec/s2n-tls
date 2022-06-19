@@ -9,7 +9,7 @@ for saw_file_dir in glob.glob(root_path):
     for saw_file_path in glob.glob(saw_file_dir + "/*.saw"):
         print(saw_file_path)
         with open(saw_file_path,"r") as saw_file:
-            file_content = saw_file.read();
+            file_content = saw_file.read()
             pattern1 = r"m \"\w+\""
             pattern2 = r"llvm \"\w+\""
             function_list1 = re.findall(pattern1, file_content)
