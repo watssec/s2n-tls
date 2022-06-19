@@ -18,7 +18,8 @@
 #include <fstream>
 #include "llvm/IR/DebugInfo.h"
 #include "llvm/IR/DebugInfoMetadata.h"
-
+#include "string"
+#include "cstring"
 
 using namespace llvm;
 using json = nlohmann::json;
@@ -27,7 +28,7 @@ using json = nlohmann::json;
 namespace {
   
     json JsonDump(Function &F, Instruction &I, const char *Opcode, json mutation_map,
-    int instruction_num, int function_num, char *mutation_type){
+    int instruction_num, int function_num, int operand_num, char *mutation_type){
     json mutation_object = json::object();
     MDNode *metadata = I.getMetadata("dbg");
     if(metadata == 0x0){
@@ -43,6 +44,7 @@ namespace {
     mutation_object["instruction_col"] = debugLoc.getCol();
     mutation_object["instruction_num"] = instruction_num;
     mutation_object["function_num"] = function_num;
+    mutation_object["operand_num"] = operand_num;
     mutation_object["mutation_type"] = mutation_type;
     mutation_map.push_back(mutation_object);
     return mutation_map;
@@ -73,11 +75,11 @@ namespace {
 
           
           // opcode mutation
-
+          int operand_num = 0;
           if (auto *op = dyn_cast<BinaryOperator>(&I)) {
               const char *OpCode = op->getOpcodeName();
               char *mutation_type = "Binop";
-            mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, mutation_type);
+            mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
             std::ofstream o ("genesis_info.json", std::ofstream::trunc);
             o << std::setw(4) << mutation_map << std::endl;
           }
@@ -85,7 +87,7 @@ namespace {
           if (auto *op = dyn_cast<ICmpInst>(&I)) {
               const char *OpCode = op->getOpcodeName();
               char *mutation_type = "ICmp";
-              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, mutation_type);
+              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
               std::ofstream o ("genesis_info.json", std::ofstream::trunc);
               o << std::setw(4) << mutation_map << std::endl;
           }
@@ -93,7 +95,7 @@ namespace {
           if (auto *op = dyn_cast<FCmpInst>(&I)) {
               const char *OpCode = op->getOpcodeName();
               char *mutation_type = "FCmp";
-              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, mutation_type);
+              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
               std::ofstream o ("genesis_info.json", std::ofstream::trunc);
               o << std::setw(4) << mutation_map << std::endl;
           }
@@ -101,11 +103,39 @@ namespace {
               if (op->isConditional() == true){
               const char *OpCode = op-> getOpcodeName();
               char *mutation_type = "Branch";
-              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, mutation_type);
+              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
               std::ofstream o ("genesis_info.json", std::ofstream::trunc);
               o << std::setw(4) << mutation_map << std::endl;
             }
           }
+            for(Use &U: I.operands())
+            {
+              operand_num = operand_num + 1;
+              Value *V = U.get();
+              if(auto *op = dyn_cast<ConstantInt>(V)){
+              std::string type_str;
+              llvm::raw_string_ostream rso(type_str);
+              op->getType()->print(rso);
+              char *mutation_type = "ConstantInt";
+              const char * OpCode = rso.str().c_str();
+              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
+              std::ofstream o ("genesis_info.json", std::ofstream::trunc);
+              o << std::setw(4) << mutation_map << std::endl;
+            
+              }
+
+              if(auto *op = dyn_cast<ConstantFP>(V)){
+              std::string type_str;
+              llvm::raw_string_ostream rso(type_str);
+              op->getType()->print(rso);
+              char *mutation_type = "ConstantFP";
+              const char * OpCode = rso.str().c_str();
+              mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
+              std::ofstream o ("genesis_info.json", std::ofstream::trunc);
+              o << std::setw(4) << mutation_map << std::endl;
+            
+              }
+            }
         }
         }
       }
