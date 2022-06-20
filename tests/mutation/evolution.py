@@ -49,6 +49,7 @@ def mutation_match(selected_seed_list):
         instruction_num = selected_seed_info["instruction_num"]
         mutation_type = selected_seed_info["mutation_type"]
         opcode = selected_seed_info["opcode"]
+        operand_num = selected_seed_info["operand_num"]
         mutation_selection = ""
         if mutation_type == "Binop":
             binop_rules_file = open("./mutation_rules/Binop_rules.json")
@@ -59,9 +60,17 @@ def mutation_match(selected_seed_list):
                     mutation_selection = random.choice(binop_rules[key])
                     while mutation_selection == opcode :
                         mutation_selection = random.choice(binop_rules[key])
-            print("mutation_selection" + mutation_selection)
+        
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
-            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) +" -target_type " + mutation_selection + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num)+ " -target_type " + mutation_selection + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+        elif mutation_type == "ConstantInt" or mutation_type == "ConstantFP":
+            select_list = [0, 1, 2, 3, 4]
+            target_type = random.choice(select_list)
+            command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + "-operand_num" + operand_num + " -target_type " +target_type + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+        elif mutation_type == "ConstantBool":
+            command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + "-operand_num" + operand_num + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         else:
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
             " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
@@ -289,7 +298,7 @@ if __name__ == '__main__':
     os.system("cp -r "+ saw_file_dir+ "spec/ ./spec" )
 
     os.system("mkdir log")
-
+    os.system("touch history.json")
     # Makefile is edited to the steps before llvm link
     make_process = subprocess.Popen("make") 
     stdout, stderr = make_process.communicate()
