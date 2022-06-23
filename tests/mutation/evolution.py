@@ -15,14 +15,14 @@ database_file_path = "database.json"
 history_file_path = "history.json"
 useless_file_path = "useless.json"
 report_file_path = "report.json"
-
+filtered_genesis_info_file_path = "filtered_genesis_info.json"
 mutation_pass_dir = "../../mutation/passes/"
 
 mutation_round = 100
 # Initialize the database json with 0, initialized mark == 10
 database_json = []
 database_empty = {"label": [0], "grade": 10}
-
+function_list = ["s2n_blob_zero","s2n_increment_drbg_counter","s2n_drbg_bytes_used","s2n_drbg_block_encrypt","s2n_drbg_bits","s2n_drbg_update","s2n_drbg_seed","s2n_drbg_mix","s2n_drbg_instantiate","s2n_drbg_generate","s2n_connection_get_client_auth_type","s2n_advance_message","s2n_conn_set_handshake_type"]
 '''
 database_file 
 
@@ -36,7 +36,7 @@ function_name {{point_label,}}
 
 def mutation_match(selected_seed_list):
 
-    json_file = open("genesis_info.json")
+    json_file = open(filtered_genesis_info_file_path)
     random_pool_data = json.load(json_file)
 
     for selected_seed in selected_seed_list:    
@@ -61,19 +61,18 @@ def mutation_match(selected_seed_list):
                     while mutation_selection == opcode :
                         mutation_selection = random.choice(binop_rules[key])
         
-            command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
-            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num)+ " -target_type " + mutation_selection + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+            command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" +  " -file_name " + file_name + \
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num)+ " -target_type " + mutation_selection + " -" + mutation_type + " <" +  " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         elif mutation_type == "ConstantInt" or mutation_type == "ConstantFP":
             select_list = [0, 1, 2, 3, 4]
             target_type = random.choice(select_list)
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
-            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + "-operand_num" + operand_num + " -target_type " +target_type + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
-        elif mutation_type == "ConstantBool":
-            command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
-            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + "-operand_num" + operand_num + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " -operand_num " + str(operand_num) + " -target_type " +str(target_type) \
+             + " -" + mutation_type + " <" +  " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         else:
-            command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
-            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+            command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so"  + " -file_name " + file_name + \
+            " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " -" + mutation_type + " <" + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+        print(mutation_type)
         print(command)
         os.system(command)
         os.system("rm ./bitcode/all_llvm.bc")
@@ -174,7 +173,7 @@ def feedback(mutation_point_list, test_result, round):
 
     add_count = 0
     if not test_result:
-        json_file = open("genesis_info.json")
+        json_file = open(filtered_genesis_info_file_path)
         random_pool_data = json.load(json_file)
         temp_report = {}
         for i in selected_seed_list:
@@ -228,7 +227,7 @@ def test(round):
     
     for saw_file in glob.glob("*.saw"):
         print(saw_file)
-        if saw_file == "verify_HMAC.saw":
+        if saw_file == "verify_HMAC.saw" or saw_file == "verify_imperative_cryptol_spec.saw":
             continue
 
         os.system("saw "+ saw_file + "| tee -a ./log/"+str(round) +".log 1>/dev/null")
@@ -241,7 +240,7 @@ def test(round):
 
 def one_mutation_round(database_json):
 
-    json_file = open("genesis_info.json")
+    json_file = open(filtered_genesis_info_file_path)
     random_pool_data = json.load(json_file)
     
     # check if the database is empty or not
@@ -276,7 +275,7 @@ def llvm_link():
         if bc_file != "./bitcode/all_llvm.bc":
             bc_file_list.append(bc_file)
             bc_file_command = bc_file_command + bc_file + " "
-    print(bc_file_command)
+
     os.system("llvm-link-3.9 -o ./bitcode/all_llvm.bc "+bc_file_command)
 
 '''
@@ -296,7 +295,7 @@ if __name__ == '__main__':
     os.system("cp -r "+ saw_file_dir+ "sike_r1/ ./sike_r1" )
 
     os.system("cp -r "+ saw_file_dir+ "spec/ ./spec" )
-
+    os.system("cp -r "+ saw_file_dir+ "HMAC/ ./HMAC")
     os.system("mkdir log")
     os.system("touch history.json")
     # Makefile is edited to the steps before llvm link
@@ -305,8 +304,8 @@ if __name__ == '__main__':
     llvm_link()
     # invoke the initialization pass
     init_command = "opt -load " + Initialization_pass_dir + " -Initialization < " +  "./bitcode/all_llvm.bc" + " > /dev/null"
-    os.system(init_command)
-    json_file = open("genesis_info.json")
+    #os.system(init_command)
+    json_file = open(filtered_genesis_info_file_path)
     random_pool_data = json.load(json_file)
 
     # Normal labels start from 1, 0 represents []
