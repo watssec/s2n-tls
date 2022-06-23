@@ -82,4 +82,4 @@ char SkeletonPass::ID = 0;
 
 // Automatically enable the pass.
 // http://adriansampson.net/blog/clangpass.html
-static RegisterPass<SkeletonPass> X("Constant", "Constant mutation", false, false);
+static RegisterPass<SkeletonPass> X("ConstantFP", "Constant mutation", false, false);

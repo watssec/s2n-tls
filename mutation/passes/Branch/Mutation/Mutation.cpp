@@ -37,9 +37,7 @@ namespace {
     
         for (auto &I : B) {
           instruction_num = instruction_num +1;
-          MDNode *metadata = I.getMetadata("dbg");
-          DILocation *debugLocation = dyn_cast<DILocation>(metadata);
-          const DebugLoc &debugLoc = DebugLoc(debugLocation);
+
           if (!(function_num == FunctionId and instruction_num == InstructionId)){
             continue;
           }
