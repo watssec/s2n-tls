@@ -1,0 +1,96 @@
+{
+    "s2n_conn_set_handshake_type": [
+        "s2n_conn_set_tls13_handshake_type",
+        "s2n_result_is_ok",
+        "s2n_handshake_type_reset",
+        "s2n_handshake_type_set_flag",
+        "s2n_connection_get_client_auth_type",
+        "s2n_decrypt_session_ticket",
+        "s2n_validate_ems_status",
+        "s2n_config_is_encrypt_decrypt_key_available",
+        "s2n_handshake_type_set_tls12_flag",
+        "s2n_allowed_to_cache_connection",
+        "s2n_resume_from_cache",
+        "s2n_error_get_type",
+        "s2n_generate_new_client_session_id",
+        "s2n_kex_is_ephemeral"
+    ],
+    "s2n_advance_message": [
+        "s2n_socket_quickack",
+        "s2n_socket_was_corked",
+        "s2n_connection_is_managed_corked",
+        "s2n_socket_write_cork",
+        "s2n_socket_write_uncork"
+    ],
+    "s2n_drbg_instantiate": [
+        "s2n_calculate_stacktrace",
+        "EVP_CIPHER_CTX_new",
+        "EVP_CIPHER_CTX_reset",
+        "EVP_aes_128_ecb",
+        "EVP_EncryptInit_ex",
+        "EVP_aes_256_ecb",
+        "EVP_CIPHER_CTX_key_length",
+        "s2n_blob_init",
+        "s2n_blob_zero",
+        "s2n_ensure_memcpy_trace",
+        "s2n_drbg_seed",
+        "s2n_result_is_ok"
+    ],
+    "s2n_drbg_seed": [
+        "EVP_CIPHER_CTX_key_length",
+        "s2n_calculate_stacktrace",
+        "s2n_blob_init",
+        "s2n_get_seed_entropy",
+        "s2n_result_is_ok",
+        "s2n_drbg_mix_in_entropy"
+    ],
+    "s2n_drbg_update": [
+        "s2n_calculate_stacktrace",
+        "EVP_CIPHER_CTX_key_length",
+        "s2n_blob_init",
+        "s2n_drbg_bits",
+        "s2n_result_is_ok",
+        "EVP_EncryptInit_ex",
+        "s2n_ensure_memcpy_trace"
+    ],
+    "s2n_drbg_bits": [
+        "s2n_calculate_stacktrace",
+        "s2n_blob_init",
+        "s2n_increment_drbg_counter",
+        "s2n_result_is_ok",
+        "s2n_drbg_block_encrypt",
+        "s2n_ensure_memcpy_trace"
+    ],
+    "s2n_drbg_block_encrypt": [
+        "s2n_calculate_stacktrace",
+        "EVP_EncryptUpdate"
+    ],
+    "s2n_drbg_generate": [
+        "s2n_calculate_stacktrace",
+        "EVP_CIPHER_CTX_key_length",
+        "s2n_blob_init",
+        "s2n_drbg_mix",
+        "s2n_result_is_ok",
+        "s2n_drbg_bits",
+        "s2n_drbg_update"
+    ],
+    "s2n_drbg_mix": [
+        "s2n_calculate_stacktrace",
+        "EVP_CIPHER_CTX_key_length",
+        "s2n_blob_init",
+        "s2n_get_mix_entropy",
+        "s2n_result_is_ok",
+        "s2n_drbg_mix_in_entropy"
+    ],
+    "s2n_drbg_bytes_used": [
+        "s2n_calculate_stacktrace"
+    ],
+    "s2n_connection_get_client_auth_type": [
+        "s2n_calculate_stacktrace"
+    ],
+    "s2n_blob_zero": [
+        "s2n_blob_validate",
+        "s2n_result_is_ok",
+        "s2n_calculate_stacktrace"
+    ]
+}
