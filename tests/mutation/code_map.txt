@@ -1,0 +1,27 @@
+./--|
+    |verify_cork_uncork.saw--|prove_handshake_io_lowlevel
+			     |prove_cork_uncork
+   
+    |verify_drbg.saw--|s2n_blob_zero
+		      |s2n_increment_drbg_counter
+		      |s2n_drbg_bytes_used
+		      |s2n_drbg_block_encrypt
+		      |s2n_drbg_bits
+		      |s2n_drbg_update
+		      |s2n_drbg_seed
+       		      |s2n_drbg_mix
+		      |s2n_drbg_instantiate
+		      |s2n_drbg_generate
+   
+    |handshake.saw --|prove_handshake_io_lowlevel
+		     |prove_state_machine
+		     |prove_cork_uncork
+
+    |verify_state_machine.saw --|prove_handshake_io_lowlevel
+				|prove_state_machine
+
+prove_handshake_io_lowlevel --|s2n_connection_get_client_auth_type
+			      |s2n_advance_message
+			      |s2n_conn_set_handshake_type
+
+prove_state_machine and prove_handshake_io_lowlevel do not contain functions
