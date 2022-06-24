@@ -22,12 +22,7 @@ mutation_round = 100
 # Initialize the database json with 0, initialized mark == 10
 database_json = []
 database_empty = {"label": [0], "grade": 10}
-function_list = ["s2n_blob_zero","s2n_increment_drbg_counter","s2n_drbg_bytes_used","s2n_drbg_block_encrypt","s2n_drbg_bits","s2n_drbg_update","s2n_drbg_seed","s2n_drbg_mix","s2n_drbg_instantiate","s2n_drbg_generate","s2n_connection_get_client_auth_type","s2n_advance_message","s2n_conn_set_handshake_type"]
-'''
-database_file 
 
-function_name {{point_label,}}
-'''
 
 # TODO: Create history database
 # Match the mutation type then construct the argument to pass into the mutation pass
@@ -113,7 +108,8 @@ def test_result_func(round):
     # Try to find match the proof fail message in the txt file.
     with open("./log/"+str(round) + ".log") as log_file:
         content = log_file.read()
-        result = re.search(content, "proof failed")
+       
+        result = re.search("Proof failed", content)
         if result == None:
             flag = False
         else:
@@ -125,7 +121,7 @@ def error_message_extraction(round):
     with open("./log/"+str(round)+".log") as log_file:
         content = log_file.read()
 
-    return re.search(content,"failed: .*assertion$").group()
+    return re.findall("failed: [^\n]+ assertion",content)
     
 def new_error_message_check(history_json, current_error_message):
     error_message_collection = []
@@ -141,7 +137,7 @@ def error_elimination_check(history_json, seed, current_error_message):
     # check for the error that was eliminated by the seed
     seed_error_message = ""
     for record in history_json:
-        if record["mutation_point_list"] == seed:
+        if record["mutaion_point_list"] == seed:
             seed_error_message = record["error_message"]
             break
     for errmsg in seed_error_message:
@@ -177,8 +173,11 @@ def feedback(mutation_point_list, test_result, round):
         random_pool_data = json.load(json_file)
         temp_report = {}
         for i in selected_seed_list:
-            selected_seed_info = random_pool_data[i-1]
-            temp_report[i] = selected_seed_info
+            if i == "0":
+                temp_report[i] = "null"
+            else:    
+                selected_seed_info = random_pool_data[i-1]
+                temp_report[i] = selected_seed_info
         report_json.append(temp_report)
         with open(report_file_path, "w") as report_file:
             json.dump(report_json, report_file, indent =4)    
@@ -188,14 +187,14 @@ def feedback(mutation_point_list, test_result, round):
         #check for new error message
         
         result1 = new_error_message_check(history_json, current_error_message)
-        result2 = error_elimination_check()
+        result2 = error_elimination_check(history_json, seed, current_error_message)
         if result1 == False and result2 == False:
             add_count = 0
         elif (result1 == False and result2 ==True) or (result1 == True and result2 ==False):
             add_count = 1
         else: 
             add_count = 2
-        
+    print("add_count == " + str(add_count))
     history_json.append(temp_history_json)
     with open(history_file_path, "w") as history_file:
         json.dump(history_json, history_file, indent=4)    
@@ -319,8 +318,11 @@ if __name__ == '__main__':
             database_json = json.load(database_file)
     
     report_json = []
-
+    cnt = 0
     for round in tqdm(range(1000)):
+        cnt = cnt +1 
+        if cnt <  11:
+            continue
         print("round number"+ str(round))
         selected_seed_list = one_mutation_round(database_json)
     
