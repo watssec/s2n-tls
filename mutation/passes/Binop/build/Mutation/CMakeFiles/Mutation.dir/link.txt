@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -Wall -fno-rtti  -shared  -o libMutation.so CMakeFiles/Mutation.dir/Mutation.o 
