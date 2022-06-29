@@ -1,0 +1,1100 @@
+[
+    {
+        "4": [
+            "0x0",
+            "s2n_alpn_send",
+            "strlen",
+            "0x0"
+        ]
+    },
+    {
+        "11": [
+            "0x0",
+            "s2n_alpn_send",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write_network_order",
+            "s2n_stuffer_skip_write",
+            "s2n_stuffer_reserve_space",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "18": [
+            "0x0",
+            "s2n_alpn_send",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write_network_order",
+            "s2n_stuffer_skip_write",
+            "s2n_stuffer_reserve_space",
+            "s2n_stuffer_resize",
+            "s2n_realloc",
+            "s2n_blob_is_growable"
+        ]
+    },
+    {
+        "21": [
+            "0x0",
+            "s2n_alpn_send",
+            "s2n_stuffer_write_uint8",
+            "s2n_stuffer_write_network_order",
+            "s2n_stuffer_skip_write",
+            "s2n_stuffer_reserve_space",
+            "s2n_stuffer_resize",
+            "s2n_realloc",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "23": [
+            "0x0",
+            "s2n_alpn_recv",
+            "s2n_stuffer_write_uint8",
+            "s2n_stuffer_write_bytes"
+        ]
+    },
+    {
+        "27": [
+            "0x0",
+            "s2n_alpn_recv",
+            "s2n_stuffer_read_uint8",
+            "s2n_stuffer_read_bytes",
+            "s2n_stuffer_skip_read"
+        ]
+    },
+    {
+        "29": [
+            "0x0",
+            "s2n_alpn_should_send",
+            "s2n_stuffer_raw_read"
+        ]
+    },
+    {
+        "38": [
+            "0x0",
+            "s2n_extension_list_send",
+            "s2n_extension_recv",
+            "s2n_extension_supported_iana_value_to_id",
+            "s2n_extension_iana_value_to_id"
+        ]
+    },
+    {
+        "43": [
+            "0x0",
+            "s2n_extension_list_send",
+            "s2n_extension_send",
+            "s2n_stuffer_reserve",
+            "s2n_stuffer_reservation_validate"
+        ]
+    },
+    {
+        "49": [
+            "0x0",
+            "llvm.memset.p0i8.i64",
+            "s2n_extension_send",
+            "s2n_stuffer_write_vector_size",
+            "s2n_stuffer_write_reservation",
+            "s2n_stuffer_write_reservation_impl",
+            "length_matches_value_check"
+        ]
+    },
+    {
+        "55": [
+            "0x0",
+            "s2n_extension_list_recv",
+            "s2n_extension_list_process",
+            "s2n_extension_parse"
+        ]
+    },
+    {
+        "59": [
+            "0x0",
+            "s2n_server_cookie_recv",
+            "s2n_extension_list_process",
+            "s2n_extension_process",
+            "s2n_extension_process_impl",
+            "s2n_extension_is_missing"
+        ]
+    },
+    {
+        "63": [
+            "0x0",
+            "s2n_server_cookie_recv",
+            "s2n_stuffer_read",
+            "s2n_handshake_type_check_tls13_flag",
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "64": [
+            "0x0",
+            "s2n_server_cookie_should_send",
+            "s2n_stuffer_read"
+        ]
+    },
+    {
+        "71": [
+            "0x0",
+            "s2n_connection_enable_quic",
+            "s2n_connection_validate_tls13_support",
+            "s2n_connection_get_client_auth_type",
+            "s2n_is_rsa_pss_certs_supported"
+        ]
+    },
+    {
+        "72": [
+            "0x0",
+            "s2n_connection_is_quic_enabled",
+            "s2n_connection_validate_tls13_support",
+            "s2n_connection_get_client_auth_type"
+        ]
+    },
+    {
+        "75": [
+            "0x0",
+            "s2n_connection_get_quic_transport_parameters",
+            "s2n_alloc"
+        ]
+    },
+    {
+        "82": [
+            "0x0",
+            "s2n_quic_write_handshake_message",
+            "s2n_stuffer_reread"
+        ]
+    },
+    {
+        "84": [
+            "0x0",
+            "s2n_openssl_compat_rand",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "91": [
+            "0x0",
+            "s2n_openssl_compat_rand",
+            "s2n_get_private_random_data",
+            "s2n_defend_if_forked",
+            "s2n_drbg_instantiate",
+            "s2n_drbg_wipe",
+            "EVP_CIPHER_CTX_free"
+        ]
+    },
+    {
+        "105": [
+            "0x0",
+            "s2n_openssl_compat_rand",
+            "s2n_get_private_random_data",
+            "s2n_drbg_generate",
+            "s2n_drbg_instantiate",
+            "s2n_drbg_seed",
+            "s2n_drbg_mix_in_entropy",
+            "s2n_drbg_update",
+            "s2n_drbg_bits",
+            "s2n_drbg_block_encrypt",
+            "EVP_EncryptUpdate"
+        ]
+    },
+    {
+        "108": [
+            "0x0",
+            "s2n_openssl_compat_rand",
+            "s2n_result_is_error",
+            "s2n_drbg_generate",
+            "s2n_drbg_mix",
+            "s2n_get_mix_entropy"
+        ]
+    },
+    {
+        "109": [
+            "0x0",
+            "s2n_openssl_compat_status",
+            "s2n_result_is_error"
+        ]
+    },
+    {
+        "113": [
+            "0x0",
+            "s2n_rand_cleanup_impl",
+            "__errno_location"
+        ]
+    },
+    {
+        "115": [
+            "0x0",
+            "s2n_rand_urandom_impl",
+            "close"
+        ]
+    },
+    {
+        "118": [
+            "0x0",
+            "llvm.dbg.declare",
+            "nanosleep"
+        ]
+    },
+    {
+        "126": [
+            "0x0",
+            "s2n_get_private_random_bytes_used",
+            "s2n_drbg_bytes_used"
+        ]
+    },
+    {
+        "144": [
+            "0x0",
+            "s2n_rand_cleanup",
+            "ENGINE_set_default"
+        ]
+    },
+    {
+        "150": [
+            "0x0",
+            "s2n_set_private_drbg_for_test",
+            "free"
+        ]
+    },
+    {
+        "159": [
+            "0x0",
+            "s2n_extension_type_init",
+            "s2n_recv_supported_sig_scheme_list"
+        ]
+    },
+    {
+        "172": [
+            "0x0",
+            "s2n_low_level_hash_new",
+            "s2n_use_evp_impl",
+            "s2n_is_in_fips_mode"
+        ]
+    },
+    {
+        "180": [
+            "0x0",
+            "s2n_low_level_hash_update",
+            "SHA512_Init"
+        ]
+    },
+    {
+        "187": [
+            "0x0",
+            "s2n_low_level_hash_digest",
+            "SHA512_Update"
+        ]
+    },
+    {
+        "194": [
+            "0x0",
+            "s2n_low_level_hash_copy",
+            "SHA512_Final"
+        ]
+    },
+    {
+        "199": [
+            "0x0",
+            "s2n_evp_hash_allow_md5_for_fips",
+            "EVP_MD_CTX_new"
+        ]
+    },
+    {
+        "201": [
+            "0x0",
+            "s2n_evp_hash_init",
+            "s2n_digest_allow_md5_for_fips"
+        ]
+    },
+    {
+        "210": [
+            "0x0",
+            "s2n_evp_hash_update",
+            "s2n_hash_alg_to_evp_md",
+            "EVP_sha512"
+        ]
+    },
+    {
+        "213": [
+            "0x0",
+            "s2n_evp_hash_digest",
+            "EVP_DigestUpdate"
+        ]
+    },
+    {
+        "217": [
+            "0x0",
+            "s2n_evp_hash_copy",
+            "EVP_DigestFinal_ex"
+        ]
+    },
+    {
+        "222": [
+            "0x0",
+            "s2n_evp_hash_reset",
+            "s2n_hash_allow_md5_for_fips",
+            "s2n_hash_set_impl"
+        ]
+    },
+    {
+        "224": [
+            "0x0",
+            "s2n_evp_hash_free",
+            "EVP_MD_CTX_reset"
+        ]
+    },
+    {
+        "226": [
+            "0x0",
+            "s2n_hash_block_size",
+            "EVP_MD_CTX_free"
+        ]
+    },
+    {
+        "230": [
+            "0x0",
+            "s2n_hash_new",
+            "s2n_hash_state_validate"
+        ]
+    },
+    {
+        "242": [
+            "0x0",
+            "s2n_client_cookie_should_send",
+            "s2n_constant_time_equals"
+        ]
+    },
+    {
+        "246": [
+            "0x0",
+            "s2n_set_new",
+            "s2n_array_validate",
+            "s2n_mul_overflow"
+        ]
+    },
+    {
+        "249": [
+            "0x0",
+            "s2n_set_add",
+            "s2n_array_new",
+            "s2n_array_enlarge"
+        ]
+    },
+    {
+        "253": [
+            "0x0",
+            "s2n_set_add",
+            "s2n_array_insert_and_copy",
+            "s2n_array_get"
+        ]
+    },
+    {
+        "256": [
+            "0x0",
+            "s2n_set_get",
+            "s2n_array_insert_and_copy",
+            "s2n_array_insert",
+            "s2n_array_capacity"
+        ]
+    },
+    {
+        "259": [
+            "0x0",
+            "s2n_set_free_p",
+            "s2n_array_remove"
+        ]
+    },
+    {
+        "263": [
+            "0x0",
+            "s2n_set_free",
+            "s2n_array_free",
+            "s2n_array_free_p",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "268": [
+            "0x0",
+            "s2n_client_server_name_should_send",
+            "s2n_client_server_name_check"
+        ]
+    },
+    {
+        "279": [
+            "0x0",
+            "s2n_server_key_schedule",
+            "s2n_set_key",
+            "s2n_hkdf_expand_label",
+            "s2n_hmac_state_validate"
+        ]
+    },
+    {
+        "282": [
+            "0x0",
+            "s2n_client_key_schedule",
+            "s2n_set_key",
+            "s2n_hmac_free"
+        ]
+    },
+    {
+        "290": [
+            "0x0",
+            "s2n_client_psk_recv",
+            "s2n_hmac_digest_size",
+            "s2n_hmac_hash_alg"
+        ]
+    },
+    {
+        "297": [
+            "0x0",
+            "s2n_client_psk_recv",
+            "s2n_client_psk_recv_identities",
+            "s2n_client_psk_recv_identity_list",
+            "s2n_select_resumption_psk",
+            "s2n_offered_psk_list_next"
+        ]
+    },
+    {
+        "299": [
+            "0x0",
+            "s2n_client_psk_recv",
+            "s2n_client_psk_recv_binders",
+            "s2n_client_psk_recv_identity_list",
+            "s2n_select_resumption_psk",
+            "s2n_offered_psk_list_choose_psk"
+        ]
+    },
+    {
+        "302": [
+            "0x0",
+            "s2n_client_psk_should_send",
+            "s2n_client_psk_recv_binders",
+            "s2n_client_psk_recv_binder_list",
+            "s2n_psk_verify_binder"
+        ]
+    },
+    {
+        "325": [
+            "0x0",
+            "s2n_client_early_data_indication_send",
+            "s2n_connection_set_early_data_state",
+            "s2n_handshake_type_set_tls13_flag"
+        ]
+    },
+    {
+        "326": [
+            "0x0",
+            "s2n_client_early_data_indiction_recv",
+            "s2n_connection_set_early_data_state"
+        ]
+    },
+    {
+        "332": [
+            "0x0",
+            "s2n_client_early_data_indication_is_missing",
+            "s2n_early_data_config_is_possible",
+            "s2n_protocol_preferences_contain"
+        ]
+    },
+    {
+        "342": [
+            "0x0",
+            "s2n_client_supported_versions_recv",
+            "s2n_connection_get_minimum_supported_version",
+            "s2n_connection_get_security_policy"
+        ]
+    },
+    {
+        "345": [
+            "0x0",
+            "s2n_extensions_client_supported_versions_size",
+            "s2n_queue_reader_unsupported_protocol_version_alert"
+        ]
+    },
+    {
+        "350": [
+            "0x0",
+            "s2n_hex_string_to_bytes",
+            "__ctype_tolower_loc"
+        ]
+    },
+    {
+        "359": [
+            "0x0",
+            "s2n_hmac_update",
+            "s2n_hmac_reset"
+        ]
+    },
+    {
+        "379": [
+            "0x0",
+            "s2n_stuffer_extract_blob",
+            "s2n_stuffer_copy_impl"
+        ]
+    },
+    {
+        "394": [
+            "0x0",
+            "s2n_cleanup_atexit",
+            "s2n_stack_traces_enabled_set"
+        ]
+    },
+    {
+        "398": [
+            "0x0",
+            "s2n_cleanup",
+            "s2n_cleanup_atexit_impl",
+            "s2n_mem_cleanup"
+        ]
+    },
+    {
+        "400": [
+            "0x0",
+            "s2n_client_max_frag_len_send",
+            "pthread_equal"
+        ]
+    },
+    {
+        "404": [
+            "0x0",
+            "s2n_client_max_frag_len_should_send",
+            "s2n_connection_set_max_fragment_length",
+            "s2n_record_max_write_size"
+        ]
+    },
+    {
+        "409": [
+            "0x0",
+            "s2n_client_pq_kem_recv",
+            "s2n_connection_get_kem_preferences"
+        ]
+    },
+    {
+        "411": [
+            "0x0",
+            "s2n_client_pq_kem_should_send",
+            "s2n_pq_is_enabled"
+        ]
+    },
+    {
+        "413": [
+            "0x0",
+            "s2n_extensions_client_pq_kem_send",
+            "s2n_pq_kem_is_extension_required"
+        ]
+    },
+    {
+        "419": [
+            "0x0",
+            "s2n_server_ecc_point_format_extension_size",
+            "s2n_kex_includes"
+        ]
+    },
+    {
+        "432": [
+            "0x0",
+            "s2n_server_early_data_indication_should_send",
+            "s2n_early_data_is_valid_for_connection"
+        ]
+    },
+    {
+        "439": [
+            "0x0",
+            "s2n_asn1_time_to_nano_since_epoch_ticks",
+            "process_state",
+            "get_gmt_offset"
+        ]
+    },
+    {
+        "441": [
+            "0x0",
+            "s2n_asn1_time_to_nano_since_epoch_ticks",
+            "mktime",
+            "__ctype_b_loc"
+        ]
+    },
+    {
+        "442": [
+            "0x0",
+            "s2n_socket_quickack",
+            "mktime"
+        ]
+    },
+    {
+        "444": [
+            "0x0",
+            "s2n_socket_write_snapshot",
+            "setsockopt"
+        ]
+    },
+    {
+        "446": [
+            "0x0",
+            "s2n_socket_read_snapshot",
+            "getsockopt"
+        ]
+    },
+    {
+        "456": [
+            "0x0",
+            "s2n_socket_is_ipv6",
+            "write"
+        ]
+    },
+    {
+        "458": [
+            "0x0",
+            "s2n_libcrypto_is_awslc",
+            "getpeername"
+        ]
+    },
+    {
+        "469": [
+            "0x0",
+            "s2n_connection_new",
+            "s2n_session_key_alloc",
+            "s2n_connection_set_psk_mode"
+        ]
+    },
+    {
+        "484": [
+            "0x0",
+            "s2n_connection_new",
+            "s2n_connection_wipe",
+            "s2n_connection_wipe_keys",
+            "s2n_kem_free",
+            "s2n_kem_group_free"
+        ]
+    },
+    {
+        "485": [
+            "0x0",
+            "s2n_connection_new",
+            "s2n_connection_wipe",
+            "s2n_connection_reset_hmacs",
+            "s2n_kem_free"
+        ]
+    },
+    {
+        "492": [
+            "0x0",
+            "s2n_connection_new",
+            "s2n_connection_wipe",
+            "s2n_connection_save_hmac_state",
+            "s2n_connection_free_managed_io",
+            "s2n_connection_free_managed_send_io"
+        ]
+    },
+    {
+        "497": [
+            "0x0",
+            "s2n_default_verify_host",
+            "s2n_connection_wipe",
+            "s2n_handshake_require_all_hashes"
+        ]
+    },
+    {
+        "500": [
+            "0x0",
+            "s2n_connection_ptr_free",
+            "strchr"
+        ]
+    },
+    {
+        "504": [
+            "0x0",
+            "s2n_connection_ptr_free",
+            "s2n_connection_free",
+            "s2n_prf_free",
+            "s2n_session_key_free"
+        ]
+    },
+    {
+        "508": [
+            "0x0",
+            "s2n_connection_server_name_extension_used",
+            "s2n_connection_free",
+            "s2n_client_hello_free"
+        ]
+    },
+    {
+        "532": [
+            "0x0",
+            "s2n_connection_get_curve",
+            "memcmp"
+        ]
+    },
+    {
+        "551": [
+            "0x0",
+            "s2n_connection_get_ocsp_response",
+            "s2n_connection_kill"
+        ]
+    },
+    {
+        "566": [
+            "0x0",
+            "s2n_connection_get_peer_cert_chain",
+            "sk_X509_value",
+            "OPENSSL_sk_num"
+        ]
+    },
+    {
+        "568": [
+            "0x0",
+            "s2n_connection_get_peer_cert_chain",
+            "i2d_X509",
+            "OPENSSL_sk_value"
+        ]
+    },
+    {
+        "573": [
+            "0x0",
+            "s2n_connection_get_selected_digest_algorithm",
+            "s2n_cert_chain_free_pointer",
+            "s2n_cert_chain_free"
+        ]
+    },
+    {
+        "575": [
+            "0x0",
+            "s2n_connection_get_selected_client_cert_digest_algorithm",
+            "s2n_signature_scheme_to_tls_iana"
+        ]
+    },
+    {
+        "578": [
+            "0x0",
+            "s2n_connection_get_selected_client_cert_signature_algorithm",
+            "s2n_signature_scheme_to_signature_algorithm"
+        ]
+    },
+    {
+        "590": [
+            "0x0",
+            "s2n_stuffer_private_key_from_pem",
+            "s2n_stuffer_data_from_pem",
+            "s2n_stuffer_pem_read_contents",
+            "s2n_stuffer_pem_read_encapsulation_line",
+            "s2n_stuffer_skip_whitespace"
+        ]
+    },
+    {
+        "593": [
+            "0x0",
+            "s2n_stuffer_private_key_from_pem",
+            "s2n_stuffer_data_from_pem",
+            "s2n_stuffer_pem_read_end",
+            "s2n_is_base64_char"
+        ]
+    },
+    {
+        "594": [
+            "0x0",
+            "s2n_stuffer_certificate_from_pem",
+            "s2n_stuffer_data_from_pem",
+            "s2n_stuffer_pem_read_end"
+        ]
+    },
+    {
+        "601": [
+            "0x0",
+            "s2n_stuffer_alloc_ro_from_fd",
+            "mmap",
+            "__fxstat"
+        ]
+    },
+    {
+        "602": [
+            "0x0",
+            "s2n_stuffer_alloc_ro_from_file",
+            "mmap"
+        ]
+    },
+    {
+        "620": [
+            "0x0",
+            "s2n_tls13_server_status_request_should_send",
+            "s2n_x509_validator_validate_cert_stapled_ocsp_response"
+        ]
+    },
+    {
+        "624": [
+            "0x0",
+            "s2n_client_alpn_should_send",
+            "s2n_protocol_preferences_read"
+        ]
+    },
+    {
+        "677": [
+            "0x0",
+            "s2n_conn_set_handshake_type",
+            "s2n_handshake_validate"
+        ]
+    },
+    {
+        "685": [
+            "0x0",
+            "s2n_conn_set_handshake_no_client_cert",
+            "s2n_kex_is_ephemeral"
+        ]
+    },
+    {
+        "696": [
+            "0x0",
+            "s2n_negotiate_impl",
+            "s2n_handle_retry_state",
+            "s2n_finish_read",
+            "s2n_tls13_secrets_update",
+            "s2n_conn_update_handshake_hashes"
+        ]
+    },
+    {
+        "698": [
+            "0x0",
+            "s2n_negotiate_impl",
+            "s2n_handshake_write_io",
+            "s2n_finish_read",
+            "s2n_advance_message"
+        ]
+    },
+    {
+        "702": [
+            "0x0",
+            "s2n_negotiate_impl",
+            "s2n_handshake_read_io",
+            "s2n_record_write"
+        ]
+    },
+    {
+        "711": [
+            "0x0",
+            "s2n_negotiate_impl",
+            "s2n_tls13_secrets_clean",
+            "s2n_client_hello_request_recv"
+        ]
+    },
+    {
+        "713": [
+            "0x0",
+            "s2n_negotiate",
+            "s2n_post_handshake_send"
+        ]
+    },
+    {
+        "716": [
+            "0x0",
+            "s2n_nst_early_data_indiction_recv",
+            "s2n_early_data_get_server_max_size"
+        ]
+    },
+    {
+        "718": [
+            "0x0",
+            "s2n_nst_early_data_indication_should_send",
+            "s2n_connection_set_server_max_early_data_size"
+        ]
+    },
+    {
+        "725": [
+            "0x0",
+            "s2n_disable_tls13_in_test",
+            "s2n_enable_tls13_in_test"
+        ]
+    },
+    {
+        "741": [
+            "0x0",
+            "s2n_stuffer_alloc_ro_from_string",
+            "s2n_stuffer_read_token"
+        ]
+    },
+    {
+        "746": [
+            "0x0",
+            "s2n_extensions_server_supported_versions_size",
+            "s2n_extensions_server_supported_versions_process"
+        ]
+    },
+    {
+        "771": [
+            "0x0",
+            "s2n_initialise_fork_detection_methods",
+            "pthread_rwlock_wrlock"
+        ]
+    },
+    {
+        "774": [
+            "0x0",
+            "s2n_initialise_fork_detection_methods",
+            "s2n_initialise_fork_detection_methods_try",
+            "sysconf"
+        ]
+    },
+    {
+        "776": [
+            "0x0",
+            "s2n_initialise_fork_detection_methods",
+            "munmap",
+            "s2n_inititalise_pthread_atfork"
+        ]
+    },
+    {
+        "777": [
+            "0x0",
+            "s2n_pthread_atfork_on_fork",
+            "munmap"
+        ]
+    },
+    {
+        "780": [
+            "0x0",
+            "s2n_is_madv_wipeonfork_supported",
+            "abort"
+        ]
+    },
+    {
+        "783": [
+            "0x0",
+            "s2n_is_map_inherit_zero_supported",
+            "s2n_probe_madv_wipeonfork_support",
+            "s2n_cleanup_cb_munmap"
+        ]
+    },
+    {
+        "789": [
+            "0x0",
+            "s2n_ecdhe_parameters_send",
+            "s2n_ecc_evp_write_params_point"
+        ]
+    },
+    {
+        "794": [
+            "0x0",
+            "s2n_client_key_share_send",
+            "s2n_generate_default_ecc_key_share",
+            "s2n_generate_pq_hybrid_key_share",
+            "s2n_kem_send_public_key"
+        ]
+    },
+    {
+        "795": [
+            "0x0",
+            "s2n_client_key_share_recv",
+            "s2n_generate_default_ecc_key_share"
+        ]
+    },
+    {
+        "800": [
+            "0x0",
+            "s2n_client_key_share_recv",
+            "s2n_client_key_share_recv_pq_hybrid",
+            "s2n_client_key_share_parse_ecc",
+            "s2n_ecc_evp_parse_params_point"
+        ]
+    },
+    {
+        "802": [
+            "0x0",
+            "s2n_extensions_client_key_share_size",
+            "s2n_client_key_share_recv_pq_hybrid",
+            "s2n_kem_recv_public_key"
+        ]
+    },
+    {
+        "808": [
+            "0x0",
+            "s2n_server_sct_list_should_send",
+            "s2n_dup"
+        ]
+    },
+    {
+        "813": [
+            "0x0",
+            "s2n_configure_kem",
+            "s2n_choose_kem_with_peer_pref_list"
+        ]
+    },
+    {
+        "821": [
+            "0x0",
+            "s2n_no_op_configure",
+            "s2n_get_compatible_cert_chain_and_key"
+        ]
+    },
+    {
+        "857": [
+            "0x0",
+            "s2n_mem_free_no_mlock_impl",
+            "malloc"
+        ]
+    },
+    {
+        "862": [
+            "0x0",
+            "s2n_mem_free_mlock_impl",
+            "mlock"
+        ]
+    },
+    {
+        "864": [
+            "0x0",
+            "s2n_mem_is_init",
+            "munlock"
+        ]
+    },
+    {
+        "873": [
+            "0x0",
+            "s2n_extension_should_send_if_ecc_enabled",
+            "s2n_choose_supported_group"
+        ]
+    },
+    {
+        "875": [
+            "0x0",
+            "s2n_extensions_client_supported_groups_send",
+            "s2n_ecc_is_extension_required"
+        ]
+    },
+    {
+        "883": [
+            "0x0",
+            "s2n_map_new",
+            "s2n_supported_sig_scheme_list_size"
+        ]
+    },
+    {
+        "888": [
+            "0x0",
+            "s2n_map_put",
+            "s2n_map_new_with_initial_capacity",
+            "s2n_map_embiggen",
+            "s2n_map_add",
+            "s2n_map_slot"
+        ]
+    },
+    {
+        "897": [
+            "0x0",
+            "s2n_server_key_share_send",
+            "s2n_server_key_share_generate_pq_hybrid",
+            "s2n_kem_preferences_includes_tls13_kem_group"
+        ]
+    },
+    {
+        "899": [
+            "0x0",
+            "s2n_server_key_share_recv",
+            "s2n_server_key_share_generate_pq_hybrid",
+            "s2n_kem_send_ciphertext"
+        ]
+    },
+    {
+        "904": [
+            "0x0",
+            "s2n_extensions_server_key_share_select",
+            "s2n_server_key_share_recv_pq_hybrid",
+            "s2n_kem_recv_ciphertext"
+        ]
+    }
+]
