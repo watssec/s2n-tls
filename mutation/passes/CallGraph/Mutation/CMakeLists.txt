@@ -1,2 +1,5 @@
 add_library(Mutation MODULE Mutation.cpp)
 set(CMAKE_CXX_FLAGS "-Wall -fno-rtti")
+find_package(nlohmann_json 3.10.5 REQUIRED)
+add_executable(Mutation Mutation.cpp)
+target_link_libraries(Mutation nlohmann_json::nlohmann_json)
