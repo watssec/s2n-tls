@@ -31,12 +31,14 @@ database_empty = {"label": [0], "grade": 10}
 
 def mutation_match(selected_seed_list):
 
+    mutation_target = []
     json_file = open(filtered_genesis_info_file_path)
     random_pool_data = json.load(json_file)
 
     for selected_seed in selected_seed_list:    
         #Match the seed number with seed location
         if selected_seed == 0:
+            mutation_target.append("0random")
             continue
         selected_seed_info = random_pool_data[selected_seed-1]
         file_name = selected_seed_info["file_name"]
@@ -55,16 +57,19 @@ def mutation_match(selected_seed_list):
                     mutation_selection = random.choice(binop_rules[key])
                     while mutation_selection == opcode :
                         mutation_selection = random.choice(binop_rules[key])
-        
+
+            mutation_target.append(mutation_selection)
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" +  " -file_name " + file_name + \
             " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num)+ " -target_type " + mutation_selection + " -" + mutation_type + " <" +  " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         elif mutation_type == "ConstantInt" or mutation_type == "ConstantFP":
             select_list = [0, 1, 2, 3, 4]
             target_type = random.choice(select_list)
+            mutation_target.append(str(target_type))
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so" + " -file_name " + file_name + \
             " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " -operand_num " + str(operand_num) + " -target_type " +str(target_type) \
              + " -" + mutation_type + " <" +  " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         else:
+            mutation_target.append("no target")
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so"  + " -file_name " + file_name + \
             " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " -" + mutation_type + " <" + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
         print(mutation_type)
@@ -72,6 +77,7 @@ def mutation_match(selected_seed_list):
         os.system(command)
         os.system("rm ./bitcode/all_llvm.bc")
         os.system("mv ./bitcode/all_llvm_mutated.bc ./bitcode/all_llvm.bc")
+    return mutation_target
 
 # This function finds the mutation seed in the dataset with the largest grade
 def database_seed_selection(database_json):
@@ -145,7 +151,7 @@ def error_elimination_check(history_json, seed, current_error_message):
             return True
     return False        
 
-def feedback(mutation_point_list, test_result, round):
+def feedback(mutation_point_list, test_result, round, mutation_target):
     history_json = []
     seed = mutation_point_list[:-2]
     # process the redicted information to edit the history file test
@@ -172,12 +178,16 @@ def feedback(mutation_point_list, test_result, round):
         json_file = open(filtered_genesis_info_file_path)
         random_pool_data = json.load(json_file)
         temp_report = {}
-        for i in selected_seed_list:
-            if i == "0":
+        cnt_inner = 0
+        print(mutation_point_list)
+        for i in mutation_point_list:
+            if i == 0:
                 temp_report[i] = "null"
             else:    
                 selected_seed_info = random_pool_data[i-1]
+                selected_seed_info["mutated_type"] = mutation_target[cnt_inner]
                 temp_report[i] = selected_seed_info
+            cnt_inner = cnt_inner+1
         report_json.append(temp_report)
         with open(report_file_path, "w") as report_file:
             json.dump(report_json, report_file, indent =4)    
@@ -328,9 +338,9 @@ if __name__ == '__main__':
     
         # if this list exists as a bad seed or it has run out of combinations, skip this round
 
-        mutation_match(selected_seed_list)
+        mutation_target = mutation_match(selected_seed_list)
         test_result = test(round)
-        feedback(selected_seed_list, test_result, round)
+        feedback(selected_seed_list, test_result, round, mutation_target)
             
         llvm_link()
         # after selected, goto the test step
