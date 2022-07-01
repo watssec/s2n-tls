@@ -30,6 +30,7 @@ namespace {
     SkeletonPass() : ModulePass(ID) {}
 
     virtual bool runOnModule(Module &M) {
+      errs() << "functionID" << FunctionId << "\n";
     for (auto &F: M){
      
       function_num = function_num + 1; 
@@ -37,19 +38,18 @@ namespace {
         for (auto &I : B) {
           int operand_num = 0;
           instruction_num = instruction_num +1;
-
-
             for(Use &U: I.operands())
             {
+   
               operand_num = operand_num +1;
               if(!(function_num == FunctionId and instruction_num == InstructionId and operand_num == OperandId)){
                 continue;
               }
+              errs() << "here!" << FunctionId << "\n";
               Value *V = U.get();
               if(auto *op = dyn_cast<ConstantInt>(V)){
               int value = op->getZExtValue();
-              errs() << "value" << value << "\n";
-              errs() << "getType" << *op->getType() << "\n";
+              errs() << "old instruction" << I  << "\n";
               if (TargetType == "0"){
                 value = 0;
               }else if(TargetType == "1"){
@@ -68,12 +68,13 @@ namespace {
               errs() << "U" << *U << "\n";
               errs() << "V" << *V << "\n";
               errs() << "op" << *op << "\n";
+              errs() << "new instruction" << I << "\n";
                 }
             }
             }
         }
-      return true;  
     }
+      return true;  
     }
   };
 }
