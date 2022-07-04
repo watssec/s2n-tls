@@ -1,0 +1,4730 @@
+[
+    {
+        "s2n_stuffer_private_key_from_pem": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_data_from_pem",
+            "s2n_stuffer_reread",
+            "s2n_stuffer_wipe"
+        ]
+    },
+    {
+        "s2n_stuffer_data_from_pem": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_pem_read_begin",
+            "s2n_stuffer_pem_read_contents",
+            "s2n_stuffer_pem_read_end"
+        ]
+    },
+    {
+        "s2n_calculate_stacktrace": []
+    },
+    {
+        "s2n_stuffer_pem_read_begin": [
+            "s2n_stuffer_pem_read_encapsulation_line"
+        ]
+    },
+    {
+        "s2n_stuffer_pem_read_contents": [
+            "s2n_blob_init",
+            "s2n_stuffer_init",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_base64",
+            "s2n_is_base64_char",
+            "s2n_stuffer_rewrite",
+            "s2n_stuffer_write_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_pem_read_end": [
+            "s2n_stuffer_pem_read_encapsulation_line"
+        ]
+    },
+    {
+        "s2n_stuffer_pem_read_encapsulation_line": [
+            "s2n_stuffer_skip_to_char",
+            "s2n_stuffer_skip_expected_char",
+            "s2n_stuffer_read_expected_str",
+            "strncmp",
+            "s2n_stuffer_peek_check_for_str",
+            "s2n_stuffer_rewind_read",
+            "s2n_stuffer_skip_whitespace"
+        ]
+    },
+    {
+        "strncmp": []
+    },
+    {
+        "s2n_stuffer_certificate_from_pem": [
+            "s2n_stuffer_data_from_pem"
+        ]
+    },
+    {
+        "s2n_stuffer_dhparams_from_pem": [
+            "s2n_stuffer_data_from_pem"
+        ]
+    },
+    {
+        "s2n_socket_quickack": [
+            "s2n_calculate_stacktrace",
+            "setsockopt"
+        ]
+    },
+    {
+        "setsockopt": []
+    },
+    {
+        "s2n_socket_write_snapshot": [
+            "s2n_calculate_stacktrace",
+            "getsockopt"
+        ]
+    },
+    {
+        "getsockopt": []
+    },
+    {
+        "s2n_socket_read_snapshot": [
+            "s2n_calculate_stacktrace",
+            "getsockopt"
+        ]
+    },
+    {
+        "s2n_socket_write_restore": [
+            "s2n_calculate_stacktrace",
+            "setsockopt"
+        ]
+    },
+    {
+        "s2n_socket_read_restore": [
+            "s2n_calculate_stacktrace",
+            "setsockopt"
+        ]
+    },
+    {
+        "s2n_socket_was_corked": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_socket_write_cork": [
+            "s2n_calculate_stacktrace",
+            "setsockopt"
+        ]
+    },
+    {
+        "s2n_socket_write_uncork": [
+            "s2n_calculate_stacktrace",
+            "setsockopt"
+        ]
+    },
+    {
+        "s2n_socket_set_read_size": [
+            "s2n_calculate_stacktrace",
+            "setsockopt"
+        ]
+    },
+    {
+        "s2n_socket_read": [
+            "s2n_calculate_stacktrace",
+            "__errno_location",
+            "read"
+        ]
+    },
+    {
+        "__errno_location": []
+    },
+    {
+        "read": []
+    },
+    {
+        "s2n_socket_write": [
+            "s2n_calculate_stacktrace",
+            "__errno_location",
+            "write"
+        ]
+    },
+    {
+        "write": []
+    },
+    {
+        "s2n_socket_is_ipv6": [
+            "s2n_calculate_stacktrace",
+            "getpeername"
+        ]
+    },
+    {
+        "getpeername": []
+    },
+    {
+        "s2n_stuffer_validate": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_reservation_validate": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_init": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_validate"
+        ]
+    },
+    {
+        "s2n_stuffer_alloc": [
+            "s2n_calculate_stacktrace",
+            "s2n_alloc",
+            "s2n_stuffer_init",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_growable_alloc": [
+            "s2n_stuffer_alloc",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_free": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_free"
+        ]
+    },
+    {
+        "s2n_stuffer_resize": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_wipe",
+            "s2n_free",
+            "s2n_realloc"
+        ]
+    },
+    {
+        "s2n_stuffer_wipe": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_stuffer_resize_if_empty": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_realloc"
+        ]
+    },
+    {
+        "s2n_stuffer_rewrite": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_rewind_read": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_stuffer_reread": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_wipe_n": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_wipe",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_stuffer_skip_read": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_stuffer_raw_read": [
+            "s2n_stuffer_skip_read"
+        ]
+    },
+    {
+        "s2n_stuffer_read": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_read_bytes": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_skip_read",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_stuffer_erase_and_read": [
+            "s2n_stuffer_skip_read",
+            "s2n_calculate_stacktrace",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_stuffer_erase_and_read_bytes": [
+            "s2n_stuffer_skip_read",
+            "s2n_calculate_stacktrace",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_stuffer_skip_write": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_reserve_space"
+        ]
+    },
+    {
+        "s2n_stuffer_reserve_space": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_add_overflow",
+            "s2n_stuffer_resize"
+        ]
+    },
+    {
+        "s2n_stuffer_raw_write": [
+            "s2n_stuffer_skip_write"
+        ]
+    },
+    {
+        "s2n_stuffer_write": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_blob_validate",
+            "s2n_stuffer_write_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_write_bytes": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_skip_write",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_stuffer_writev_bytes": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_raw_write",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_stuffer_copy": [
+            "s2n_stuffer_copy_impl"
+        ]
+    },
+    {
+        "s2n_stuffer_copy_impl": [
+            "s2n_stuffer_skip_read",
+            "s2n_stuffer_skip_write",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_get_mix_entropy": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_get_public_random_data": [
+            "s2n_defend_if_forked",
+            "s2n_result_is_ok",
+            "s2n_blob_slice",
+            "s2n_drbg_generate"
+        ]
+    },
+    {
+        "s2n_get_public_random_bytes_used": [
+            "s2n_drbg_bytes_used",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_get_private_random_bytes_used": [
+            "s2n_drbg_bytes_used",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_public_random": [
+            "s2n_get_public_random_data",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_rand_init": [
+            "s2n_mem_get_page_size",
+            "posix_memalign",
+            "s2n_calculate_stacktrace",
+            "pthread_atfork",
+            "s2n_defend_if_forked",
+            "s2n_result_is_ok",
+            "ENGINE_new",
+            "ENGINE_set_id",
+            "ENGINE_set_name",
+            "ENGINE_set_flags",
+            "ENGINE_set_init_function",
+            "ENGINE_set_RAND",
+            "ENGINE_add",
+            "ENGINE_free",
+            "ENGINE_by_id",
+            "ENGINE_init",
+            "ENGINE_set_default"
+        ]
+    },
+    {
+        "posix_memalign": []
+    },
+    {
+        "s2n_stuffer_extract_blob": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_realloc",
+            "s2n_ensure_memcpy_trace",
+            "s2n_blob_validate"
+        ]
+    },
+    {
+        "s2n_server_name_recv": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_server_name_should_send": [
+            "s2n_handshake_type_check_flag"
+        ]
+    },
+    {
+        "s2n_client_status_request_send": [
+            "s2n_stuffer_write_uint8",
+            "s2n_stuffer_write_uint16"
+        ]
+    },
+    {
+        "s2n_client_status_request_recv": [
+            "s2n_stuffer_read_uint8"
+        ]
+    },
+    {
+        "s2n_extensions_client_status_request_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_client_status_request": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_server_psk_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint16"
+        ]
+    },
+    {
+        "s2n_server_psk_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_supported_iana_value_to_id",
+            "s2n_stuffer_read_uint16",
+            "s2n_array_get",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_extensions_client_sct_list_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_client_sct_list": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_connection_get_minimum_supported_version": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_security_policy",
+            "s2n_connection_is_quic_enabled"
+        ]
+    },
+    {
+        "s2n_array_validate": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_validate",
+            "s2n_result_is_ok",
+            "s2n_mul_overflow"
+        ]
+    },
+    {
+        "s2n_array_new": [
+            "s2n_alloc",
+            "s2n_array_enlarge",
+            "s2n_result_is_error",
+            "s2n_free"
+        ]
+    },
+    {
+        "s2n_array_enlarge": [
+            "s2n_calculate_stacktrace",
+            "s2n_mul_overflow",
+            "s2n_realloc",
+            "s2n_array_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_array_init": [
+            "s2n_calculate_stacktrace",
+            "s2n_array_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_array_pushback": [
+            "s2n_array_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_array_insert"
+        ]
+    },
+    {
+        "s2n_array_insert": [
+            "s2n_array_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_array_capacity",
+            "s2n_mul_overflow",
+            "s2n_array_enlarge"
+        ]
+    },
+    {
+        "s2n_array_capacity": [
+            "s2n_array_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_cert_send": []
+    },
+    {
+        "s2n_tls13_cert_verify_recv": []
+    },
+    {
+        "s2n_tls13_cert_verify_send": []
+    },
+    {
+        "s2n_basic_ccs_recv": []
+    },
+    {
+        "s2n_ccs_send": []
+    },
+    {
+        "s2n_tls13_client_finished_recv": []
+    },
+    {
+        "s2n_tls13_client_finished_send": []
+    },
+    {
+        "s2n_tls13_server_finished_send": []
+    },
+    {
+        "s2n_tls13_server_finished_recv": []
+    },
+    {
+        "s2n_encrypted_extensions_send": []
+    },
+    {
+        "s2n_encrypted_extensions_recv": []
+    },
+    {
+        "s2n_server_hello_retry_send": []
+    },
+    {
+        "s2n_server_hello_retry_recv": []
+    },
+    {
+        "s2n_end_of_early_data_recv": []
+    },
+    {
+        "s2n_end_of_early_data_send": []
+    },
+    {
+        "s2n_always_fail_send": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_always_fail_recv": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_server_nst_send": []
+    },
+    {
+        "s2n_server_nst_recv": []
+    },
+    {
+        "s2n_server_status_send": []
+    },
+    {
+        "s2n_server_status_recv": []
+    },
+    {
+        "s2n_server_key_send": []
+    },
+    {
+        "s2n_server_key_recv": []
+    },
+    {
+        "s2n_cert_req_send": []
+    },
+    {
+        "s2n_cert_req_recv": []
+    },
+    {
+        "s2n_server_done_send": []
+    },
+    {
+        "s2n_server_done_recv": []
+    },
+    {
+        "s2n_client_key_recv": []
+    },
+    {
+        "s2n_client_key_send": []
+    },
+    {
+        "s2n_client_cert_verify_recv": []
+    },
+    {
+        "s2n_client_cert_verify_send": []
+    },
+    {
+        "s2n_client_ccs_recv": []
+    },
+    {
+        "s2n_client_finished_recv": []
+    },
+    {
+        "s2n_client_finished_send": []
+    },
+    {
+        "s2n_server_ccs_recv": []
+    },
+    {
+        "s2n_server_finished_send": []
+    },
+    {
+        "s2n_server_finished_recv": []
+    },
+    {
+        "s2n_generate_new_client_session_id": [
+            "s2n_get_public_random_data",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_set_hello_retry_required": [
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_type_set_tls13_flag",
+            "s2n_result_is_ok",
+            "s2n_connection_set_early_data_state"
+        ]
+    },
+    {
+        "s2n_is_hello_retry_message": [
+            "s2n_handshake_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_handshake_validate": []
+    },
+    {
+        "s2n_is_hello_retry_handshake": [
+            "s2n_handshake_type_check_tls13_flag"
+        ]
+    },
+    {
+        "s2n_conn_set_handshake_type": [
+            "s2n_conn_set_tls13_handshake_type",
+            "s2n_result_is_ok",
+            "s2n_handshake_type_reset",
+            "s2n_handshake_type_set_flag",
+            "s2n_connection_get_client_auth_type",
+            "s2n_decrypt_session_ticket",
+            "s2n_validate_ems_status",
+            "s2n_config_is_encrypt_decrypt_key_available",
+            "s2n_handshake_type_set_tls12_flag",
+            "s2n_allowed_to_cache_connection",
+            "s2n_resume_from_cache",
+            "s2n_error_get_type",
+            "s2n_generate_new_client_session_id",
+            "s2n_kex_is_ephemeral"
+        ]
+    },
+    {
+        "s2n_conn_set_tls13_handshake_type": [
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_type_set_flag",
+            "s2n_result_is_ok",
+            "s2n_connection_get_client_auth_type",
+            "s2n_handshake_type_check_flag",
+            "s2n_is_middlebox_compat_enabled",
+            "s2n_handshake_type_set_tls13_flag"
+        ]
+    },
+    {
+        "s2n_decrypt_session_ticket": []
+    },
+    {
+        "s2n_validate_ems_status": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_supported_iana_value_to_id"
+        ]
+    },
+    {
+        "s2n_config_is_encrypt_decrypt_key_available": []
+    },
+    {
+        "s2n_allowed_to_cache_connection": []
+    },
+    {
+        "s2n_resume_from_cache": []
+    },
+    {
+        "s2n_error_get_type": []
+    },
+    {
+        "s2n_conn_set_handshake_no_client_cert": [
+            "s2n_connection_get_client_auth_type",
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_type_set_flag",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_get_last_message_name": [
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_get_handshake_type_name": [
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_validate",
+            "s2n_result_is_ok",
+            "s2n_connection_get_protocol_version",
+            "strlen",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_negotiate_impl": [
+            "s2n_calculate_stacktrace",
+            "__errno_location",
+            "s2n_flush",
+            "s2n_handle_retry_state",
+            "s2n_handshake_write_io",
+            "s2n_error_get_type",
+            "s2n_handshake_read_io",
+            "s2n_try_delete_session_cache",
+            "s2n_tls13_secrets_clean",
+            "s2n_result_is_ok",
+            "s2n_post_handshake_send",
+            "s2n_stuffer_resize"
+        ]
+    },
+    {
+        "s2n_flush": []
+    },
+    {
+        "s2n_handle_retry_state": [
+            "s2n_error_get_type",
+            "s2n_stuffer_wipe",
+            "s2n_handshake_finish_header",
+            "s2n_try_delete_session_cache",
+            "s2n_connection_apply_error_blinding",
+            "s2n_finish_read",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_handshake_write_io": [
+            "s2n_handshake_write_header",
+            "s2n_handshake_finish_header",
+            "s2n_record_max_write_payload_size",
+            "s2n_result_is_ok",
+            "s2n_stuffer_raw_read",
+            "s2n_calculate_stacktrace",
+            "s2n_connection_is_quic_enabled",
+            "s2n_quic_write_handshake_message",
+            "s2n_record_write",
+            "s2n_conn_update_handshake_hashes",
+            "s2n_flush",
+            "s2n_stuffer_wipe",
+            "s2n_tls13_secrets_update",
+            "s2n_tls13_key_schedule_update",
+            "s2n_advance_message"
+        ]
+    },
+    {
+        "s2n_handshake_read_io": [
+            "s2n_connection_is_quic_enabled",
+            "s2n_quic_read_handshake_message",
+            "s2n_result_is_ok",
+            "s2n_read_full_record",
+            "s2n_stuffer_reread",
+            "s2n_early_data_record_bytes",
+            "s2n_wipe_record",
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_handle_sslv2",
+            "s2n_early_data_validate_recv",
+            "s2n_stuffer_copy",
+            "s2n_stuffer_wipe",
+            "s2n_advance_message",
+            "s2n_process_alert_fragment",
+            "s2n_read_full_handshake_message",
+            "s2n_connection_get_client_auth_type",
+            "s2n_handshake_type_check_flag",
+            "s2n_handshake_type_set_flag",
+            "s2n_handshake_type_unset_tls12_flag",
+            "s2n_client_hello_request_recv",
+            "s2n_connection_apply_error_blinding",
+            "s2n_finish_read"
+        ]
+    },
+    {
+        "s2n_try_delete_session_cache": [
+            "s2n_calculate_stacktrace",
+            "s2n_allowed_to_cache_connection"
+        ]
+    },
+    {
+        "s2n_tls13_secrets_clean": []
+    },
+    {
+        "s2n_post_handshake_send": []
+    },
+    {
+        "s2n_read_full_record": []
+    },
+    {
+        "s2n_early_data_record_bytes": []
+    },
+    {
+        "s2n_wipe_record": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_wipe"
+        ]
+    },
+    {
+        "s2n_handshake_handle_sslv2": [
+            "s2n_calculate_stacktrace",
+            "s2n_conn_update_handshake_hashes",
+            "s2n_stuffer_copy",
+            "s2n_stuffer_wipe",
+            "s2n_connection_apply_error_blinding",
+            "s2n_advance_message"
+        ]
+    },
+    {
+        "s2n_early_data_validate_recv": []
+    },
+    {
+        "s2n_advance_message": [
+            "s2n_socket_quickack",
+            "s2n_socket_was_corked",
+            "s2n_connection_is_managed_corked",
+            "s2n_socket_write_cork",
+            "s2n_socket_write_uncork"
+        ]
+    },
+    {
+        "s2n_process_alert_fragment": []
+    },
+    {
+        "s2n_read_full_handshake_message": [
+            "s2n_stuffer_copy",
+            "s2n_handshake_parse_header",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_reread"
+        ]
+    },
+    {
+        "s2n_client_hello_request_recv": []
+    },
+    {
+        "s2n_finish_read": [
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_conn_update_hashes",
+            "s2n_stuffer_wipe",
+            "s2n_tls13_secrets_update",
+            "s2n_result_is_ok",
+            "s2n_tls13_key_schedule_update",
+            "s2n_advance_message"
+        ]
+    },
+    {
+        "s2n_handshake_conn_update_hashes": [
+            "s2n_stuffer_reread",
+            "s2n_handshake_parse_header",
+            "s2n_calculate_stacktrace",
+            "s2n_conn_update_handshake_hashes"
+        ]
+    },
+    {
+        "s2n_tls13_secrets_update": []
+    },
+    {
+        "s2n_conn_update_handshake_hashes": []
+    },
+    {
+        "s2n_handshake_write_header": []
+    },
+    {
+        "s2n_handshake_finish_header": []
+    },
+    {
+        "s2n_record_max_write_payload_size": []
+    },
+    {
+        "s2n_record_write": []
+    },
+    {
+        "s2n_negotiate": [
+            "s2n_calculate_stacktrace",
+            "s2n_negotiate_impl"
+        ]
+    },
+    {
+        "s2n_drbg_instantiate": [
+            "s2n_calculate_stacktrace",
+            "EVP_CIPHER_CTX_new",
+            "EVP_CIPHER_CTX_reset",
+            "EVP_aes_128_ecb",
+            "EVP_EncryptInit_ex",
+            "EVP_aes_256_ecb",
+            "EVP_CIPHER_CTX_key_length",
+            "s2n_blob_init",
+            "s2n_blob_zero",
+            "s2n_ensure_memcpy_trace",
+            "s2n_drbg_seed",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "EVP_CIPHER_CTX_new": []
+    },
+    {
+        "EVP_CIPHER_CTX_reset": []
+    },
+    {
+        "EVP_aes_128_ecb": []
+    },
+    {
+        "EVP_EncryptInit_ex": []
+    },
+    {
+        "EVP_aes_256_ecb": []
+    },
+    {
+        "EVP_CIPHER_CTX_key_length": []
+    },
+    {
+        "s2n_drbg_seed": [
+            "EVP_CIPHER_CTX_key_length",
+            "s2n_calculate_stacktrace",
+            "s2n_blob_init",
+            "s2n_get_seed_entropy",
+            "s2n_result_is_ok",
+            "s2n_drbg_mix_in_entropy"
+        ]
+    },
+    {
+        "s2n_drbg_mix_in_entropy": [
+            "s2n_calculate_stacktrace",
+            "s2n_drbg_update",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_drbg_update": [
+            "s2n_calculate_stacktrace",
+            "EVP_CIPHER_CTX_key_length",
+            "s2n_blob_init",
+            "s2n_drbg_bits",
+            "s2n_result_is_ok",
+            "EVP_EncryptInit_ex",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_drbg_bits": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_init",
+            "s2n_increment_drbg_counter",
+            "s2n_result_is_ok",
+            "s2n_drbg_block_encrypt",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_drbg_block_encrypt": [
+            "s2n_calculate_stacktrace",
+            "EVP_EncryptUpdate"
+        ]
+    },
+    {
+        "EVP_EncryptUpdate": []
+    },
+    {
+        "s2n_drbg_generate": [
+            "s2n_calculate_stacktrace",
+            "EVP_CIPHER_CTX_key_length",
+            "s2n_blob_init",
+            "s2n_drbg_mix",
+            "s2n_result_is_ok",
+            "s2n_drbg_bits",
+            "s2n_drbg_update"
+        ]
+    },
+    {
+        "s2n_drbg_mix": [
+            "s2n_calculate_stacktrace",
+            "EVP_CIPHER_CTX_key_length",
+            "s2n_blob_init",
+            "s2n_get_mix_entropy",
+            "s2n_result_is_ok",
+            "s2n_drbg_mix_in_entropy"
+        ]
+    },
+    {
+        "s2n_drbg_wipe": [
+            "s2n_calculate_stacktrace",
+            "EVP_CIPHER_CTX_reset",
+            "EVP_CIPHER_CTX_free"
+        ]
+    },
+    {
+        "EVP_CIPHER_CTX_free": []
+    },
+    {
+        "s2n_drbg_bytes_used": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_ignore_prediction_resistance_for_testing": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_constant_time_pkcs1_unpad_or_dont": [
+            "s2n_constant_time_copy_or_dont"
+        ]
+    },
+    {
+        "s2n_align_to": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_mul_overflow": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_add_overflow": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_sub_overflow": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_session_ticket_send": [
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_client_session_ticket_recv": [
+            "s2n_connection_is_client_auth_enabled",
+            "s2n_stuffer_copy",
+            "s2n_config_is_encrypt_decrypt_key_available"
+        ]
+    },
+    {
+        "s2n_client_session_ticket_should_send": [
+            "s2n_client_psk_should_send"
+        ]
+    },
+    {
+        "s2n_extensions_client_session_ticket_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_client_session_ticket_ext": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_send_supported_sig_scheme_list": []
+    },
+    {
+        "s2n_signature_algorithms_recv": [
+            "s2n_recv_supported_sig_scheme_list"
+        ]
+    },
+    {
+        "s2n_recv_supported_sig_scheme_list": []
+    },
+    {
+        "s2n_server_certificate_status_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint8",
+            "s2n_stuffer_write_uint24",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_server_certificate_status_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint8",
+            "s2n_stuffer_read_uint24",
+            "s2n_realloc",
+            "s2n_stuffer_read_bytes",
+            "s2n_x509_validator_validate_cert_stapled_ocsp_response"
+        ]
+    },
+    {
+        "s2n_x509_validator_validate_cert_stapled_ocsp_response": []
+    },
+    {
+        "s2n_connection_new": [
+            "s2n_alloc",
+            "s2n_blob_zero",
+            "s2n_fetch_default_config",
+            "s2n_connection_set_config",
+            "s2n_blob_init",
+            "s2n_stuffer_init",
+            "s2n_session_key_alloc",
+            "s2n_prf_new",
+            "s2n_result_is_ok",
+            "s2n_handshake_hashes_new",
+            "s2n_connection_new_hmacs",
+            "s2n_connection_init_hmacs",
+            "s2n_stuffer_growable_alloc",
+            "s2n_timer_start",
+            "s2n_connection_wipe"
+        ]
+    },
+    {
+        "s2n_fetch_default_config": []
+    },
+    {
+        "s2n_connection_set_config": [
+            "s2n_calculate_stacktrace",
+            "s2n_config_get_num_default_certs",
+            "s2n_x509_validator_wipe",
+            "s2n_x509_validator_init_no_x509_validation",
+            "s2n_x509_validator_init",
+            "s2n_x509_validator_set_max_chain_depth",
+            "s2n_connection_set_psk_mode",
+            "s2n_connection_enable_quic"
+        ]
+    },
+    {
+        "s2n_session_key_alloc": []
+    },
+    {
+        "s2n_prf_new": []
+    },
+    {
+        "s2n_handshake_hashes_new": []
+    },
+    {
+        "s2n_connection_new_hmacs": [
+            "s2n_hmac_new"
+        ]
+    },
+    {
+        "s2n_connection_init_hmacs": [
+            "s2n_hmac_init"
+        ]
+    },
+    {
+        "s2n_connection_wipe": [
+            "s2n_handshake_hashes_new",
+            "s2n_result_is_ok",
+            "s2n_handshake_hashes_wipe",
+            "s2n_prf_new",
+            "s2n_prf_wipe",
+            "s2n_connection_wipe_keys",
+            "s2n_connection_reset_hmacs",
+            "s2n_stuffer_wipe",
+            "s2n_blob_zero",
+            "s2n_psk_parameters_wipe",
+            "s2n_connection_wipe_io",
+            "s2n_free",
+            "s2n_stuffer_resize",
+            "s2n_ensure_memcpy_trace",
+            "s2n_connection_save_hmac_state",
+            "s2n_connection_zero",
+            "s2n_connection_restore_hmac_state",
+            "s2n_connection_init_hmacs",
+            "s2n_psk_parameters_init",
+            "s2n_handshake_require_all_hashes"
+        ]
+    },
+    {
+        "s2n_handshake_hashes_wipe": []
+    },
+    {
+        "s2n_prf_wipe": []
+    },
+    {
+        "s2n_connection_wipe_keys": [
+            "s2n_pkey_free",
+            "s2n_pkey_zero_init",
+            "s2n_x509_validator_wipe",
+            "s2n_dh_params_free",
+            "s2n_connection_wipe_all_keyshares",
+            "s2n_result_is_ok",
+            "s2n_kem_free",
+            "s2n_free"
+        ]
+    },
+    {
+        "s2n_connection_reset_hmacs": [
+            "s2n_hmac_reset"
+        ]
+    },
+    {
+        "s2n_psk_parameters_wipe": []
+    },
+    {
+        "s2n_connection_wipe_io": [
+            "s2n_connection_is_managed_corked",
+            "s2n_socket_read_restore",
+            "s2n_socket_write_restore",
+            "s2n_connection_free_managed_io"
+        ]
+    },
+    {
+        "s2n_connection_save_hmac_state": []
+    },
+    {
+        "s2n_connection_zero": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_set_config"
+        ]
+    },
+    {
+        "s2n_connection_restore_hmac_state": []
+    },
+    {
+        "s2n_psk_parameters_init": []
+    },
+    {
+        "s2n_handshake_require_all_hashes": []
+    },
+    {
+        "s2n_connection_is_managed_corked": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_free_managed_io": [
+            "s2n_connection_free_managed_recv_io",
+            "s2n_connection_free_managed_send_io"
+        ]
+    },
+    {
+        "s2n_connection_free_managed_recv_io": [
+            "s2n_calculate_stacktrace",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "s2n_connection_free_managed_send_io": [
+            "s2n_calculate_stacktrace",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "s2n_pkey_free": []
+    },
+    {
+        "s2n_server_ems_recv": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_server_ems_if_missing": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_array_get": [
+            "s2n_array_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_array_insert_and_copy": [
+            "s2n_array_insert",
+            "s2n_result_is_ok",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_array_remove": [
+            "s2n_array_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_array_num_elements": [
+            "s2n_array_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_array_free_p": [
+            "s2n_calculate_stacktrace",
+            "s2n_free",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "s2n_array_free": [
+            "s2n_calculate_stacktrace",
+            "s2n_array_free_p"
+        ]
+    },
+    {
+        "s2n_client_ems_recv": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_max_fragment_length_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint8"
+        ]
+    },
+    {
+        "s2n_max_fragment_length_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint8",
+            "s2n_connection_set_max_fragment_length",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_openssl_compat_rand": [
+            "s2n_get_private_random_data",
+            "s2n_result_is_error"
+        ]
+    },
+    {
+        "s2n_rand_init_impl": [
+            "open",
+            "__errno_location",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "open": []
+    },
+    {
+        "s2n_rand_cleanup_impl": [
+            "s2n_calculate_stacktrace",
+            "close"
+        ]
+    },
+    {
+        "close": []
+    },
+    {
+        "s2n_rand_urandom_impl": [
+            "s2n_calculate_stacktrace",
+            "__errno_location",
+            "read",
+            "nanosleep"
+        ]
+    },
+    {
+        "nanosleep": []
+    },
+    {
+        "s2n_get_private_random_data": [
+            "s2n_defend_if_forked",
+            "s2n_result_is_ok",
+            "s2n_blob_slice",
+            "s2n_drbg_generate"
+        ]
+    },
+    {
+        "s2n_defend_if_forked": [
+            "s2n_rand_cleanup_thread",
+            "s2n_result_is_ok",
+            "s2n_drbg_instantiate"
+        ]
+    },
+    {
+        "s2n_rand_cleanup_thread": [
+            "s2n_drbg_wipe",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_rand_set_callbacks": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_get_seed_entropy": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_recv_server_session_ticket_ext": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_send_server_session_ticket_ext": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_server_session_ticket_ext_size": [
+            "s2n_session_ticket_should_send"
+        ]
+    },
+    {
+        "s2n_extension_supported_iana_value_to_id": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_iana_value_to_id"
+        ]
+    },
+    {
+        "s2n_extension_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_supported_iana_value_to_id",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_reserve_uint16",
+            "s2n_stuffer_write_vector_size"
+        ]
+    },
+    {
+        "s2n_extension_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_supported_iana_value_to_id"
+        ]
+    },
+    {
+        "s2n_extension_is_missing": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_supported_iana_value_to_id"
+        ]
+    },
+    {
+        "s2n_extension_send_unimplemented": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_extension_recv_unimplemented": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_extension_send_if_tls13_connection": [
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_extension_error_if_missing": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "pthread_atfork": []
+    },
+    {
+        "ENGINE_new": []
+    },
+    {
+        "ENGINE_set_id": []
+    },
+    {
+        "ENGINE_set_name": []
+    },
+    {
+        "ENGINE_set_flags": []
+    },
+    {
+        "ENGINE_set_init_function": []
+    },
+    {
+        "ENGINE_set_RAND": []
+    },
+    {
+        "ENGINE_add": []
+    },
+    {
+        "ENGINE_free": []
+    },
+    {
+        "ENGINE_by_id": []
+    },
+    {
+        "ENGINE_init": []
+    },
+    {
+        "ENGINE_set_default": []
+    },
+    {
+        "s2n_rand_cleanup": [
+            "ENGINE_by_id",
+            "ENGINE_remove",
+            "ENGINE_finish",
+            "ENGINE_free",
+            "RAND_set_rand_engine",
+            "RAND_set_rand_method",
+            "free"
+        ]
+    },
+    {
+        "ENGINE_remove": []
+    },
+    {
+        "ENGINE_finish": []
+    },
+    {
+        "RAND_set_rand_engine": []
+    },
+    {
+        "RAND_set_rand_method": []
+    },
+    {
+        "free": []
+    },
+    {
+        "s2n_set_private_drbg_for_test": [
+            "s2n_calculate_stacktrace",
+            "s2n_drbg_wipe",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_client_key_share_send": [
+            "s2n_stuffer_reserve_uint16",
+            "s2n_generate_default_pq_hybrid_key_share",
+            "s2n_generate_default_ecc_key_share",
+            "s2n_stuffer_write_vector_size",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_key_share_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_blob_init",
+            "s2n_stuffer_init",
+            "s2n_stuffer_skip_write",
+            "s2n_client_key_share_recv_ecc",
+            "s2n_client_key_share_recv_pq_hybrid",
+            "s2n_is_hello_retry_handshake",
+            "s2n_set_hello_retry_required"
+        ]
+    },
+    {
+        "s2n_client_key_share_recv_ecc": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_client_key_share_parse_ecc",
+            "s2n_ecc_evp_params_free"
+        ]
+    },
+    {
+        "s2n_client_key_share_recv_pq_hybrid": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_kem_preferences",
+            "s2n_pq_is_enabled",
+            "s2n_stuffer_read_uint16",
+            "s2n_client_key_share_parse_ecc",
+            "s2n_kem_recv_public_key",
+            "s2n_kem_group_free"
+        ]
+    },
+    {
+        "s2n_pq_is_enabled": []
+    },
+    {
+        "s2n_client_key_share_parse_ecc": [
+            "s2n_calculate_stacktrace",
+            "s2n_ecc_evp_read_params_point",
+            "s2n_ecc_evp_parse_params_point",
+            "s2n_ecc_evp_params_free"
+        ]
+    },
+    {
+        "s2n_kem_recv_public_key": []
+    },
+    {
+        "s2n_kem_group_free": []
+    },
+    {
+        "s2n_ecc_evp_read_params_point": []
+    },
+    {
+        "s2n_ecc_evp_parse_params_point": []
+    },
+    {
+        "s2n_ecc_evp_params_free": []
+    },
+    {
+        "s2n_generate_default_pq_hybrid_key_share": [
+            "s2n_calculate_stacktrace",
+            "s2n_pq_is_enabled",
+            "s2n_connection_get_kem_preferences",
+            "s2n_is_hello_retry_handshake",
+            "s2n_kem_group_free",
+            "s2n_generate_pq_hybrid_key_share"
+        ]
+    },
+    {
+        "s2n_generate_default_ecc_key_share": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_is_hello_retry_handshake",
+            "s2n_ecc_evp_params_free",
+            "s2n_ecdhe_parameters_send"
+        ]
+    },
+    {
+        "s2n_generate_pq_hybrid_key_share": [
+            "s2n_calculate_stacktrace",
+            "s2n_pq_is_enabled",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_reserve_uint16",
+            "s2n_ecdhe_send_public_key",
+            "s2n_result_is_ok",
+            "s2n_kem_send_public_key",
+            "s2n_stuffer_write_vector_size"
+        ]
+    },
+    {
+        "s2n_kem_send_public_key": []
+    },
+    {
+        "s2n_extensions_client_key_share_size": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences"
+        ]
+    },
+    {
+        "s2n_extensions_client_key_share_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_extensions_client_key_share_recv": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_ec_point_format_send": [
+            "s2n_stuffer_write_uint8"
+        ]
+    },
+    {
+        "s2n_server_ec_point_format_should_send": [
+            "s2n_kex_includes"
+        ]
+    },
+    {
+        "s2n_server_ecc_point_format_extension_size": [
+            "s2n_server_ec_point_format_should_send"
+        ]
+    },
+    {
+        "s2n_recv_client_ec_point_formats": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_quic_transport_params_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_quic_transport_params_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_is_quic_enabled",
+            "s2n_alloc",
+            "s2n_stuffer_read"
+        ]
+    },
+    {
+        "s2n_quic_transport_params_should_send": [
+            "s2n_connection_is_quic_enabled"
+        ]
+    },
+    {
+        "s2n_quic_transport_params_if_missing": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_is_quic_enabled"
+        ]
+    },
+    {
+        "s2n_client_max_frag_len_send": [
+            "s2n_stuffer_write_uint8"
+        ]
+    },
+    {
+        "s2n_stuffer_reserve_uint8": [
+            "s2n_stuffer_reserve"
+        ]
+    },
+    {
+        "s2n_stuffer_read_uint16": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_write_uint16": [
+            "s2n_stuffer_write_network_order"
+        ]
+    },
+    {
+        "s2n_stuffer_reserve_uint16": [
+            "s2n_stuffer_reserve"
+        ]
+    },
+    {
+        "s2n_stuffer_read_uint24": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_write_uint24": [
+            "s2n_stuffer_write_network_order"
+        ]
+    },
+    {
+        "s2n_stuffer_reserve_uint24": [
+            "s2n_stuffer_reserve"
+        ]
+    },
+    {
+        "s2n_stuffer_read_uint32": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_write_uint32": [
+            "s2n_stuffer_write_network_order"
+        ]
+    },
+    {
+        "s2n_client_max_frag_len_recv": [
+            "s2n_stuffer_read_uint8",
+            "s2n_connection_set_max_fragment_length",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_extensions_client_max_frag_len_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_client_max_frag_len": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_server_key_schedule": [
+            "s2n_conn_get_current_message_type",
+            "s2n_set_key",
+            "s2n_result_is_ok",
+            "s2n_handshake_type_check_tls13_flag"
+        ]
+    },
+    {
+        "s2n_client_key_schedule": [
+            "s2n_conn_get_current_message_type",
+            "s2n_set_key",
+            "s2n_result_is_ok",
+            "s2n_handshake_type_check_tls13_flag"
+        ]
+    },
+    {
+        "s2n_set_key": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_init",
+            "s2n_tls13_secrets_get",
+            "s2n_result_is_ok",
+            "s2n_hmac_new",
+            "s2n_hkdf_expand_label",
+            "s2n_zero_sequence_number",
+            "s2n_hmac_free"
+        ]
+    },
+    {
+        "s2n_tls13_secrets_get": []
+    },
+    {
+        "s2n_hkdf_expand_label": []
+    },
+    {
+        "s2n_zero_sequence_number": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_init",
+            "s2n_blob_zero"
+        ]
+    },
+    {
+        "s2n_tls13_key_schedule_update": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_protocol_version",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_tls13_key_schedule_reset": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_map_new": [
+            "s2n_map_new_with_initial_capacity"
+        ]
+    },
+    {
+        "s2n_map_new_with_initial_capacity": [
+            "s2n_calculate_stacktrace",
+            "s2n_alloc",
+            "s2n_map_embiggen",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_map_embiggen": [
+            "s2n_calculate_stacktrace",
+            "s2n_alloc",
+            "s2n_blob_zero",
+            "s2n_map_add",
+            "s2n_result_is_ok",
+            "s2n_free",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "s2n_map_add": [
+            "s2n_calculate_stacktrace",
+            "s2n_map_embiggen",
+            "s2n_result_is_ok",
+            "s2n_map_slot",
+            "memcmp",
+            "s2n_dup"
+        ]
+    },
+    {
+        "s2n_map_slot": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "memcmp": []
+    },
+    {
+        "s2n_map_put": [
+            "s2n_calculate_stacktrace",
+            "s2n_map_embiggen",
+            "s2n_result_is_ok",
+            "s2n_map_slot",
+            "memcmp",
+            "s2n_free",
+            "s2n_dup"
+        ]
+    },
+    {
+        "s2n_map_complete": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_map_unlock": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_map_lookup": [
+            "s2n_calculate_stacktrace",
+            "s2n_map_slot",
+            "s2n_result_is_ok",
+            "memcmp"
+        ]
+    },
+    {
+        "s2n_map_free": [
+            "s2n_free",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "s2n_mem_set_callbacks": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_mem_init_impl": [
+            "sysconf",
+            "s2n_calculate_stacktrace",
+            "getenv"
+        ]
+    },
+    {
+        "sysconf": []
+    },
+    {
+        "getenv": []
+    },
+    {
+        "s2n_mem_malloc_no_mlock_impl": [
+            "malloc",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_mem_free_no_mlock_impl": [
+            "free"
+        ]
+    },
+    {
+        "malloc": []
+    },
+    {
+        "s2n_mem_malloc_mlock_impl": [
+            "s2n_calculate_stacktrace",
+            "s2n_align_to",
+            "posix_memalign",
+            "madvise",
+            "s2n_mem_free_no_mlock_impl",
+            "mlock"
+        ]
+    },
+    {
+        "madvise": []
+    },
+    {
+        "mlock": []
+    },
+    {
+        "s2n_mem_free_mlock_impl": [
+            "munlock",
+            "free"
+        ]
+    },
+    {
+        "munlock": []
+    },
+    {
+        "s2n_alloc": [
+            "s2n_calculate_stacktrace",
+            "s2n_realloc"
+        ]
+    },
+    {
+        "s2n_realloc": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_is_growable",
+            "s2n_free",
+            "s2n_blob_slice",
+            "s2n_blob_zero",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_free": [
+            "s2n_blob_validate",
+            "s2n_result_is_ok",
+            "s2n_blob_zero",
+            "s2n_calculate_stacktrace",
+            "s2n_blob_is_growable"
+        ]
+    },
+    {
+        "s2n_free_object": [
+            "s2n_calculate_stacktrace",
+            "s2n_free"
+        ]
+    },
+    {
+        "s2n_dup": [
+            "s2n_calculate_stacktrace",
+            "s2n_alloc",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_mem_init": []
+    },
+    {
+        "s2n_mem_cleanup": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_blob_zeroize_free": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_zero",
+            "s2n_free"
+        ]
+    },
+    {
+        "s2n_hash_hmac_alg": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hmac_hash_alg": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hmac_digest_size": [
+            "s2n_hmac_hash_alg",
+            "s2n_hash_digest_size"
+        ]
+    },
+    {
+        "s2n_hmac_is_available": [
+            "s2n_is_in_fips_mode"
+        ]
+    },
+    {
+        "s2n_hmac_xor_pad_size": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hmac_hash_block_size": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hmac_new": [
+            "s2n_calculate_stacktrace",
+            "s2n_hmac_state_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_hmac_state_validate": [
+            "s2n_calculate_stacktrace",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_hmac_init": [
+            "s2n_calculate_stacktrace",
+            "s2n_hmac_is_available",
+            "s2n_hmac_hash_block_size",
+            "s2n_hmac_xor_pad_size",
+            "s2n_hmac_digest_size",
+            "s2n_hmac_hash_alg",
+            "s2n_sslv3_mac_init",
+            "s2n_tls_hmac_init",
+            "s2n_hmac_reset"
+        ]
+    },
+    {
+        "s2n_sslv3_mac_init": []
+    },
+    {
+        "s2n_tls_hmac_init": [
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_hmac_reset": [
+            "s2n_hmac_state_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hmac_update": [
+            "s2n_hmac_state_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_add_overflow"
+        ]
+    },
+    {
+        "s2n_hmac_digest": [
+            "s2n_hmac_state_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_hmac_digest_two_compression_rounds": [
+            "s2n_hmac_digest"
+        ]
+    },
+    {
+        "s2n_hmac_free": []
+    },
+    {
+        "s2n_hmac_digest_verify": [
+            "s2n_constant_time_equals"
+        ]
+    },
+    {
+        "s2n_hmac_copy": [
+            "s2n_hmac_state_validate",
+            "s2n_result_is_ok",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_hmac_save_evp_hash_state": [
+            "s2n_calculate_stacktrace",
+            "s2n_hmac_state_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_hmac_restore_evp_hash_state": [
+            "s2n_calculate_stacktrace",
+            "s2n_hmac_state_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_session_ticket_recv": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_session_ticket_should_send": [
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_connection_release_buffers": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_is_consumed",
+            "s2n_stuffer_resize"
+        ]
+    },
+    {
+        "s2n_connection_free_handshake": [
+            "s2n_handshake_hashes_free",
+            "s2n_result_is_ok",
+            "s2n_prf_free",
+            "s2n_stuffer_wipe",
+            "s2n_blob_zero",
+            "s2n_stuffer_resize",
+            "s2n_free"
+        ]
+    },
+    {
+        "s2n_connection_set_recv_ctx": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_free_managed_recv_io"
+        ]
+    },
+    {
+        "s2n_connection_set_send_ctx": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_free_managed_send_io"
+        ]
+    },
+    {
+        "s2n_connection_set_recv_cb": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_free_managed_recv_io"
+        ]
+    },
+    {
+        "s2n_connection_set_send_cb": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_free_managed_send_io"
+        ]
+    },
+    {
+        "s2n_connection_get_client_cert_chain": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_cipher_preferences": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_security_policy": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_kem_preferences": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_signature_preferences": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_ecc_preferences": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_protocol_preferences": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_client_auth_type": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_set_read_fd": [
+            "s2n_calculate_stacktrace",
+            "s2n_alloc",
+            "s2n_blob_zero",
+            "s2n_connection_set_recv_cb",
+            "s2n_connection_set_recv_ctx",
+            "s2n_socket_read_snapshot"
+        ]
+    },
+    {
+        "s2n_connection_get_read_fd": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_set_write_fd": [
+            "s2n_calculate_stacktrace",
+            "s2n_alloc",
+            "s2n_connection_set_send_cb",
+            "s2n_connection_set_send_ctx",
+            "s2n_socket_write_snapshot",
+            "s2n_socket_is_ipv6"
+        ]
+    },
+    {
+        "s2n_connection_get_write_fd": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_set_fd": [
+            "s2n_connection_set_read_fd",
+            "s2n_connection_set_write_fd"
+        ]
+    },
+    {
+        "s2n_connection_use_corked_io": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_cipher": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_cipher_iana_value": [
+            "s2n_calculate_stacktrace",
+            "memcmp"
+        ]
+    },
+    {
+        "s2n_connection_get_curve": [
+            "s2n_calculate_stacktrace",
+            "s2n_kex_includes"
+        ]
+    },
+    {
+        "s2n_connection_get_kem_name": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_kem_group_name": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_client_protocol_version": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_server_protocol_version": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_actual_protocol_version": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_client_hello_version": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_client_cert_used": [
+            "s2n_calculate_stacktrace",
+            "s2n_handshake_type_check_flag",
+            "s2n_conn_get_current_message_type"
+        ]
+    },
+    {
+        "s2n_connection_get_alert": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint8"
+        ]
+    },
+    {
+        "s2n_set_server_name": [
+            "s2n_calculate_stacktrace",
+            "strlen",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_disable_atexit": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_init": [
+            "pthread_self",
+            "s2n_fips_init",
+            "s2n_mem_init",
+            "s2n_rand_init",
+            "s2n_result_is_ok",
+            "s2n_cipher_suites_init",
+            "s2n_security_policies_init",
+            "s2n_config_defaults_init",
+            "s2n_pq_init",
+            "s2n_tls13_empty_transcripts_init",
+            "atexit",
+            "s2n_calculate_stacktrace",
+            "getenv",
+            "s2n_stack_traces_enabled_set"
+        ]
+    },
+    {
+        "pthread_self": []
+    },
+    {
+        "s2n_cipher_suites_init": []
+    },
+    {
+        "s2n_security_policies_init": []
+    },
+    {
+        "s2n_config_defaults_init": []
+    },
+    {
+        "s2n_pq_init": []
+    },
+    {
+        "s2n_tls13_empty_transcripts_init": []
+    },
+    {
+        "s2n_cleanup_atexit": [
+            "s2n_cleanup_atexit_impl"
+        ]
+    },
+    {
+        "atexit": []
+    },
+    {
+        "s2n_stack_traces_enabled_set": []
+    },
+    {
+        "s2n_cleanup_atexit_impl": [
+            "s2n_wipe_static_configs",
+            "s2n_rand_cleanup_thread",
+            "s2n_result_is_ok",
+            "s2n_rand_cleanup",
+            "s2n_mem_cleanup"
+        ]
+    },
+    {
+        "s2n_wipe_static_configs": []
+    },
+    {
+        "s2n_cleanup": [
+            "s2n_rand_cleanup_thread",
+            "s2n_result_is_ok",
+            "pthread_self",
+            "pthread_equal",
+            "s2n_cleanup_atexit_impl",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_supported_versions_send": [
+            "s2n_connection_get_minimum_supported_version",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint8"
+        ]
+    },
+    {
+        "s2n_client_supported_versions_recv": [
+            "s2n_connection_get_protocol_version",
+            "s2n_extensions_client_supported_versions_process",
+            "s2n_queue_reader_unsupported_protocol_version_alert",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_extensions_client_supported_versions_process": [
+            "s2n_connection_get_minimum_supported_version",
+            "s2n_result_is_ok",
+            "s2n_stuffer_read_uint8",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_queue_reader_unsupported_protocol_version_alert": []
+    },
+    {
+        "s2n_extensions_client_supported_versions_size": [
+            "s2n_connection_get_minimum_supported_version",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_extensions_client_supported_versions_recv": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_extensions_client_supported_versions_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_client_early_data_indication_send": [
+            "s2n_setup_middlebox_compat_for_early_data",
+            "s2n_result_is_ok",
+            "s2n_connection_set_early_data_state",
+            "s2n_array_get",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_early_data_indiction_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_setup_middlebox_compat_for_early_data",
+            "s2n_result_is_ok",
+            "s2n_connection_set_early_data_state"
+        ]
+    },
+    {
+        "s2n_client_early_data_indication_should_send": [
+            "s2n_early_data_config_is_possible",
+            "s2n_result_is_ok",
+            "s2n_is_hello_retry_handshake"
+        ]
+    },
+    {
+        "s2n_client_early_data_indication_is_missing": [
+            "s2n_connection_set_early_data_state",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_set_early_data_state": []
+    },
+    {
+        "s2n_early_data_config_is_possible": [
+            "s2n_calculate_stacktrace",
+            "s2n_array_get",
+            "s2n_result_is_ok",
+            "s2n_connection_get_protocol_version",
+            "s2n_connection_get_cipher_preferences",
+            "s2n_connection_get_protocol_preferences",
+            "s2n_protocol_preferences_contain"
+        ]
+    },
+    {
+        "s2n_protocol_preferences_contain": []
+    },
+    {
+        "s2n_setup_middlebox_compat_for_early_data": [
+            "s2n_calculate_stacktrace",
+            "s2n_is_middlebox_compat_enabled",
+            "s2n_handshake_type_set_tls13_flag",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_handshake_type_set_flag": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_handshake_type_set_tls12_flag": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_handshake_type_unset_tls12_flag": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_handshake_type_check_tls12_flag": [
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_handshake_type_set_tls13_flag": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_handshake_type_check_tls13_flag": [
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_handshake_type_reset": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_alpn_send": [
+            "s2n_calculate_stacktrace",
+            "strlen",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write_uint8",
+            "s2n_stuffer_write_bytes"
+        ]
+    },
+    {
+        "s2n_alpn_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_read_uint8",
+            "s2n_stuffer_raw_read",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_alpn_should_send": [
+            "strlen"
+        ]
+    },
+    {
+        "strlen": []
+    },
+    {
+        "s2n_extension_list_send": [
+            "s2n_extension_type_list_get",
+            "s2n_stuffer_reserve_uint16",
+            "s2n_extension_send",
+            "s2n_stuffer_write_vector_size"
+        ]
+    },
+    {
+        "s2n_extension_list_recv": [
+            "s2n_extension_list_parse",
+            "s2n_extension_list_process"
+        ]
+    },
+    {
+        "s2n_extension_list_parse": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_blob_init",
+            "s2n_stuffer_init",
+            "s2n_stuffer_skip_write",
+            "s2n_extension_parse"
+        ]
+    },
+    {
+        "s2n_extension_list_process": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_type_list_get",
+            "s2n_extension_process"
+        ]
+    },
+    {
+        "s2n_extension_process": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_supported_iana_value_to_id",
+            "s2n_extension_process_impl"
+        ]
+    },
+    {
+        "s2n_extension_process_impl": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_is_missing",
+            "s2n_stuffer_init",
+            "s2n_stuffer_skip_write",
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_extension_parse": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_extension_supported_iana_value_to_id",
+            "s2n_blob_init"
+        ]
+    },
+    {
+        "s2n_server_supported_versions_send": [
+            "s2n_stuffer_write_uint8"
+        ]
+    },
+    {
+        "s2n_server_supported_versions_recv": [
+            "s2n_connection_get_protocol_version",
+            "s2n_extensions_server_supported_versions_process",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_extensions_server_supported_versions_process": [
+            "s2n_connection_get_minimum_supported_version",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_extensions_server_supported_versions_recv": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_extensions_server_supported_versions_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_stuffer_write_network_order": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_skip_write",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_reserve": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_skip_write",
+            "s2n_stuffer_reservation_validate"
+        ]
+    },
+    {
+        "s2n_stuffer_read_uint8": [
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_write_uint8": [
+            "s2n_stuffer_write_bytes"
+        ]
+    },
+    {
+        "s2n_low_level_hash_copy": [
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_low_level_hash_reset": [
+            "s2n_low_level_hash_init"
+        ]
+    },
+    {
+        "MD5_Final": []
+    },
+    {
+        "SHA1_Final": []
+    },
+    {
+        "SHA224_Final": []
+    },
+    {
+        "SHA256_Final": []
+    },
+    {
+        "SHA384_Final": []
+    },
+    {
+        "SHA512_Final": []
+    },
+    {
+        "MD5_Update": []
+    },
+    {
+        "SHA1_Update": []
+    },
+    {
+        "SHA224_Update": []
+    },
+    {
+        "SHA256_Update": []
+    },
+    {
+        "SHA384_Update": []
+    },
+    {
+        "SHA512_Update": []
+    },
+    {
+        "MD5_Init": []
+    },
+    {
+        "SHA1_Init": []
+    },
+    {
+        "SHA224_Init": []
+    },
+    {
+        "s2n_stuffer_read_uint64": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_write_uint64": [
+            "s2n_stuffer_write_network_order"
+        ]
+    },
+    {
+        "s2n_stuffer_write_reservation": [
+            "s2n_stuffer_reservation_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_write_reservation_impl"
+        ]
+    },
+    {
+        "s2n_stuffer_write_reservation_impl": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "length_matches_value_check",
+            "s2n_stuffer_write_network_order"
+        ]
+    },
+    {
+        "length_matches_value_check": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_stuffer_write_vector_size": [
+            "s2n_stuffer_reservation_validate",
+            "s2n_result_is_ok",
+            "s2n_sub_overflow",
+            "s2n_stuffer_write_reservation"
+        ]
+    },
+    {
+        "s2n_increment_sequence_number": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_sequence_number_to_uint64": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_asn1_time_to_nano_since_epoch_ticks": [
+            "get_current_timesettings",
+            "process_state",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "mktime"
+        ]
+    },
+    {
+        "get_current_timesettings": [
+            "time",
+            "localtime_r",
+            "get_gmt_offset"
+        ]
+    },
+    {
+        "process_state": [
+            "__ctype_b_loc",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "mktime": []
+    },
+    {
+        "__ctype_b_loc": []
+    },
+    {
+        "time": []
+    },
+    {
+        "localtime_r": []
+    },
+    {
+        "s2n_stuffer_peek_char": [
+            "s2n_stuffer_read_uint8",
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_peek_check_for_str": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_read_expected_str"
+        ]
+    },
+    {
+        "s2n_stuffer_read_expected_str": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "strlen",
+            "memcmp"
+        ]
+    },
+    {
+        "s2n_stuffer_skip_whitespace": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_skip_read_until": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "strlen",
+            "s2n_stuffer_skip_to_char",
+            "s2n_stuffer_skip_read",
+            "strncmp",
+            "s2n_stuffer_rewind_read"
+        ]
+    },
+    {
+        "s2n_stuffer_skip_to_char": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_stuffer_skip_expected_char": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_stuffer_read_line": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_read_token"
+        ]
+    },
+    {
+        "s2n_stuffer_read_token": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_copy"
+        ]
+    },
+    {
+        "s2n_stuffer_alloc_ro_from_string": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "strlen",
+            "s2n_stuffer_alloc",
+            "s2n_stuffer_write_bytes"
+        ]
+    },
+    {
+        "s2n_stuffer_init_ro_from_string": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_blob_init",
+            "s2n_stuffer_init",
+            "s2n_stuffer_skip_write"
+        ]
+    },
+    {
+        "s2n_server_sct_list_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_server_sct_list_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_raw_read",
+            "s2n_blob_init",
+            "s2n_dup"
+        ]
+    },
+    {
+        "s2n_client_pq_kem_send": [
+            "s2n_connection_get_kem_preferences",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint16"
+        ]
+    },
+    {
+        "s2n_client_pq_kem_recv": [
+            "s2n_pq_is_enabled",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_pq_kem_should_send": [
+            "s2n_connection_get_security_policy",
+            "s2n_pq_kem_is_extension_required",
+            "s2n_pq_is_enabled"
+        ]
+    },
+    {
+        "s2n_pq_kem_is_extension_required": []
+    },
+    {
+        "s2n_extensions_client_pq_kem_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_pq_kem_extension": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_timer_start": []
+    },
+    {
+        "s2n_timer_elapsed": []
+    },
+    {
+        "s2n_timer_reset": [
+            "s2n_timer_start",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_config_enable_quic": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_enable_quic": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_validate_tls13_support",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_set_quic_transport_parameters": [
+            "s2n_calculate_stacktrace",
+            "s2n_free",
+            "s2n_alloc",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_connection_get_quic_transport_parameters": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_set_secret_callback": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_quic_read_handshake_message": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_resize_if_empty",
+            "s2n_read_in_bytes",
+            "s2n_result_is_ok",
+            "s2n_handshake_parse_header",
+            "s2n_stuffer_reread"
+        ]
+    },
+    {
+        "s2n_read_in_bytes": []
+    },
+    {
+        "s2n_handshake_parse_header": []
+    },
+    {
+        "s2n_quic_write_handshake_message": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_resize_if_empty",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_establish_session": []
+    },
+    {
+        "s2n_client_hello_send": []
+    },
+    {
+        "s2n_server_hello_send": []
+    },
+    {
+        "s2n_server_hello_recv": []
+    },
+    {
+        "s2n_server_cert_send": []
+    },
+    {
+        "s2n_server_cert_recv": []
+    },
+    {
+        "s2n_tls13_cert_req_send": []
+    },
+    {
+        "s2n_tls13_cert_req_recv": []
+    },
+    {
+        "s2n_client_cert_recv": []
+    },
+    {
+        "s2n_pkey_zero_init": []
+    },
+    {
+        "s2n_x509_validator_wipe": []
+    },
+    {
+        "s2n_dh_params_free": []
+    },
+    {
+        "s2n_connection_wipe_all_keyshares": [
+            "s2n_calculate_stacktrace",
+            "s2n_ecc_evp_params_free",
+            "s2n_kem_group_free"
+        ]
+    },
+    {
+        "s2n_kem_free": []
+    },
+    {
+        "s2n_config_get_num_default_certs": []
+    },
+    {
+        "s2n_x509_validator_init_no_x509_validation": []
+    },
+    {
+        "s2n_x509_validator_init": []
+    },
+    {
+        "s2n_default_verify_host": [
+            "strlen",
+            "strncasecmp",
+            "strchr"
+        ]
+    },
+    {
+        "s2n_x509_validator_set_max_chain_depth": []
+    },
+    {
+        "s2n_connection_set_psk_mode": []
+    },
+    {
+        "strncasecmp": []
+    },
+    {
+        "strchr": []
+    },
+    {
+        "s2n_connection_ptr_free": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_free"
+        ]
+    },
+    {
+        "s2n_connection_free": [
+            "s2n_connection_wipe_keys",
+            "s2n_connection_free_keys",
+            "s2n_psk_parameters_wipe",
+            "s2n_result_is_ok",
+            "s2n_prf_free",
+            "s2n_handshake_hashes_free",
+            "s2n_connection_reset_hmacs",
+            "s2n_connection_free_hmacs",
+            "s2n_connection_free_managed_io",
+            "s2n_free",
+            "s2n_stuffer_free",
+            "s2n_x509_validator_wipe",
+            "s2n_client_hello_free",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "s2n_connection_free_keys": [
+            "s2n_session_key_free"
+        ]
+    },
+    {
+        "s2n_prf_free": []
+    },
+    {
+        "s2n_handshake_hashes_free": []
+    },
+    {
+        "s2n_connection_free_hmacs": [
+            "s2n_hmac_free"
+        ]
+    },
+    {
+        "s2n_client_hello_free": []
+    },
+    {
+        "s2n_session_key_free": []
+    },
+    {
+        "s2n_connection_server_name_extension_used": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_set_ctx": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_get_server_name": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_process"
+        ]
+    },
+    {
+        "s2n_get_application_protocol": [
+            "s2n_calculate_stacktrace",
+            "strlen"
+        ]
+    },
+    {
+        "s2n_connection_get_session_id_length": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_session_id": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_session_id_length",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_connection_set_blinding": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_delay": [
+            "s2n_timer_elapsed",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_apply_error_blinding": [
+            "s2n_calculate_stacktrace",
+            "s2n_error_get_type",
+            "s2n_connection_kill"
+        ]
+    },
+    {
+        "s2n_connection_kill": [
+            "s2n_calculate_stacktrace",
+            "s2n_public_random",
+            "s2n_result_is_ok",
+            "s2n_timer_start",
+            "nanosleep"
+        ]
+    },
+    {
+        "s2n_connection_get_ocsp_response": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_set_max_fragment_length": [
+            "s2n_calculate_stacktrace",
+            "s2n_record_max_write_size",
+            "s2n_result_is_ok",
+            "s2n_realloc"
+        ]
+    },
+    {
+        "s2n_record_max_write_size": []
+    },
+    {
+        "s2n_connection_prefer_throughput": [
+            "s2n_connection_set_max_fragment_length",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_prefer_low_latency": [
+            "s2n_connection_set_max_fragment_length",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_set_dynamic_record_threshold": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_set_verify_host_callback": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_recv_stuffer": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_reserve_space",
+            "__errno_location",
+            "s2n_stuffer_skip_write"
+        ]
+    },
+    {
+        "s2n_connection_send_stuffer": [
+            "s2n_calculate_stacktrace",
+            "__errno_location",
+            "s2n_stuffer_skip_read"
+        ]
+    },
+    {
+        "s2n_connection_is_client_auth_enabled": [
+            "s2n_connection_get_client_auth_type"
+        ]
+    },
+    {
+        "s2n_connection_get_selected_cert": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_peer_cert_chain": [
+            "s2n_calculate_stacktrace",
+            "s2n_x509_validator_is_cert_chain_validated",
+            "X509_STORE_CTX_get1_chain",
+            "sk_X509_num",
+            "sk_X509_value",
+            "i2d_X509",
+            "s2n_alloc",
+            "s2n_ensure_memcpy_trace",
+            "s2n_crypto_free",
+            "s2n_openssl_x509_stack_pop_free",
+            "s2n_cert_chain_free_pointer"
+        ]
+    },
+    {
+        "s2n_x509_validator_is_cert_chain_validated": []
+    },
+    {
+        "X509_STORE_CTX_get1_chain": []
+    },
+    {
+        "sk_X509_num": [
+            "OPENSSL_sk_num"
+        ]
+    },
+    {
+        "sk_X509_value": [
+            "OPENSSL_sk_value"
+        ]
+    },
+    {
+        "i2d_X509": []
+    },
+    {
+        "s2n_crypto_free": []
+    },
+    {
+        "s2n_openssl_x509_stack_pop_free": []
+    },
+    {
+        "s2n_cert_chain_free_pointer": [
+            "s2n_cert_chain_free"
+        ]
+    },
+    {
+        "s2n_cert_chain_free": []
+    },
+    {
+        "OPENSSL_sk_value": []
+    },
+    {
+        "OPENSSL_sk_num": []
+    },
+    {
+        "s2n_connection_get_selected_digest_algorithm": [
+            "s2n_calculate_stacktrace",
+            "s2n_signature_scheme_to_tls_iana",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_signature_scheme_to_tls_iana": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_selected_client_cert_digest_algorithm": [
+            "s2n_calculate_stacktrace",
+            "s2n_signature_scheme_to_tls_iana",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_get_selected_signature_algorithm": [
+            "s2n_calculate_stacktrace",
+            "s2n_signature_scheme_to_signature_algorithm",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_signature_scheme_to_signature_algorithm": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_connection_get_selected_client_cert_signature_algorithm": [
+            "s2n_calculate_stacktrace",
+            "s2n_signature_scheme_to_signature_algorithm",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_connection_get_config": [
+            "s2n_calculate_stacktrace",
+            "s2n_fetch_default_config"
+        ]
+    },
+    {
+        "s2n_psk_key_exchange_modes_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint8"
+        ]
+    },
+    {
+        "s2n_psk_key_exchange_modes_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint8"
+        ]
+    },
+    {
+        "s2n_server_early_data_indication_recv": [
+            "s2n_early_data_is_valid_for_connection",
+            "s2n_calculate_stacktrace",
+            "s2n_connection_set_early_data_state",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_server_early_data_indication_is_missing": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_set_early_data_state",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_early_data_is_valid_for_connection": []
+    },
+    {
+        "s2n_stuffer_recv_from_fd": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_skip_write",
+            "__errno_location",
+            "s2n_calculate_stacktrace",
+            "read"
+        ]
+    },
+    {
+        "s2n_stuffer_send_to_fd": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_stuffer_skip_read",
+            "__errno_location",
+            "s2n_calculate_stacktrace",
+            "write"
+        ]
+    },
+    {
+        "s2n_stuffer_alloc_ro_from_fd": [
+            "s2n_calculate_stacktrace",
+            "fstat",
+            "mmap",
+            "s2n_blob_init",
+            "s2n_stuffer_init"
+        ]
+    },
+    {
+        "fstat": [
+            "__fxstat"
+        ]
+    },
+    {
+        "mmap": []
+    },
+    {
+        "__fxstat": []
+    },
+    {
+        "s2n_stuffer_alloc_ro_from_file": [
+            "s2n_calculate_stacktrace",
+            "open",
+            "__errno_location",
+            "s2n_stuffer_alloc_ro_from_fd",
+            "close"
+        ]
+    },
+    {
+        "s2n_extension_type_list_get": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_ecdhe_send_public_key": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint16",
+            "s2n_ecc_evp_generate_ephemeral_key",
+            "s2n_ecc_evp_write_params_point"
+        ]
+    },
+    {
+        "s2n_ecc_evp_generate_ephemeral_key": []
+    },
+    {
+        "s2n_ecc_evp_write_params_point": []
+    },
+    {
+        "s2n_ecdhe_parameters_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint16",
+            "s2n_ecdhe_send_public_key",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_server_key_share_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_is_hello_retry_message",
+            "s2n_stuffer_write_uint16",
+            "s2n_server_key_share_send_check_ecdhe",
+            "s2n_ecdhe_parameters_send",
+            "s2n_server_key_share_send_check_pq_hybrid",
+            "s2n_server_key_share_generate_pq_hybrid"
+        ]
+    },
+    {
+        "s2n_server_key_share_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_connection_get_kem_preferences",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_ecc_preferences_includes_curve",
+            "s2n_server_key_share_recv_ecc",
+            "s2n_kem_preferences_includes_tls13_kem_group",
+            "s2n_server_key_share_recv_pq_hybrid"
+        ]
+    },
+    {
+        "s2n_ecc_preferences_includes_curve": []
+    },
+    {
+        "s2n_server_key_share_recv_ecc": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_ecc_preferences_includes_curve",
+            "s2n_is_hello_retry_message",
+            "s2n_stuffer_read_uint16",
+            "s2n_ecc_evp_read_params_point",
+            "s2n_ecc_evp_parse_params_point"
+        ]
+    },
+    {
+        "s2n_kem_preferences_includes_tls13_kem_group": []
+    },
+    {
+        "s2n_server_key_share_recv_pq_hybrid": [
+            "s2n_calculate_stacktrace",
+            "s2n_pq_is_enabled",
+            "s2n_connection_get_kem_preferences",
+            "s2n_kem_preferences_includes_tls13_kem_group",
+            "s2n_is_hello_retry_message",
+            "s2n_stuffer_read_uint16",
+            "s2n_ecc_evp_read_params_point",
+            "s2n_ecc_evp_parse_params_point",
+            "s2n_kem_recv_ciphertext"
+        ]
+    },
+    {
+        "s2n_kem_recv_ciphertext": []
+    },
+    {
+        "s2n_server_key_share_send_check_ecdhe": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences"
+        ]
+    },
+    {
+        "s2n_server_key_share_send_check_pq_hybrid": [
+            "s2n_calculate_stacktrace",
+            "s2n_pq_is_enabled",
+            "s2n_connection_get_kem_preferences",
+            "s2n_kem_preferences_includes_tls13_kem_group"
+        ]
+    },
+    {
+        "s2n_server_key_share_generate_pq_hybrid": [
+            "s2n_calculate_stacktrace",
+            "s2n_pq_is_enabled",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_reserve_uint16",
+            "s2n_ecc_evp_generate_ephemeral_key",
+            "s2n_ecc_evp_write_params_point",
+            "s2n_kem_send_ciphertext",
+            "s2n_stuffer_write_vector_size"
+        ]
+    },
+    {
+        "s2n_kem_send_ciphertext": []
+    },
+    {
+        "s2n_extensions_server_key_share_select": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_connection_get_kem_preferences",
+            "s2n_set_hello_retry_required"
+        ]
+    },
+    {
+        "s2n_extensions_server_key_share_send_size": [
+            "s2n_is_hello_retry_message"
+        ]
+    },
+    {
+        "s2n_extensions_server_key_share_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_extensions_server_key_share_recv": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_client_signature_algorithms_recv": [
+            "s2n_recv_supported_sig_scheme_list"
+        ]
+    },
+    {
+        "s2n_client_signature_algorithms_should_send": [
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_extensions_client_signature_algorithms_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_extensions_client_signature_algorithms_recv": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_extensions_client_signature_algorithms_size": [
+            "s2n_supported_sig_scheme_list_size"
+        ]
+    },
+    {
+        "s2n_supported_sig_scheme_list_size": []
+    },
+    {
+        "s2n_client_psk_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_reserve_uint16",
+            "s2n_array_get",
+            "s2n_result_is_ok",
+            "s2n_is_hello_retry_handshake",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write",
+            "s2n_generate_obfuscated_ticket_age",
+            "s2n_stuffer_write_uint32",
+            "s2n_hmac_digest_size",
+            "s2n_stuffer_write_vector_size",
+            "s2n_stuffer_skip_write"
+        ]
+    },
+    {
+        "s2n_client_psk_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_extension_supported_iana_value_to_id",
+            "s2n_client_psk_recv_identities",
+            "s2n_result_is_error",
+            "s2n_client_psk_recv_binders",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_client_psk_should_send": [
+            "s2n_is_hello_retry_handshake",
+            "s2n_array_get",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_client_psk_is_missing": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_psk_recv_identities": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_blob_init",
+            "s2n_stuffer_init",
+            "s2n_stuffer_skip_write",
+            "s2n_client_psk_recv_identity_list"
+        ]
+    },
+    {
+        "s2n_client_psk_recv_binders": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_blob_init",
+            "s2n_stuffer_init",
+            "s2n_stuffer_skip_write",
+            "s2n_blob_slice",
+            "s2n_client_psk_recv_binder_list"
+        ]
+    },
+    {
+        "s2n_client_psk_recv_binder_list": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint8",
+            "s2n_stuffer_raw_read",
+            "s2n_blob_init",
+            "s2n_psk_verify_binder"
+        ]
+    },
+    {
+        "s2n_psk_verify_binder": []
+    },
+    {
+        "s2n_client_psk_recv_identity_list": [
+            "s2n_calculate_stacktrace",
+            "s2n_select_external_psk",
+            "s2n_result_is_ok",
+            "s2n_select_resumption_psk"
+        ]
+    },
+    {
+        "s2n_select_external_psk": [
+            "s2n_calculate_stacktrace",
+            "s2n_array_get",
+            "s2n_result_is_ok",
+            "s2n_offered_psk_list_reread",
+            "s2n_offered_psk_list_has_next",
+            "s2n_offered_psk_list_next",
+            "s2n_constant_time_equals"
+        ]
+    },
+    {
+        "s2n_select_resumption_psk": [
+            "s2n_calculate_stacktrace",
+            "s2n_offered_psk_list_has_next",
+            "s2n_offered_psk_list_next",
+            "s2n_offered_psk_list_choose_psk"
+        ]
+    },
+    {
+        "s2n_offered_psk_list_has_next": []
+    },
+    {
+        "s2n_offered_psk_list_next": []
+    },
+    {
+        "s2n_offered_psk_list_choose_psk": []
+    },
+    {
+        "s2n_offered_psk_list_reread": []
+    },
+    {
+        "s2n_generate_obfuscated_ticket_age": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_client_renegotiation_recv": [
+            "s2n_stuffer_read_uint8",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_recv_client_renegotiation_info": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_get_fork_generation_number": [
+            "pthread_once",
+            "s2n_calculate_stacktrace",
+            "pthread_rwlock_rdlock",
+            "pthread_rwlock_unlock",
+            "pthread_rwlock_wrlock"
+        ]
+    },
+    {
+        "s2n_initialise_fork_detection_methods": [
+            "s2n_setup_mapping",
+            "s2n_result_is_error",
+            "s2n_initialise_fork_detection_methods_try",
+            "munmap"
+        ]
+    },
+    {
+        "pthread_once": []
+    },
+    {
+        "pthread_rwlock_rdlock": []
+    },
+    {
+        "pthread_rwlock_unlock": []
+    },
+    {
+        "pthread_rwlock_wrlock": []
+    },
+    {
+        "s2n_setup_mapping": [
+            "sysconf",
+            "s2n_calculate_stacktrace",
+            "mmap"
+        ]
+    },
+    {
+        "s2n_initialise_fork_detection_methods_try": [
+            "s2n_result_is_ok",
+            "s2n_inititalise_pthread_atfork"
+        ]
+    },
+    {
+        "munmap": []
+    },
+    {
+        "s2n_inititalise_pthread_atfork": [
+            "pthread_atfork",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_pthread_atfork_on_fork": [
+            "pthread_rwlock_wrlock",
+            "__printf_chk",
+            "abort",
+            "pthread_rwlock_unlock"
+        ]
+    },
+    {
+        "__printf_chk": []
+    },
+    {
+        "abort": []
+    },
+    {
+        "s2n_is_madv_wipeonfork_supported": [
+            "s2n_probe_madv_wipeonfork_support",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_probe_madv_wipeonfork_support": [
+            "s2n_setup_mapping",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_cleanup_cb_munmap"
+        ]
+    },
+    {
+        "s2n_cleanup_cb_munmap": [
+            "sysconf",
+            "munmap"
+        ]
+    },
+    {
+        "s2n_ignore_wipeonfork_and_inherit_zero_for_testing": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_ignore_pthread_atfork_for_testing": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_evp_fully_supported": [
+            "s2n_use_evp_impl"
+        ]
+    },
+    {
+        "s2n_use_evp_impl": [
+            "s2n_is_in_fips_mode"
+        ]
+    },
+    {
+        "s2n_low_level_hash_init": [
+            "MD5_Init",
+            "s2n_calculate_stacktrace",
+            "SHA1_Init",
+            "SHA224_Init",
+            "SHA256_Init",
+            "SHA384_Init",
+            "SHA512_Init"
+        ]
+    },
+    {
+        "s2n_low_level_hash_update": [
+            "s2n_calculate_stacktrace",
+            "MD5_Update",
+            "SHA1_Update",
+            "SHA224_Update",
+            "SHA256_Update",
+            "SHA384_Update",
+            "SHA512_Update"
+        ]
+    },
+    {
+        "s2n_low_level_hash_digest": [
+            "s2n_calculate_stacktrace",
+            "MD5_Final",
+            "SHA1_Final",
+            "SHA224_Final",
+            "SHA256_Final",
+            "SHA384_Final",
+            "SHA512_Final"
+        ]
+    },
+    {
+        "SHA256_Init": []
+    },
+    {
+        "SHA384_Init": []
+    },
+    {
+        "SHA512_Init": []
+    },
+    {
+        "s2n_evp_hash_new": [
+            "EVP_MD_CTX_new",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_evp_hash_allow_md5_for_fips": [
+            "s2n_digest_allow_md5_for_fips"
+        ]
+    },
+    {
+        "s2n_evp_hash_init": [
+            "s2n_calculate_stacktrace",
+            "EVP_sha1",
+            "EVP_DigestInit_ex",
+            "EVP_md5",
+            "s2n_hash_alg_to_evp_md"
+        ]
+    },
+    {
+        "s2n_evp_hash_update": [
+            "s2n_calculate_stacktrace",
+            "EVP_MD_CTX_md",
+            "EVP_DigestUpdate"
+        ]
+    },
+    {
+        "s2n_evp_hash_digest": [
+            "s2n_calculate_stacktrace",
+            "s2n_hash_digest_size",
+            "EVP_MD_CTX_md",
+            "EVP_MD_size",
+            "EVP_DigestFinal_ex"
+        ]
+    },
+    {
+        "s2n_evp_hash_copy": [
+            "s2n_calculate_stacktrace",
+            "EVP_MD_CTX_copy_ex",
+            "s2n_digest_is_md5_allowed_for_fips",
+            "s2n_result_is_ok",
+            "s2n_hash_allow_md5_for_fips"
+        ]
+    },
+    {
+        "s2n_evp_hash_reset": [
+            "s2n_digest_is_md5_allowed_for_fips",
+            "s2n_result_is_ok",
+            "EVP_MD_CTX_reset",
+            "s2n_calculate_stacktrace",
+            "s2n_hash_allow_md5_for_fips",
+            "s2n_evp_hash_init"
+        ]
+    },
+    {
+        "s2n_evp_hash_free": [
+            "EVP_MD_CTX_free"
+        ]
+    },
+    {
+        "EVP_MD_CTX_free": []
+    },
+    {
+        "s2n_digest_is_md5_allowed_for_fips": []
+    },
+    {
+        "EVP_MD_CTX_reset": []
+    },
+    {
+        "s2n_hash_allow_md5_for_fips": [
+            "s2n_calculate_stacktrace",
+            "s2n_hash_set_impl"
+        ]
+    },
+    {
+        "s2n_hash_set_impl": [
+            "s2n_use_evp_impl"
+        ]
+    },
+    {
+        "EVP_MD_CTX_copy_ex": []
+    },
+    {
+        "s2n_hash_digest_size": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "EVP_MD_CTX_md": []
+    },
+    {
+        "EVP_MD_size": []
+    },
+    {
+        "EVP_DigestFinal_ex": []
+    },
+    {
+        "EVP_DigestUpdate": []
+    },
+    {
+        "EVP_sha1": []
+    },
+    {
+        "EVP_DigestInit_ex": []
+    },
+    {
+        "EVP_md5": []
+    },
+    {
+        "s2n_hash_alg_to_evp_md": [
+            "EVP_md5",
+            "EVP_sha1",
+            "EVP_sha224",
+            "EVP_sha256",
+            "EVP_sha384",
+            "EVP_sha512"
+        ]
+    },
+    {
+        "EVP_sha224": []
+    },
+    {
+        "EVP_sha256": []
+    },
+    {
+        "EVP_sha384": []
+    },
+    {
+        "EVP_sha512": []
+    },
+    {
+        "s2n_digest_allow_md5_for_fips": []
+    },
+    {
+        "EVP_MD_CTX_new": []
+    },
+    {
+        "s2n_hash_block_size": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_is_available": [
+            "s2n_is_in_fips_mode"
+        ]
+    },
+    {
+        "s2n_hash_is_ready_for_input": [
+            "s2n_hash_state_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_hash_state_validate": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_new": [
+            "s2n_calculate_stacktrace",
+            "s2n_hash_set_impl"
+        ]
+    },
+    {
+        "s2n_hash_init": [
+            "s2n_calculate_stacktrace",
+            "s2n_hash_set_impl",
+            "s2n_digest_is_md5_allowed_for_fips",
+            "s2n_result_is_ok",
+            "s2n_hash_is_available"
+        ]
+    },
+    {
+        "s2n_hash_update": [
+            "s2n_hash_state_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_digest": [
+            "s2n_hash_state_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_copy": [
+            "s2n_hash_state_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_reset": [
+            "s2n_calculate_stacktrace",
+            "s2n_hash_set_impl"
+        ]
+    },
+    {
+        "s2n_hash_free": [
+            "s2n_hash_set_impl",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_get_currently_in_hash_total": [
+            "s2n_hash_state_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_hash_const_time_get_currently_in_hash_block": [
+            "s2n_hash_state_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_hash_block_size"
+        ]
+    },
+    {
+        "s2n_blob_validate": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_blob_init": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_blob_zero": [
+            "s2n_blob_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_blob_slice": [
+            "s2n_blob_validate",
+            "s2n_result_is_ok",
+            "s2n_add_overflow",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_blob_char_to_lower": [
+            "s2n_blob_validate",
+            "s2n_result_is_ok",
+            "__ctype_tolower_loc"
+        ]
+    },
+    {
+        "__ctype_tolower_loc": []
+    },
+    {
+        "s2n_hex_string_to_bytes": [
+            "s2n_calculate_stacktrace",
+            "s2n_blob_validate",
+            "s2n_result_is_ok",
+            "strlen"
+        ]
+    },
+    {
+        "s2n_nst_early_data_indication_send": [
+            "s2n_early_data_get_server_max_size",
+            "s2n_result_is_ok",
+            "s2n_stuffer_write_uint32"
+        ]
+    },
+    {
+        "s2n_nst_early_data_indiction_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint32",
+            "s2n_connection_set_server_max_early_data_size"
+        ]
+    },
+    {
+        "s2n_nst_early_data_indication_should_send": [
+            "s2n_early_data_get_server_max_size",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_nst_early_data_indication_missing": [
+            "s2n_connection_set_server_max_early_data_size"
+        ]
+    },
+    {
+        "s2n_connection_set_server_max_early_data_size": []
+    },
+    {
+        "s2n_early_data_get_server_max_size": []
+    },
+    {
+        "s2n_client_supported_groups_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_connection_get_kem_preferences",
+            "s2n_stuffer_reserve_uint16",
+            "s2n_connection_get_protocol_version",
+            "s2n_pq_is_enabled",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write_vector_size"
+        ]
+    },
+    {
+        "s2n_client_supported_groups_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_client_supported_groups_recv_iana_id",
+            "s2n_choose_supported_group"
+        ]
+    },
+    {
+        "s2n_extension_should_send_if_ecc_enabled": [
+            "s2n_connection_get_security_policy",
+            "s2n_ecc_is_extension_required"
+        ]
+    },
+    {
+        "s2n_ecc_is_extension_required": []
+    },
+    {
+        "s2n_client_supported_groups_recv_iana_id": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_pq_is_enabled",
+            "s2n_connection_get_protocol_version",
+            "s2n_connection_get_kem_preferences"
+        ]
+    },
+    {
+        "s2n_choose_supported_group": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_ecc_preferences",
+            "s2n_connection_get_kem_preferences"
+        ]
+    },
+    {
+        "s2n_extensions_client_supported_groups_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_client_supported_groups": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_renegotiation_info_send": [
+            "s2n_stuffer_write_uint8"
+        ]
+    },
+    {
+        "s2n_renegotiation_info_recv": [
+            "s2n_stuffer_read_uint8",
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_renegotiation_info_should_send": [
+            "s2n_connection_get_protocol_version"
+        ]
+    },
+    {
+        "s2n_recv_server_renegotiation_info_ext": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_send_server_renegotiation_info_ext": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_server_renegotiation_info_ext_size": [
+            "s2n_renegotiation_info_should_send"
+        ]
+    },
+    {
+        "s2n_inet_ntop": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_check_kem": [
+            "s2n_calculate_stacktrace",
+            "s2n_connection_get_kem_preferences",
+            "s2n_pq_is_enabled",
+            "s2n_cipher_suite_to_kem",
+            "s2n_choose_kem_without_peer_pref_list",
+            "s2n_choose_kem_with_peer_pref_list"
+        ]
+    },
+    {
+        "s2n_configure_kem": [
+            "s2n_calculate_stacktrace",
+            "s2n_pq_is_enabled",
+            "s2n_connection_get_kem_preferences",
+            "s2n_choose_kem_without_peer_pref_list",
+            "s2n_choose_kem_with_peer_pref_list"
+        ]
+    },
+    {
+        "s2n_kem_server_key_recv_read_data": []
+    },
+    {
+        "s2n_kem_server_key_recv_parse_data": []
+    },
+    {
+        "s2n_kem_server_key_send": []
+    },
+    {
+        "s2n_kem_client_key_recv": []
+    },
+    {
+        "s2n_kem_client_key_send": []
+    },
+    {
+        "s2n_choose_kem_without_peer_pref_list": []
+    },
+    {
+        "s2n_choose_kem_with_peer_pref_list": []
+    },
+    {
+        "s2n_check_rsa_key": [
+            "s2n_calculate_stacktrace",
+            "s2n_get_compatible_cert_chain_and_key"
+        ]
+    },
+    {
+        "s2n_rsa_client_key_recv": []
+    },
+    {
+        "s2n_rsa_client_key_send": []
+    },
+    {
+        "s2n_prf_calculate_master_secret": []
+    },
+    {
+        "s2n_get_compatible_cert_chain_and_key": []
+    },
+    {
+        "s2n_check_dhe": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_dhe_server_key_recv_read_data": []
+    },
+    {
+        "s2n_dhe_server_key_recv_parse_data": []
+    },
+    {
+        "s2n_dhe_server_key_send": []
+    },
+    {
+        "s2n_dhe_client_key_recv": []
+    },
+    {
+        "s2n_dhe_client_key_send": []
+    },
+    {
+        "s2n_check_ecdhe": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_ecdhe_server_key_recv_read_data": []
+    },
+    {
+        "s2n_ecdhe_server_key_recv_parse_data": []
+    },
+    {
+        "s2n_ecdhe_server_key_send": []
+    },
+    {
+        "s2n_ecdhe_client_key_recv": []
+    },
+    {
+        "s2n_ecdhe_client_key_send": []
+    },
+    {
+        "s2n_check_hybrid_ecdhe_kem": [
+            "s2n_calculate_stacktrace",
+            "s2n_check_ecdhe",
+            "s2n_result_is_ok",
+            "s2n_check_kem"
+        ]
+    },
+    {
+        "s2n_hybrid_server_key_recv_read_data": []
+    },
+    {
+        "s2n_hybrid_server_key_recv_parse_data": []
+    },
+    {
+        "s2n_hybrid_server_key_send": []
+    },
+    {
+        "s2n_hybrid_client_key_recv": []
+    },
+    {
+        "s2n_hybrid_client_key_send": []
+    },
+    {
+        "s2n_hybrid_prf_master_secret": []
+    },
+    {
+        "s2n_cipher_suite_to_kem": []
+    },
+    {
+        "s2n_kex_supported": [
+            "s2n_calculate_stacktrace",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_configure_kex": [
+            "s2n_calculate_stacktrace",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_kex_is_ephemeral": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_kex_server_key_recv_parse_data": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_kex_server_key_recv_read_data": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_kex_server_key_send": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_kex_client_key_recv": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_kex_client_key_send": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_kex_tls_prf": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_server_status_request_recv": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_server_extensions_status_request_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_server_status_request": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_set_validate": [
+            "s2n_calculate_stacktrace",
+            "s2n_array_validate",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_set_new": [
+            "s2n_calculate_stacktrace",
+            "s2n_alloc",
+            "s2n_array_new",
+            "s2n_free"
+        ]
+    },
+    {
+        "s2n_set_add": [
+            "s2n_set_validate",
+            "s2n_result_is_ok",
+            "s2n_set_binary_search",
+            "s2n_array_insert_and_copy"
+        ]
+    },
+    {
+        "s2n_set_binary_search": [
+            "s2n_set_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_array_num_elements",
+            "s2n_array_get"
+        ]
+    },
+    {
+        "s2n_set_get": [
+            "s2n_set_validate",
+            "s2n_result_is_ok",
+            "s2n_calculate_stacktrace",
+            "s2n_array_get"
+        ]
+    },
+    {
+        "s2n_set_remove": [
+            "s2n_set_validate",
+            "s2n_result_is_ok",
+            "s2n_array_remove"
+        ]
+    },
+    {
+        "s2n_set_free_p": [
+            "s2n_calculate_stacktrace",
+            "s2n_array_free",
+            "s2n_result_is_ok",
+            "s2n_free_object"
+        ]
+    },
+    {
+        "s2n_set_free": [
+            "s2n_calculate_stacktrace",
+            "s2n_set_free_p"
+        ]
+    },
+    {
+        "s2n_set_len": [
+            "s2n_set_validate",
+            "s2n_result_is_ok",
+            "s2n_array_num_elements"
+        ]
+    },
+    {
+        "s2n_stuffer_read_base64": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_blob_init",
+            "s2n_stuffer_read",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_skip_write"
+        ]
+    },
+    {
+        "s2n_stuffer_write_base64": [
+            "s2n_stuffer_validate",
+            "s2n_result_is_ok",
+            "s2n_blob_init",
+            "s2n_stuffer_read",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_is_tls13_fully_supported": [
+            "s2n_is_rsa_pss_signing_supported",
+            "s2n_is_rsa_pss_certs_supported"
+        ]
+    },
+    {
+        "s2n_is_rsa_pss_signing_supported": []
+    },
+    {
+        "s2n_is_rsa_pss_certs_supported": []
+    },
+    {
+        "s2n_get_highest_fully_supported_tls_version": [
+            "s2n_is_tls13_fully_supported"
+        ]
+    },
+    {
+        "s2n_enable_tls13": [
+            "s2n_enable_tls13_in_test"
+        ]
+    },
+    {
+        "s2n_disable_tls13_in_test": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_reset_tls13_in_test": [
+            "s2n_calculate_stacktrace"
+        ]
+    },
+    {
+        "s2n_is_middlebox_compat_enabled": [
+            "s2n_connection_get_protocol_version",
+            "s2n_connection_is_quic_enabled"
+        ]
+    },
+    {
+        "s2n_connection_validate_tls13_support": [
+            "s2n_calculate_stacktrace",
+            "s2n_is_tls13_fully_supported",
+            "s2n_connection_get_client_auth_type"
+        ]
+    },
+    {
+        "s2n_connection_supports_tls13": [
+            "s2n_connection_validate_tls13_support",
+            "s2n_result_is_ok"
+        ]
+    },
+    {
+        "s2n_client_alpn_send": [
+            "s2n_connection_get_protocol_preferences",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_client_alpn_recv": [
+            "s2n_connection_get_protocol_preferences",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_init",
+            "s2n_stuffer_skip_write",
+            "s2n_protocol_preferences_read",
+            "s2n_result_is_ok",
+            "s2n_protocol_preferences_contain",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_client_alpn_should_send": [
+            "s2n_connection_get_protocol_preferences"
+        ]
+    },
+    {
+        "s2n_protocol_preferences_read": []
+    },
+    {
+        "s2n_extensions_client_alpn_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_recv_client_alpn": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_client_server_name_send": [
+            "s2n_stuffer_reserve_uint16",
+            "s2n_stuffer_write_uint8",
+            "strlen",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write_bytes",
+            "s2n_stuffer_write_vector_size"
+        ]
+    },
+    {
+        "s2n_client_server_name_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_client_server_name_check",
+            "s2n_stuffer_raw_read",
+            "s2n_ensure_memcpy_trace"
+        ]
+    },
+    {
+        "s2n_client_server_name_check": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_read_uint8"
+        ]
+    },
+    {
+        "s2n_extensions_client_server_name_send": [
+            "s2n_extension_send"
+        ]
+    },
+    {
+        "s2n_parse_client_hello_server_name": [
+            "s2n_extension_recv"
+        ]
+    },
+    {
+        "s2n_server_cookie_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_is_hello_retry_handshake",
+            "s2n_stuffer_read_uint16",
+            "s2n_realloc",
+            "s2n_stuffer_read"
+        ]
+    },
+    {
+        "s2n_server_cookie_should_send": []
+    },
+    {
+        "s2n_cookie_send": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_write_uint16",
+            "s2n_stuffer_write"
+        ]
+    },
+    {
+        "s2n_client_cookie_recv": [
+            "s2n_calculate_stacktrace",
+            "s2n_stuffer_read_uint16",
+            "s2n_stuffer_raw_read",
+            "s2n_constant_time_equals"
+        ]
+    }
+]

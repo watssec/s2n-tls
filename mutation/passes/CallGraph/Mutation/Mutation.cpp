@@ -16,6 +16,8 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <array>
 #include "string"
 #include "cstring"
 
@@ -41,47 +43,43 @@ namespace {
 
     CallGraph CG = CallGraph(M); 
     int cnt = 0;
-    int prev_node_length = 1;
+    int prev_node_length = 0;
     auto prev_node = df_begin(&CG);
     json path_array = json::array();
-    
-    for (auto IT = df_begin(&CG), EI = df_end(&CG); IT != EI; IT++) {
-  
-     
-      
 
-      
-      if (prev_node_length > IT.getPathLength()){
-        
-        std::vector<std::string> path_node;  
+    for(auto bnode = CG.begin(), enode = CG.end(); bnode!=enode;bnode++) {
+      if(bnode->second != nullptr)
+      {
+       CallGraphNode *cgn = bnode->second.get();
+       if(Function *fptr = cgn->getFunction()){
+         std::vector<std::string> path_node;  
        
-        json single_path = json::object();
-        
-        for(int i = 0; i< prev_node_length; i++){
-          dbgs() << "prev" << prev_node.getPath(i)->getFunction() << "\n";
-          
-          if(Function *F = prev_node.getPath(i)->getFunction()){
-            path_node.push_back(F->getName());
-            dbgs() << "fun name " << F->getName() << "\n";
-          }else{
-            path_node.push_back("0x0");
-            dbgs() << "no name" << "0x0" << "\n";
-          }
-          
-        }
-        
-        single_path[std::to_string(cnt)] = path_node; 
-        path_array.push_back(single_path);
-        
-      }
-      
-      prev_node_length = IT.getPathLength();
-      
-      prev_node++;
-      cnt = cnt +1;
-    }
+         json single_path = json::object();
+         errs() << "fptr" << fptr->getName() << "\n";
+         dbgs() << "operator" << cgn->size()<< "\n";
+         if (cgn->size()>0){
+            for(int i=0; i < cgn->size(); i++){
+              if(cgn->operator[](i) != nullptr)
+                {
+                  if(cgn->operator[](i)->getFunction() != nullptr){
 
-    std::ofstream o ("call_graph_all.json", std::ofstream::trunc);
+                    if(!(std::count(std::begin(path_node), std::end(path_node), cgn->operator[](i)->getFunction()->getName()) > 0)){
+                    path_node.push_back(cgn->operator[](i)->getFunction()->getName());
+                    }
+                  }
+                }
+            }
+            single_path[fptr->getName()] = path_node; 
+            path_array.push_back(single_path);
+         }
+
+       } 
+      }
+    }
+   
+  
+
+    std::ofstream o ("callgraphnode_callgraph.json", std::ofstream::trunc);
     o << std::setw(4) << path_array << std::endl;
   
     }
