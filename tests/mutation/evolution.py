@@ -4,6 +4,7 @@ import glob
 import json
 import shlex
 import os  
+import os.path
 import random
 import regex as re
 from tqdm import tqdm
@@ -28,6 +29,15 @@ database_empty = {"label": [0], "grade": 10}
 # Match the mutation type then construct the argument to pass into the mutation pass
 
 
+def pre_test_check():
+    # 0 check all the .so file exists
+    
+    for pass_dir in glob.glob(mutation_pass_dir+"/**"):
+        pass_name = pass_dir.split("/")[-1]
+        libso_dir = mutation_pass_dir+pass_name+"/build/Mutation/libMutation.so"
+        exist_result = os.path.exists(libso_dir)
+        if exist_result == False:
+            print(pass_name+" not built")
 
 def mutation_match(selected_seed_list):
 
@@ -313,7 +323,7 @@ if __name__ == '__main__':
     llvm_link()
     # invoke the initialization pass
     init_command = "opt -load " + Initialization_pass_dir + " -Initialization < " +  "./bitcode/all_llvm.bc" + " > /dev/null"
-    #os.system(init_command)
+    # os.system(init_command)
     json_file = open(filtered_genesis_info_file_path)
     random_pool_data = json.load(json_file)
 
