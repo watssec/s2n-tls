@@ -78,10 +78,15 @@ aes_128_ecb_ov -> EVP_aes_128_ecb
 ## Manual tested?
 
 ```
-opt -load ../../mutation/passes/ConstantInt/build/Mutation/libMutation.so -file_name s2n_drbg.c  -function_num 480  -instruction_num 12258 -operand_num 2 -target_type 2 -ConstantIn < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+opt -load ../../mutation/passes/ConstantInt/build/Mutation/libMutation.so -file_name s2n_drbg.c  -function_num 480  -instruction_num 12258 -operand_num 2 -target_type 2 -ConstantInt < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
 ```
 
+
 **Step 0** check .ll file to see whether it has really been mutated
+
+```
+vimdiff -c 'set diffopt=filler,context:0' all_llvm.ll all_llvm_mutated.ll
+```
 
 ```
    %21 = getelementptr inbounds [48 x i8], [48 x i8]* %3, i64 0, i64 0, !dbg !59475 
@@ -119,9 +124,9 @@ pass
 
 `s2n_handshake_type_set_tls12_flag` is called by `s2n_conn_set_handshake_type`
 
-```
+
 There is no spec for `s2n_handshake_type_set_tls12_flag`
-```
+
 [saw spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake.saw#L90)
 
 ```
@@ -132,6 +137,49 @@ print "Proving correctness of s2n_conn_set_handshake_type (non-NULL chosen_psk)"
 s2n_conn_set_handshake_type_chosen_psk_non_null_proof <- crucible_llvm_verify llvm "s2n_conn_set_handshake_type" s2n_conn_set_handshake_type_ovs false (s2n_conn_set_handshake_type_spec false) (w4_unint_yices []);
 
 ```
+
+## Manual test
+```
+opt -load ../../mutation/passes/Binop/build/Mutation/libMutation.so -file_name s2n_handshake_type.c -function_num 296 -instruction_num 7387 -target_type xor -Binop < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_muated.bc
+```
+
+**Step 0**
+
+original
+```
+; <label>:11:                                     ; preds = %6
+  %12 = getelementptr inbounds %struct.s2n_connection, %struct.s2n_connection* %0, i64 0, i32 47, i32 5, !dbg !53485
+  %13 = load i32, i32* %12, align 8, !dbg !53486, !tbaa !53435
+  %14 = or i32 %13, %1, !dbg !53486
+  store i32 %14, i32* %12, align 8, !dbg !53486, !tbaa !53435
+  br label %15, !dbg !53487
+
+; <label>:15:                                     ; preds = %11, %9, %4
+  %16 = phi i32 [ 0, %11 ], [ -1, %9 ], [ -1, %4 ]
+  ret i32 %16, !dbg !53488
+}
+
+
+```
+
+mutated
+
+```
+; <label>:11:                                     ; preds = %6
+  %12 = getelementptr inbounds %struct.s2n_connection, %struct.s2n_connection* %0, i64 0, i32 47, i32 5, !dbg !53485
+  %13 = load i32, i32* %12, align 8, !dbg !53486, !tbaa !53435
+  %14 = mul i32 %13, %1, !dbg !53486
+  %15 = xor i32 %13, %1, !dbg !53486
+  %16 = or i32 %13, %1, !dbg !53486
+  store i32 %15, i32* %12, align 8, !dbg !53486, !tbaa !53435
+  br label %17, !dbg !53487
+
+
+```
+
+**Step 1**
+
+pass
 # Reference
 
 [Saw Manual](https://saw.galois.com/manual.html)
