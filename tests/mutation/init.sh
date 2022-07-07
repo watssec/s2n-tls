@@ -1,6 +1,7 @@
 #!/bin/sh
 pip3 install tqdm
 pip3 install regex
+pip3 install pydot
 sudo apt install curl
 sudo apt install -y libssl-dev
 sudo apt install z3

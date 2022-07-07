@@ -37,11 +37,12 @@ namespace {
     
         for (auto &I : B) {
           instruction_num = instruction_num +1;
-
+     
           if (!(function_num == FunctionId and instruction_num == InstructionId)){
+            
             continue;
           }
-         
+          
           if (auto *op = dyn_cast<BranchInst>(&I)) {
             if (op->isConditional() == true)
             {
@@ -54,14 +55,15 @@ namespace {
             // We modified the code.
             return true; 
           }
+        
         }
       }
-      }
 
-       return false;}
-  };
+    }
+  	    return false;
+  }
+};
 }
-
 char SkeletonPass::ID = 0;
 
 // Automatically enable the pass.

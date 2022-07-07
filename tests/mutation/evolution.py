@@ -38,6 +38,7 @@ def pre_test_check():
         exist_result = os.path.exists(libso_dir)
         if exist_result == False:
             print(pass_name+" not built")
+            return False
 
 def mutation_match(selected_seed_list):
 
@@ -163,7 +164,12 @@ def error_elimination_check(history_json, seed, current_error_message):
 
 def feedback(mutation_point_list, test_result, round, mutation_target):
     history_json = []
-    seed = mutation_point_list[:-2]
+    seed = []
+    if len(mutation_point_list) ==1:
+        seed = mutation_point_list
+    else:
+        seed = mutation_point_list[:-1]
+    
     # process the redicted information to edit the history file test
     if os.stat(history_file_path).st_size == 0:
         history_json = []
@@ -201,11 +207,8 @@ def feedback(mutation_point_list, test_result, round, mutation_target):
         report_json.append(temp_report)
         with open(report_file_path, "w") as report_file:
             json.dump(report_json, report_file, indent =4)    
-    else:
-        
-        
+    else:    
         #check for new error message
-        
         result1 = new_error_message_check(history_json, current_error_message)
         result2 = error_elimination_check(history_json, seed, current_error_message)
         if result1 == False and result2 == False:
@@ -224,9 +227,10 @@ def feedback(mutation_point_list, test_result, round, mutation_target):
         with open(database_file_path, "r") as database_file:
             database_json = json.load(database_file)
         for record in database_json:
+            print("seed"+str(seed))
             if record["label"] == seed:
                 record["grade"] = record["grade"] + add_count
-
+                print("record_grade"+str(record["grade"]))
         with open(database_file_path, "w") as database_file:
             json.dump(database_json, database_file, indent=4)
 

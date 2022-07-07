@@ -96,13 +96,10 @@ namespace {
             // Everywhere the old instruction was used as an operand, use our
             // new multiply instruction instead.
             for (auto &U : op->uses()) {
-              errs() << "U" << *U << "\n";
               User *user = U.getUser();
-              errs() << "user" << *user << "\n";
               // A User is anything with operands.
               user->setOperand(U.getOperandNo(), newinst);
-              errs() << "new user" << *user << "\n";
-              errs() << "new U" << *U << "\n";
+           
             }
 
             // We modified the code.
