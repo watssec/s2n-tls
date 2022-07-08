@@ -21,7 +21,7 @@ mutation_pass_dir = "../../mutation/passes/"
 
 mutation_round = 100
 # Initialize the database json with 0, initialized mark == 10
-database_json = []
+
 database_empty = {"label": [0], "grade": 10}
 
 
@@ -217,24 +217,31 @@ def feedback(mutation_point_list, test_result, round, mutation_target):
             add_count = 1
         else: 
             add_count = 2
+    add_count = 1
     print("add_count == " + str(add_count))
     history_json.append(temp_history_json)
     with open(history_file_path, "w") as history_file:
-        json.dump(history_json, history_file, indent=4)    
+        json.dump(history_json, history_file, indent=4)  
+    database_json = []     
+    
+    with open(database_file_path, "r") as database_file:
+        database_json = json.load(database_file)          
     # if new error_message is discovered or old message is eliminated, then adjust the grade
     if add_count != 0:
-        database_json = {}        
-        with open(database_file_path, "r") as database_file:
-            database_json = json.load(database_file)
+
         for record in database_json:
             print("seed"+str(seed))
             if record["label"] == seed:
                 record["grade"] = record["grade"] + add_count
                 print("record_grade"+str(record["grade"]))
-        with open(database_file_path, "w") as database_file:
-            json.dump(database_json, database_file, indent=4)
+                new_record = {}
+                new_record["label"] = seed
+                new_record["grade"] = record["grade"] + add_count
+     
+        with open(database_file_path, "w") as database_file_another:
+            json.dump(database_json, database_file_another, indent=4)
 
-               
+    return database_json          
 
 def cluster_match():
     pass
@@ -262,9 +269,9 @@ def test(round):
 # select one from the random seed pool
 
 def one_mutation_round(database_json):
-
-    json_file = open(filtered_genesis_info_file_path)
-    random_pool_data = json.load(json_file)
+    random_pool_data = []
+    with open(filtered_genesis_info_file_path, "r") as json_file:
+        random_pool_data = json.load(json_file)
     
     # check if the database is empty or not
     if database_json == []:
@@ -272,22 +279,26 @@ def one_mutation_round(database_json):
 
     #****Phase1****
     # select the seed with the largest grade from the dataset
-    # [] can be repeatedly selected, while others can not
     selected_seed_list = []
     selected_seed_list = selected_seed_list + database_seed_selection(database_json)
 
-    # if the selected seed is [], then take one step further to 
-    # randomly select onec
+
 
     #****Phase2****
     selected_seed = random_select_from_pool(random_pool_data, database_json)
+    
     selected_seed_list.append(selected_seed)
+   
     # add the selected_seed into the database
+    
     database_json.append({"label":selected_seed_list, "grade": 10})
+    print(database_json)
     # dump into database file
+    
     with open(database_file_path,"w") as database_file:
         json.dump(database_json, database_file,indent=4)
-    print(selected_seed_list)
+        print(selected_seed_list)
+    
     return selected_seed_list
 
 
@@ -345,16 +356,26 @@ if __name__ == '__main__':
     cnt = 0
     for round in tqdm(range(1000)):
         cnt = cnt +1 
-        if cnt <  11:
-            continue
+   
         print("round number"+ str(round))
+        
+        '''
+        database.json write in one_mutation_round
+        '''
+        
         selected_seed_list = one_mutation_round(database_json)
     
         # if this list exists as a bad seed or it has run out of combinations, skip this round
 
         mutation_target = mutation_match(selected_seed_list)
         test_result = test(round)
-        feedback(selected_seed_list, test_result, round, mutation_target)
+        test_result = True
+
+        '''
+        database.json write in feedback
+        '''
+
+        database_json = feedback(selected_seed_list, test_result, round, mutation_target)
             
         llvm_link()
         # after selected, goto the test step
