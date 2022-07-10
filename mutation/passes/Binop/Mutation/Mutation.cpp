@@ -43,13 +43,14 @@ namespace {
           }
         errs() << "target_type" << TargetType << "\n";
           if (auto *op = dyn_cast<BinaryOperator>(&I)) {
+            errs() << "old block" << B << "\n";
             // Insert at the point where the instruction `op` appears.
             IRBuilder<> builder(op);
 	          
             // Make a multiply with the same operands as `op`.
             Value *lhs = op->getOperand(0);
             Value *rhs = op->getOperand(1);
-            Value *newinst = builder.CreateMul(lhs, rhs);
+            Value *newinst;
             
             if(TargetType == "add"){
                 newinst = builder.CreateAdd(lhs,rhs);
@@ -91,17 +92,14 @@ namespace {
                 newinst = builder.CreateOr(lhs, rhs);
             }else if(TargetType == "xor"){
                 newinst = builder.CreateXor(lhs, rhs);
-            } 
-            errs() << "op" << *op << "\n";
+            }else if(TargetType == "mul"){
+                newinst = builder.CreateMul(lhs, rhs);
+            }
+            
             // Everywhere the old instruction was used as an operand, use our
             // new multiply instruction instead.
-            for (auto &U : op->uses()) {
-              User *user = U.getUser();
-              // A User is anything with operands.
-              user->setOperand(U.getOperandNo(), newinst);
-           
-            }
-
+            op->replaceAllUsesWith(newinst);
+            errs() << "new block" << B << "\n";
             // We modified the code.
             return true; 
           }
