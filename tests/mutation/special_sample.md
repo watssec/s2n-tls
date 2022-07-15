@@ -95,22 +95,21 @@ In this example, the debug information is preserved as we want to make getting b
 #### Report Content
 
 ```
-    {
-        "0": "null",
-        "794": {
-            "file_name": "s2n_drbg.c",
-            "function_name": "s2n_drbg_bits",
-            "function_num": 481,
-            "instruction_col": 21,
-            "instruction_line": 64,
-            "instruction_num": 12407,
-            "mutation_type": "ConstantInt",
-            "opcode": "i64",
-            "operand_num": 2,
-            "mutated_type": "1"
-        }
-    },
-
+{
+    "0": "null",
+    "794": {
+        "file_name": "s2n_drbg.c",
+        "function_name": "s2n_drbg_bits",
+        "function_num": 481,
+        "instruction_col": 21,
+        "instruction_line": 64,
+        "instruction_num": 12407,
+        "mutation_type": "ConstantInt",
+        "opcode": "i64",
+        "operand_num": 2,
+        "mutated_type": "1"
+    }
+},
 ```
 #### Manual Test
 
@@ -150,7 +149,7 @@ It is of no use to mutate the parameter in @llvm.dbg.value. And the method to fi
 
 
 
-### Another counter example
+### Another counter example (tail call)
 
 #### Report Content
 
@@ -255,47 +254,8 @@ Mutated
 
 ```
 
-## 
+# Safety Macro
 
-
-# 3
-
-Related to safety macro
-
-## Report Analysis
-
-## Manual Test
-**Step 0**
-```
-opt -load ../../mutation/passes/Binop/build/Mutation/libMutation.so -file_name s2n_handshake_io.c -function_num 457 -instruction_num 11758  -target_type or -Binop < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
-```
-
-Original
-
-```
-; <label>:48:                                     ; preds = %45
-  %49 = bitcast %struct.s2n_connection* %0 to i32*, !dbg !43746
-  %50 = load i32, i32* %49, align 8, !dbg !43746
-  %51 = and i32 %50, 1, !dbg !43746
-  %52 = icmp eq i32 %51, 0, !dbg !43748
-  br i1 %52, label %88, label %53, !dbg !43749
-
-```
-
-Mutated
-
-```
-; <label>:48:                                     ; preds = %45
-  %49 = bitcast %struct.s2n_connection* %0 to i32*, !dbg !43746
-  %50 = load i32, i32* %49, align 8, !dbg !43746
-  %51 = or i32 %50, 1, !dbg !43746
-  %52 = and i32 %50, 1, !dbg !43746
-  %53 = icmp eq i32 %51, 0, !dbg !43748
-  br i1 %53, label %89, label %54, !dbg !43749
-```
-
-
-same as above
 
 
 ## Report Content
@@ -354,6 +314,14 @@ Pass
 ## Source Code Analysis
 
 `RESULT_ENSURE_REF` is defined in [here](https://github.com/aws/s2n-tls/blob/9b700b663fa54c5a331c31aa7a06c22b146b4dcd/utils/s2n_safety_macros.h#L120)
+
+`s2n_errno` is defined [here](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/error/s2n_errno.h#L302)
+
+Explanation for `s2n_errno` in [md](https://github.com/aws/s2n-tls/blob/e9906015bbc19ba17dd26846b84210c93dcc6e13/docs/USAGE-GUIDE.md#error-handling)
+
+`store i32 402653193, i32* @s2n_errno, align 4, !dbg !43693, !tbaa !43702`
+
+
 # Symbolic execution fail
 
 
