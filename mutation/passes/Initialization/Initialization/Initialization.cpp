@@ -2,6 +2,7 @@
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Module.h"
+#include "llvm/IR/IntrinsicInst.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/InstrTypes.h"
@@ -64,8 +65,10 @@ namespace {
         function_num = function_num + 1; 
         for (auto &B : F){
         for (auto &I : B) {
-          instruction_num = instruction_num +1;
-	        json mutation_map; 
+          
+	  instruction_num = instruction_num +1;
+	  json mutation_map; 
+	  const char *eqopcode = "eq";
           std::ifstream i("genesis_info.json");
           if (i.good()){
             i >> mutation_map;
@@ -73,12 +76,15 @@ namespace {
             mutation_map = json::array();
           }
 
-          
+          if (auto *inst = dyn_cast<IntrinsicInst>(&I)){
+            continue;
+          }
+
           // opcode mutation
           int operand_num = 0;
           if (auto *op = dyn_cast<BinaryOperator>(&I)) {
               const char *OpCode = op->getOpcodeName();
-              char *mutation_type = "Binop";
+	      char *mutation_type = "Binop";
             mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
             std::ofstream o ("genesis_info.json", std::ofstream::trunc);
             o << std::setw(4) << mutation_map << std::endl;
@@ -86,6 +92,8 @@ namespace {
           
           if (auto *op = dyn_cast<ICmpInst>(&I)) {
               const char *OpCode = op->getOpcodeName();
+	      if (*OpCode == *eqopcode){
+	      continue;}
               char *mutation_type = "ICmp";
               mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
               std::ofstream o ("genesis_info.json", std::ofstream::trunc);
@@ -94,6 +102,8 @@ namespace {
 
           if (auto *op = dyn_cast<FCmpInst>(&I)) {
               const char *OpCode = op->getOpcodeName();
+	      if (*OpCode == *eqopcode){
+	      continue;}
               char *mutation_type = "FCmp";
               mutation_map = JsonDump(F, I, OpCode, mutation_map, instruction_num, function_num, operand_num, mutation_type);
               std::ofstream o ("genesis_info.json", std::ofstream::trunc);
@@ -108,11 +118,20 @@ namespace {
               o << std::setw(4) << mutation_map << std::endl;
             }
           }
+	  if (auto *op = dyn_cast<GetElementPtrInst>(&I)){
+	      continue;
+	  }
             for(Use &U: I.operands())
             {
               operand_num = operand_num + 1;
               Value *V = U.get();
-              if(auto *op = dyn_cast<ConstantInt>(V)){
+	      if(auto *func = dyn_cast<Function>(V)){
+	        if(func->isIntrinsic()){
+		  continue;
+		} 
+	      }
+             
+	      if(auto *op = dyn_cast<ConstantInt>(V)){
               std::string type_str;
               llvm::raw_string_ostream rso(type_str);
               op->getType()->print(rso);
