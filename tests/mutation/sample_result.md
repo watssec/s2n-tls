@@ -178,7 +178,34 @@ mutated
 
 pass
 
+# 3
 
+## Report Content 
+
+```
+{
+    "0": "null",
+    "661": {
+        "file_name": "s2n_drbg.c",
+        "function_name": "s2n_drbg_block_encrypt",
+        "function_num": 482,
+        "instruction_col": 5,
+        "instruction_line": 53,
+        "instruction_num": 12467,
+        "mutation_type": "Branch",
+        "opcode": "br",
+        "operand_num": 0,
+        "mutated_type": "no target"
+    }
+},
+```
+
+[Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/crypto/s2n_drbg.c#L53)
+[Saw spec]()
+
+## Manual Test
+
+*****
 # 4
 
 ## Report Content
@@ -370,8 +397,8 @@ Pass
 ```
 
 [Source code](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/utils/s2n_socket.c#L163)
-[saw spec]()
-## Report Analysis
+[saw spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake_io_lowlevel.saw#L419)
+
 
 ## Manual Test
 
@@ -400,6 +427,302 @@ br i1 %3, label %6, label %4, !dbg !43688
 
 **Step 1**
 
+PASS
 
+## Report Analysis
+
+`    POSIX_ENSURE_REF(conn);`
+
+`POSIX_ENSURE_REF` is defined [here](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/utils/s2n_safety_macros.h#L212), however this ensure behavior is not monitored in the spec function, which means if we switch the conditional branch, the prover can not detect the mutation.
+
+# 7
+
+## Report Content
+
+```
+{
+    "0": "null",
+    "57": {
+        "file_name": "s2n_socket.c",
+        "function_name": "s2n_socket_write_uncork",
+        "function_num": 25,
+        "instruction_col": 5,
+        "instruction_line": 170,
+        "instruction_num": 515,
+        "mutation_type": "ConstantInt",
+        "opcode": "i32",
+        "operand_num": 3,
+        "mutated_type": "2"
+    }
+},
+
+```
+
+[Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/utils/s2n_socket.c#L170)
+
+[Saw Spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake_io_lowlevel.saw#L419)
+
+## Manual Test
+
+**Step 0**
+
+
+```
+opt -load ../../mutation/passes/ConstantInt/build/Mutation/libMutation.so -file_name s2n_socket.c -function_num 25 -instruction_num 515 -operand_num 3 -target_type 2 -ConstantInt < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+
+```
+
+Original
+
+```
+; <label>:14:                                     ; preds = %6
+  %15 = getelementptr inbounds %struct.s2n_socket_read_io_context, %struct.s2n_socket_read_io_context* %10, i64 0, i32 0, !dbg !43749
+  %16 = load i32, i32* %15, align 4, !dbg !43749, !tbaa !43750
+  %17 = call i32 @setsockopt(i32 %16, i32 6, i32 3, i8* %7, i32 4) #16, !dbg !43752
+  br label %18, !dbg !43753
+```
+
+Mutated
+
+```
+; <label>:14:                                     ; preds = %6
+  %15 = getelementptr inbounds %struct.s2n_socket_read_io_context, %struct.s2n_socket_read_io_context* %10, i64 0, i32 0, !dbg !43749
+  %16 = load i32, i32* %15, align 4, !dbg !43749, !tbaa !43750
+  %17 = call i32 @setsockopt(i32 %16, i32 6, i32 -1, i8* %7, i32 4) #16, !dbg !43752
+  br label %18, !dbg !43753
+```
+
+**Step 1**
+
+PASS
+
+## Source Code Analysis
+
+```
+    setsockopt(w_io_ctx->fd, IPPROTO_TCP, S2N_CORK, &optval, sizeof(optval));
+```
+
+Function `s2n_socket_write_uncork` calls function `setsockopt`, if we mutate the third parameter `S2N_CORK` which is defined [here](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/utils/s2n_socket.c#L27), the current proof can not catch this mutation.
+
+
+
+# 8
+
+## Report Content
+```
+{
+    "0": "null",
+    "92": {
+        "file_name": "s2n_handshake_io.c",
+        "function_name": "s2n_generate_new_client_session_id",
+        "function_num": 428,
+        "instruction_col": 38,
+        "instruction_line": 700,
+        "instruction_num": 10181,
+        "mutation_type": "Binop",
+        "opcode": "and",
+        "operand_num": 0,
+        "mutated_type": "or"
+    }
+},
+```
+
+[Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/tls/s2n_handshake_io.c#L699)
+
+[Saw Spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake_io_lowlevel.saw#L433)
+
+
+
+## Manual Test
+
+**Step 0**
+
+```
+opt -load ../../mutation/passes/ConstantInt/build/Mutation/libMutation.so -file_name s2n_handshake_io.c -function_num 428 -instruction_num 10168 -operand_num 2 -target_type 2 -ConstantInt < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+
+```
+
+```
+  %2 = alloca %struct.s2n_blob, align 8
+  tail call void @llvm.dbg.value(metadata %struct.s2n_connection* %0, i64 0, metadata !43681, metadata !43685), !dbg !43686
+  %3 = getelementptr inbounds %struct.s2n_connection, %struct.s2n_connection* %0, i64 0, i32 12, !dbg !43687
+  %4 = load i32, i32* %3, align 8, !dbg !43687, !tbaa !43688
+  %5 = icmp eq i32 %4, 0, !dbg !43721
+  br i1 %5, label %6, label %20, !dbg !43722
+```
+
+```
+  %2 = alloca %struct.s2n_blob, align 8
+  tail call void @llvm.dbg.value(metadata %struct.s2n_connection* %0, i64 0, metadata !43681, metadata !43685), !dbg !43686
+  %3 = getelementptr inbounds %struct.s2n_connection, %struct.s2n_connection* %0, i64 0, i32 12, !dbg !43687
+  %4 = load i32, i32* %3, align 8, !dbg !43687, !tbaa !43688
+  %5 = icmp eq i32 %4, -1, !dbg !43721
+  br i1 %5, label %6, label %20, !dbg !43722
+```
+
+
+**Step 1**
+PASS
+
+## Source Code Analysis
+
+```
+    if (conn->mode == S2N_SERVER) {
+```
+
+When we mutate this condition into `conn->mode == -1`, the prover can not catch this mutation.
+
+This is caused by the spec of `s2n_generate_new_client_session_id_spec`:
+
+```
+// Specification for s2n_generate_new_client_session_id. This is essentially
+// a noop function that returns 0 from the perspective of our current proof
+let s2n_generate_new_client_session_id_spec = do {
+    pconn <- crucible_alloc_readonly (llvm_struct "struct.s2n_connection");
+   
+    crucible_execute_func [pconn];
+
+    crucible_return (crucible_term {{ 0 : [32] }});
+};
+```
+# 9
+
+## Report Content
+
+```
+{
+    "0": "null",
+    "553": {
+        "file_name": "s2n_drbg.c",
+        "function_name": "s2n_drbg_mix",
+        "function_num": 485,
+        "instruction_col": 17,
+        "instruction_line": 155,
+        "instruction_num": 12587,
+        "mutation_type": "Binop",
+        "opcode": "add",
+        "operand_num": 0,
+        "mutated_type": "sub"
+    }
+},
+
+```
+[Source Code](https://github.com/watssec/s2n-tls/blob/05b685125feb3e68da677c13f8ecbc490d4bbca6/crypto/s2n_drbg.c#L155)
+
+[Saw Spec](https://github.com/aws/s2n-tls/blob/247bf3151194c3326e1c9f63cb1b1c06ab30f1ea/tests/saw/spec/DRBG/DRBG.saw#L403)
+
+## Manual Test
+
+**Step 0**
+
+```
+opt -load ../../mutation/passes/Binop/build/Mutation/libMutation.so -file_name s2n_drbg.c -function_num 485 -instruction_num 12587 -target_type sub -Binop < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+```
+
+Original
+
+```
+; <label>:30:                                     ; preds = %27
+  %31 = getelementptr inbounds %struct.s2n_drbg, %struct.s2n_drbg* %0, i64 0, i32 3, !dbg !43758
+  %32 = load i64, i64* %31, align 8, !dbg !43759, !tbaa !43760
+  %33 = add i64 %32, 1, !dbg !43759
+  store i64 %33, i64* %31, align 8, !dbg !43759, !tbaa !43760
+  br label %34, !dbg !43761
+```
+
+Mutated
+
+```
+; <label>:30:                                     ; preds = %27
+  %31 = getelementptr inbounds %struct.s2n_drbg, %struct.s2n_drbg* %0, i64 0, i32 3, !dbg !43758
+  %32 = load i64, i64* %31, align 8, !dbg !43759, !tbaa !43760
+  %33 = sub i64 %32, 1, !dbg !43759
+  %34 = add i64 %32, 1, !dbg !43759
+  store i64 %33, i64* %31, align 8, !dbg !43759, !tbaa !43760
+  br label %35, !dbg !43761
+```
+
+**Step 1**
+
+PASS
+
+# Source Code Analysis
+
+```
+drbg->mixes += 1;
+```
+
+At the end of function `s2n_drbg_mix`, the value of `drbg->mixes` is increased by 1, however this behavior is not monitored by the spec function.
+
+# 10
+
+## Report Content 
+
+```
+{
+    "0": "null",
+    "29": {
+        "file_name": "s2n_socket.c",
+        "function_name": "s2n_socket_was_corked",
+        "function_num": 23,
+        "instruction_col": 16,
+        "instruction_line": 134,
+        "instruction_num": 438,
+        "mutation_type": "Binop",
+        "opcode": "and",
+        "operand_num": 0,
+        "mutated_type": "xor"
+    }
+},
+```
+[Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/utils/s2n_socket.c#L134)
+[Saw Spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake_io_lowlevel.saw#L471)
+
+## Manual Test
+
+**Step 0**
+```
+ opt -load ../../mutation/passes/Binop/build/Mutation/libMutation.so -file_name s2n_handshake_io.c -function_num 23 -instruction_num 438 -target_type xor -Binop < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+```
+
+Original
+
+```
+; <label>:5:                                      ; preds = %1
+  %6 = bitcast %struct.s2n_connection* %0 to i32*, !dbg !43704
+  %7 = load i32, i32* %6, align 8, !dbg !43704
+  %8 = and i32 %7, 512, !dbg !43704
+  %9 = icmp eq i32 %8, 0, !dbg !43706
+  br i1 %9, label %10, label %24, !dbg !43707
+```
+
+Mutated
+
+```
+; <label>:5:                                      ; preds = %1
+  %6 = bitcast %struct.s2n_connection* %0 to i32*, !dbg !43704
+  %7 = load i32, i32* %6, align 8, !dbg !43704
+  %8 = xor i32 %7, 512, !dbg !43704
+  %9 = and i32 %7, 512, !dbg !43704
+  %10 = icmp eq i32 %8, 0, !dbg !43706
+  br i1 %10, label %11, label %25, !dbg !43707
+```
+
+**Step 1**
+
+PASS
+
+## Source Code Analysis
+
+
+This happens because the spec function for `s2n_socket_was_corked` function is omitted, which means the spec for this conditional branch is missing .
+
+```
+    if (!conn->managed_send_io || !conn->send) {
+        return 0;
+    }
+```
+
+# Reference
 
 [Saw Manual](https://saw.galois.com/manual.html)
