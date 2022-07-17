@@ -185,27 +185,69 @@ pass
 ```
 {
     "0": "null",
-    "661": {
+    "496": {
         "file_name": "s2n_drbg.c",
-        "function_name": "s2n_drbg_block_encrypt",
-        "function_num": 482,
+        "function_name": "s2n_drbg_bits",
+        "function_num": 481,
         "instruction_col": 5,
-        "instruction_line": 53,
-        "instruction_num": 12467,
-        "mutation_type": "Branch",
-        "opcode": "br",
+        "instruction_line": 84,
+        "instruction_num": 12420,
+        "mutation_type": "Binop",
+        "opcode": "sub",
         "operand_num": 0,
-        "mutated_type": "no target"
+        "mutated_type": "add"
     }
 },
 ```
 
-[Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/crypto/s2n_drbg.c#L53)
-[Saw spec]()
+[Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/crypto/s2n_drbg.c#L84)
+[Saw spec](https://github.com/aws/s2n-tls/blob/247bf3151194c3326e1c9f63cb1b1c06ab30f1ea/tests/saw/spec/DRBG/DRBG.saw#L397)
 
 ## Manual Test
+**Step 0**
 
-*****
+```
+opt -load ../../mutation/passes/Binop/build/Mutation/libMutation.so -function_num 481 -instruction_num 12420 -target_type add -Binop < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+```
+
+Original
+
+```
+; <label>:58:                                     ; preds = %54
+  %59 = getelementptr inbounds %struct.s2n_drbg, %struct.s2n_drbg* %0, i64 0, i32 0, !dbg !43796
+  %60 = load i64, i64* %59, align 8, !dbg !43797, !tbaa !43775
+  %61 = add i64 %60, 16, !dbg !43797
+  store i64 %61, i64* %59, align 8, !dbg !43797, !tbaa !43775
+  %62 = load i32, i32* %24, align 8, !dbg !43798, !tbaa !43750
+  %63 = sub i32 %62, %26, !dbg !43798
+  call void @llvm.dbg.value(metadata i32 %63, i64 0, metadata !43690, metadata !43695), !dbg !43800
+  %64 = icmp eq i32 %63, 0, !dbg !43798
+  br i1 %64, label %73, label %65, !dbg !43798, !prof !43801
+```
+
+Mutated
+
+```
+; <label>:58:                                     ; preds = %54
+  %59 = getelementptr inbounds %struct.s2n_drbg, %struct.s2n_drbg* %0, i64 0, i32 0, !dbg !43796
+  %60 = load i64, i64* %59, align 8, !dbg !43797, !tbaa !43775
+  %61 = add i64 %60, 16, !dbg !43797
+  store i64 %61, i64* %59, align 8, !dbg !43797, !tbaa !43775
+  %62 = load i32, i32* %24, align 8, !dbg !43798, !tbaa !43750
+  %63 = add i32 %62, %26, !dbg !43798
+  %64 = sub i32 %62, %26, !dbg !43798
+  call void @llvm.dbg.value(metadata i32 %63, i64 0, metadata !43690, metadata !43695), !dbg !43800
+  %65 = icmp eq i32 %63, 0, !dbg !43798
+  br i1 %65, label %74, label %66, !dbg !43798, !prof !43801
+```
+
+**Step 1**
+PASS
+
+## Source Code Analysis
+
+In function `s2n_drbg_bits`, the behavior of `RESULT_CHECKED_MEMCPY`, which is defined [here](https://github.com/aws/s2n-tls/blob/9b700b663fa54c5a331c31aa7a06c22b146b4dcd/utils/s2n_safety_macros.h#L162), is not specified in the spec.
+
 # 4
 
 ## Report Content
@@ -433,7 +475,7 @@ PASS
 
 `    POSIX_ENSURE_REF(conn);`
 
-`POSIX_ENSURE_REF` is defined [here](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/utils/s2n_safety_macros.h#L212), however this ensure behavior is not monitored in the spec function, which means if we switch the conditional branch, the prover can not detect the mutation.
+`POSIX_ENSURE_REF` is defined [here](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/utils/s2n_safety_macros.h#L212), however this ensure behavior is not monitored in the spec function, which means if we switch the conditional branch, the prover can not detect the mutation
 
 # 7
 
