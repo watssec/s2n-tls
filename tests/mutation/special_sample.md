@@ -537,3 +537,75 @@ Failure reason:
   - HeapAlloc 2019 0x20:[64] Mutable 1-byte-aligned /home/r2ji/s2n-tls/tests/mutation/spec/DRBG/DRBG.saw:99:14
 
 ```
+
+
+
+# Another false positive case
+
+## Report Content
+
+```
+{
+    "0": "null",
+    "190": {
+        "file_name": "s2n_handshake_io.c",
+        "function_name": "s2n_conn_set_handshake_type",
+        "function_num": 433,
+        "instruction_col": 36,
+        "instruction_line": 861,
+        "instruction_num": 10332,
+        "mutation_type": "ConstantInt",
+        "opcode": "i32",
+        "operand_num": 2,
+        "mutated_type": "1"
+    }
+},
+
+
+
+```
+
+[Source code location](https://github.com/aws/s2n-tls/blob/282c0dd405bd6fd6127551b8a480335e41733c1d/tls/s2n_handshake_io.c#L861)
+
+[Spec location]()
+
+
+ 
+## Manual tested?
+
+```
+opt -load ../../mutation/passes/ConstantInt/build/Mutation/libMutation.so -file_name s2n_handshake_io.c -function_num 433 -instruction_num 10332 -operand_num 2 -target_type 1 -ConstantInt < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+
+```
+
+
+**Step 0** 
+
+```
+; <label>:78:                                     ; preds = %75
+  %79 = icmp slt i32 %76, 0, !dbg !43840
+  br i1 %79, label %80, label %84, !dbg !43842
+```
+
+
+```
+; <label>:78:                                     ; preds = %75
+  %79 = icmp slt i32 %76, 1, !dbg !43840
+  br i1 %79, label %80, label %84, !dbg !43842
+```
+
+## Source Code Analysis
+
+```
+        if (r == S2N_SUCCESS || (r < S2N_SUCCESS && S2N_ERROR_IS_BLOCKING(s2n_errno))) {
+```
+
+Mutate the condition from 
+
+mutate the constant value [S2N_SUCCESS](https://github.com/aws/s2n-tls/blob/282c0dd405bd6fd6127551b8a480335e41733c1d/api/s2n.h#L50) from 0 ->1
+
+
+
+**Step 1** check saw verification
+
+pass

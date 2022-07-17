@@ -26,7 +26,6 @@ update_spec seedsize -> specification of the function to be verified
 
 block_encrypt- > from drbg.cry, the proof script to use for verification
 
-
 # 1
 
 ## Report Content
@@ -34,65 +33,70 @@ block_encrypt- > from drbg.cry, the proof script to use for verification
 ```
 {
     "0": "null",
-    "190": {
+    "208": {
         "file_name": "s2n_handshake_io.c",
-        "function_name": "s2n_conn_set_handshake_type",
-        "function_num": 433,
-        "instruction_col": 36,
-        "instruction_line": 861,
-        "instruction_num": 10332,
+        "function_name": "s2n_conn_set_tls13_handshake_type",
+        "function_num": 434,
+        "instruction_col": 9,
+        "instruction_line": 761,
+        "instruction_num": 10432,
         "mutation_type": "ConstantInt",
         "opcode": "i32",
         "operand_num": 2,
-        "mutated_type": "1"
+        "mutated_type": "3"
     }
 },
+```
 
+[Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/tls/s2n_handshake_io.c#L761)
 
+[Saw Spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake.saw#L88)
+
+## Manual Test
+
+**Step 0**
+
+```
+opt -load ../../mutation/passes/ConstantInt/build/Mutation/libMutation.so -function_num 434 -instruction_num 10432 -operand_num 2 -target_type 3 -ConstantInt < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
 
 ```
 
-[Source code location](https://github.com/aws/s2n-tls/blob/282c0dd405bd6fd6127551b8a480335e41733c1d/tls/s2n_handshake_io.c#L861)
-
-
-
- 
-## Manual tested?
+Original
 
 ```
-opt -load ../../mutation/passes/ConstantInt/build/Mutation/libMutation.so -file_name s2n_handshake_io.c -function_num 433 -instruction_num 10332 -operand_num 2 -target_type 1 -ConstantInt < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
+; <label>:16:                                     ; preds = %12
+  %17 = tail call i32 @s2n_handshake_type_set_flag(%struct.s2n_connection* nonnull %0, i32 2) #16, !dbg !43746
+  %18 = tail call zeroext i1 @s2n_result_is_ok(i32 %17) #16, !dbg !43751
+  br i1 %18, label %19, label %61, !dbg !43746
+```
+
+Mutated
+
+```
+; <label>:16:                                     ; preds = %12
+  %17 = tail call i32 @s2n_handshake_type_set_flag(%struct.s2n_connection* nonnull %0, i32 3) #16, !dbg !43746
+  %18 = tail call zeroext i1 @s2n_result_is_ok(i32 %17) #16, !dbg !43751
+  br i1 %18, label %19, label %61, !dbg !43746
 
 ```
 
+**Step 1**
 
-**Step 0** 
-
-```
-; <label>:78:                                     ; preds = %75
-  %79 = icmp slt i32 %76, 0, !dbg !43840
-  br i1 %79, label %80, label %84, !dbg !43842
-```
-
-
-```
-; <label>:78:                                     ; preds = %75
-  %79 = icmp slt i32 %76, 1, !dbg !43840
-  br i1 %79, label %80, label %84, !dbg !43842
-```
+PASS
 
 ## Source Code Analysis
 
+Mutate the second parameter from 2-> 3, the prover still passes.
+
 ```
-        if (r == S2N_SUCCESS || (r < S2N_SUCCESS && S2N_ERROR_IS_BLOCKING(s2n_errno))) {
+  if (conn->psk_params.chosen_psk == NULL) {
+      RESULT_GUARD(s2n_handshake_type_set_flag(conn, FULL_HANDSHAKE));
+  }
 ```
 
-mutate the constant value [S2N_SUCCESS](https://github.com/aws/s2n-tls/blob/282c0dd405bd6fd6127551b8a480335e41733c1d/api/s2n.h#L50) from 0 ->1
+`s2n_conn_set_tls13_handshake_type` is called by `s2n_conn_set_handshake_type`.
 
-Although the first condition  ` r == S2N_SUCCESS ` does not hold anymore, the second condition `r < S2N_SUCCESS && S2N_ERROR_IS_BLOCKING(s2n_errno)` still holds.
-
-**Step 1** check saw verification
-
-pass
+`s2n_conn_set_tls13_handshake_type` has no spec in `s2n_conn_set_handshake_type`.
 
 # 2
 
@@ -118,6 +122,10 @@ pass
 
 [Source code](https://github.com/aws/s2n-tls/blob/abed2a324e59da13f73967ed7ea936b5dd2a1aae/tls/s2n_handshake_type.c#L62)
 
+[saw spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake.saw#L90)
+
+
+
 `s2n_handshake_type_set_tls12_flag` is called by `s2n_conn_set_handshake_type`
 
 `s2n_conn_set_handshake_type` should be part of the compositional proof, but it's not and 
@@ -126,7 +134,6 @@ there is no spec for `s2n_handshake_type_set_tls12_flag`
 ```
 let s2n_conn_set_handshake_type_ovs = [s2n_allowed_to_cache_connection, auth_type_proof, s2n_generate_new_client_session_id, s2n_decrypt_session_ticket];
 ```
-[saw spec](https://github.com/aws/s2n-tls/blob/7f1017ee9b09ab6910f1d2bf56135663ca0b12c5/tests/saw/spec/handshake/handshake.saw#L90)
 
 ```
 let s2n_conn_set_handshake_type_ovs = [s2n_allowed_to_cache_connection, auth_type_proof, s2n_generate_new_client_session_id, s2n_decrypt_session_ticket];
@@ -138,6 +145,7 @@ s2n_conn_set_handshake_type_chosen_psk_non_null_proof <- crucible_llvm_verify ll
 ```
 
 ## Manual test
+
 ```
 opt -load ../../mutation/passes/Binop/build/Mutation/libMutation.so -file_name s2n_handshake_type.c -function_num 296 -instruction_num 7387 -target_type xor -Binop < ./bitcode/all_llvm.bc > ./bitcode/all_llvm_mutated.bc
 ```
@@ -178,6 +186,20 @@ mutated
 
 pass
 
+## Source Code Analysis
+
+
+Mutate 
+```
+    conn->handshake.handshake_type |= flag;
+```
+into
+```
+    conn->handshake.handshake_type ^= flag;
+```
+
+This part is not specified by the spec function.
+
 # 3
 
 ## Report Content 
@@ -201,7 +223,7 @@ pass
 ```
 
 [Source Code](https://github.com/aws/s2n-tls/blob/dd9cd2bad2a6e903485aeba569b8a8915317ded6/crypto/s2n_drbg.c#L84)
-[Saw spec](https://github.com/aws/s2n-tls/blob/247bf3151194c3326e1c9f63cb1b1c06ab30f1ea/tests/saw/spec/DRBG/DRBG.saw#L397)
+[Saw spec](https://github.com/aws/s2n-tls/blob/247bf3151194c3326e1c9f63cb1b1c06ab30f1ea/tests/saw/spec/DRBG/DRBG.saw#L267)
 
 ## Manual Test
 **Step 0**
@@ -246,28 +268,30 @@ PASS
 
 ## Source Code Analysis
 
-In function `s2n_drbg_bits`, the behavior of `RESULT_CHECKED_MEMCPY`, which is defined [here](https://github.com/aws/s2n-tls/blob/9b700b663fa54c5a331c31aa7a06c22b146b4dcd/utils/s2n_safety_macros.h#L162), is not specified in the spec.
+```RESULT_CHECKED_MEMCPY(out->data + block_aligned_size, spare_block, out->size - block_aligned_size);```
+
+Mutate the third parameter from `out -> size - block_aligned_size` to `out -> size + block_aligned_size`. This behavior is not specified by the spec function.
+
 
 # 4
 
 ## Report Content
 ```
-    {
-        "0": "null",
-        "412": {
-            "file_name": "s2n_handshake_io.c",
-            "function_name": "s2n_validate_ems_status",
-            "function_num": 436,
-            "instruction_col": 26,
-            "instruction_line": 807,
-            "instruction_num": 10525,
-            "mutation_type": "ConstantInt",
-            "opcode": "i32",
-            "operand_num": 2,
-            "mutated_type": "1"
-        }
-    },
-
+{
+    "0": "null",
+    "412": {
+        "file_name": "s2n_handshake_io.c",
+        "function_name": "s2n_validate_ems_status",
+        "function_num": 436,
+        "instruction_col": 26,
+        "instruction_line": 807,
+        "instruction_num": 10525,
+        "mutation_type": "ConstantInt",
+        "opcode": "i32",
+        "operand_num": 2,
+        "mutated_type": "1"
+    }
+},
 ```
 [Source code](https://github.com/watssec/s2n-tls/blob/caa01e02da72abc24ca64d814835582199c8955c/tls/s2n_handshake_io.c#L807)
 
@@ -321,7 +345,7 @@ However, this behavior is not monitored in the spec function.
 **Step 1**
 ## Report Analysis
 
-`s2n_validate_status` is called by `s2n_conn_set_handshake_type`, spec for `s2n_validate_status` is missing
+`s2n_validate_ems_status` is called by `s2n_conn_set_handshake_type`, spec for `s2n_validate_ems_status` is missing
 
 **Step 1**
 
