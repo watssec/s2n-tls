@@ -18,6 +18,7 @@ useless_file_path = "useless.json"
 report_file_path = "report.json"
 filtered_genesis_info_file_path = "filtered_genesis_info.json"
 mutation_pass_dir = "../../mutation/passes/"
+seed_match_file_path = "seed_combination.json"
 
 mutation_round = 100
 # Initialize the database json with 0, initialized mark == 10
@@ -109,7 +110,7 @@ def random_select_from_pool(random_pool_data, database_json):
     for i in database_json:
         selected_list.append(i["label"])
     selection_list = []
-    cnt = 1
+    cnt = 0
     for i in random_pool_data:
         cnt = cnt + 1 
         if cnt not in selected_list:
@@ -162,13 +163,19 @@ def error_elimination_check(history_json, seed, current_error_message):
             return True
     return False        
 
-def feedback(mutation_point_list, test_result, round, mutation_target):
+def feedback(mutation_point_list, test_result, round, mutation_target, timeout_flag):
     history_json = []
     seed = []
     if len(mutation_point_list) ==1:
         seed = mutation_point_list
     else:
         seed = mutation_point_list[:-1]
+    seed_json = {}
+    if not os.path.isfile(seed_match_file_path):
+        seed_json = {}
+    else:
+        with open(seed_match_file_path, "r") as seed_file:
+            seed_json = json.load(seed_file)
     
     # process the redicted information to edit the history file test
     if os.stat(history_file_path).st_size == 0:
@@ -183,13 +190,35 @@ def feedback(mutation_point_list, test_result, round, mutation_target):
     temp_history_json["mutaion_point_list"] = mutation_point_list
 
     current_error_message = ""
+   
+
     if not test_result:
         temp_history_json["error_message"] = ""
     else:
         current_error_message = error_message_extraction(round) 
         temp_history_json["error_message"]  = current_error_message 
-
+    if timeout_flag:
+        temp_history_json["error_message"] = temp_history_json["error_message"] + "timeout"
     add_count = 0
+    sub_count = 0
+
+    if len(mutation_point_list) > 1:
+        key_list = list(seed_json.keys())
+        
+        if seed not in key_list:
+            seed_json[tuple(seed)] = []
+        else:
+            if mutation_point_list not in seed_json[tuple(seed)]:
+                seed_json[tuple(seed)].append(mutation_point_list)
+                #Dump the dict into file
+                with open(seed_match_file_path, "w") as seed_file:
+                    json.dump(seed_json, seed_file, indent=4)
+            else:
+                sub_count = sub_count +1
+    
+    # if there is repeated combination, 
+    # then deduct the grade for the seed
+
     if not test_result:
         json_file = open(filtered_genesis_info_file_path)
         random_pool_data = json.load(json_file)
@@ -206,6 +235,7 @@ def feedback(mutation_point_list, test_result, round, mutation_target):
             cnt_inner = cnt_inner+1
         report_json.append(temp_report)
         with open(report_file_path, "w") as report_file:
+            print("Dumping")
             json.dump(report_json, report_file, indent =4)    
     else:    
         #check for new error message
@@ -217,7 +247,6 @@ def feedback(mutation_point_list, test_result, round, mutation_target):
             add_count = 1
         else: 
             add_count = 2
-    add_count = 1
     print("add_count == " + str(add_count))
     history_json.append(temp_history_json)
     with open(history_file_path, "w") as history_file:
@@ -227,16 +256,16 @@ def feedback(mutation_point_list, test_result, round, mutation_target):
     with open(database_file_path, "r") as database_file:
         database_json = json.load(database_file)          
     # if new error_message is discovered or old message is eliminated, then adjust the grade
-    if add_count != 0:
+    if (add_count != 0 or sub_count !=0):
 
         for record in database_json:
             print("seed"+str(seed))
             if record["label"] == seed:
-                record["grade"] = record["grade"] + add_count
+                record["grade"] = record["grade"] + add_count-sub_count
                 print("record_grade"+str(record["grade"]))
                 new_record = {}
                 new_record["label"] = seed
-                new_record["grade"] = record["grade"] + add_count
+                new_record["grade"] = record["grade"] + add_count-sub_count
      
         with open(database_file_path, "w") as database_file_another:
             json.dump(database_json, database_file_another, indent=4)
@@ -259,9 +288,21 @@ def test(round):
         print(saw_file)
         if saw_file == "verify_HMAC.saw" or saw_file == "verify_imperative_cryptol_spec.saw":
             continue
+    
+        p = subprocess.Popen(['saw', saw_file],stdout = subprocess.PIPE,stderr = subprocess.PIPE)
+        timeout_flag = False
+        try:
+            outs, errs = p.communicate(timeout=600) # will raise error and kill any process that runs longer than 60 seconds
+        except subprocess.TimeoutExpired as e:
+            print("here")
+            p.kill()
+            outs, errs = p.communicate()
+            timeout_flag = True
+        
+        with open("./log/"+str(round)+".log", "ab") as log_file:
+            log_file.write(outs)
 
-        os.system("saw "+ saw_file + "| tee -a ./log/"+str(round) +".log 1>/dev/null")
-    return test_result_func(round)
+    return (test_result_func(round), timeout_flag)
 
 
 # This function is for one step in a branch in the evolution mutation
@@ -368,14 +409,13 @@ if __name__ == '__main__':
         # if this list exists as a bad seed or it has run out of combinations, skip this round
 
         mutation_target = mutation_match(selected_seed_list)
-        test_result = test(round)
-        test_result = True
+        test_result, timeout_flag = test(round)
 
         '''
         database.json write in feedback
         '''
 
-        database_json = feedback(selected_seed_list, test_result, round, mutation_target)
+        database_json = feedback(selected_seed_list, test_result, round, mutation_target, timeout_flag)
             
         llvm_link()
         # after selected, goto the test step
