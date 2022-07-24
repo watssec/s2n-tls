@@ -43,6 +43,8 @@ def pre_test_check():
 
 def mutation_match(selected_seed_list):
 
+   
+    
     mutation_target = []
     json_file = open(filtered_genesis_info_file_path)
     random_pool_data = json.load(json_file)
@@ -170,12 +172,7 @@ def feedback(mutation_point_list, test_result, round, mutation_target, timeout_f
         seed = mutation_point_list
     else:
         seed = mutation_point_list[:-1]
-    seed_json = {}
-    if not os.path.isfile(seed_match_file_path):
-        seed_json = {}
-    else:
-        with open(seed_match_file_path, "r") as seed_file:
-            seed_json = json.load(seed_file)
+
     
     # process the redicted information to edit the history file test
     if os.stat(history_file_path).st_size == 0:
@@ -200,21 +197,9 @@ def feedback(mutation_point_list, test_result, round, mutation_target, timeout_f
     if timeout_flag:
         temp_history_json["error_message"] = temp_history_json["error_message"] + "timeout"
     add_count = 0
-    sub_count = 0
+    
 
-    if len(mutation_point_list) > 1:
-        key_list = list(seed_json.keys())
-        
-        if seed not in key_list:
-            seed_json[tuple(seed)] = []
-        else:
-            if mutation_point_list not in seed_json[tuple(seed)]:
-                seed_json[tuple(seed)].append(mutation_point_list)
-                #Dump the dict into file
-                with open(seed_match_file_path, "w") as seed_file:
-                    json.dump(seed_json, seed_file, indent=4)
-            else:
-                sub_count = sub_count +1
+
     
     # if there is repeated combination, 
     # then deduct the grade for the seed
@@ -233,6 +218,7 @@ def feedback(mutation_point_list, test_result, round, mutation_target, timeout_f
                 selected_seed_info["mutated_type"] = mutation_target[cnt_inner]
                 temp_report[i] = selected_seed_info
             cnt_inner = cnt_inner+1
+    
         report_json.append(temp_report)
         with open(report_file_path, "w") as report_file:
             print("Dumping")
@@ -256,16 +242,16 @@ def feedback(mutation_point_list, test_result, round, mutation_target, timeout_f
     with open(database_file_path, "r") as database_file:
         database_json = json.load(database_file)          
     # if new error_message is discovered or old message is eliminated, then adjust the grade
-    if (add_count != 0 or sub_count !=0):
+    if (add_count != 0):
 
         for record in database_json:
             print("seed"+str(seed))
             if record["label"] == seed:
-                record["grade"] = record["grade"] + add_count-sub_count
+                record["grade"] = record["grade"] + add_count
                 print("record_grade"+str(record["grade"]))
                 new_record = {}
                 new_record["label"] = seed
-                new_record["grade"] = record["grade"] + add_count-sub_count
+                new_record["grade"] = record["grade"] + add_count
      
         with open(database_file_path, "w") as database_file_another:
             json.dump(database_json, database_file_another, indent=4)
@@ -310,6 +296,10 @@ def test(round):
 # select one from the random seed pool
 
 def one_mutation_round(database_json):
+    
+    skip_flag = 0
+    sub_count = 0
+    
     random_pool_data = []
     with open(filtered_genesis_info_file_path, "r") as json_file:
         random_pool_data = json.load(json_file)
@@ -329,7 +319,36 @@ def one_mutation_round(database_json):
     selected_seed = random_select_from_pool(random_pool_data, database_json)
     
     selected_seed_list.append(selected_seed)
-   
+    # Deduct mark for the seed mutation
+    
+    #TODO: eliminate repeat combination
+    
+    
+    if len(selected_seed_list) ==1:
+        seed = selected_seed_list
+    else:
+        seed = selected_seed_list[:-1]
+    current_combination = []
+    for i in database_json:
+        current_combination.append(i["label"])
+    if selected_seed_list in current_combination:
+        skip_flag = 1
+        sub_count = sub_count + 1
+    
+        if sub_count != 0:
+            for record in database_json:
+                print("seed"+str(seed))
+                if record["label"] == seed:
+                    record["grade"] = record["grade"] - sub_count
+                    print("record_grade"+str(record["grade"]))
+                    new_record = {}
+                    new_record["label"] = seed
+                    new_record["grade"] = record["grade"] - sub_count
+            
+            with open(database_file_path, "w") as database_file_another:
+                json.dump(database_json, database_file_another, indent=4)
+        
+        return (skip_flag, [])
     # add the selected_seed into the database
     
     database_json.append({"label":selected_seed_list, "grade": 10})
@@ -340,7 +359,7 @@ def one_mutation_round(database_json):
         json.dump(database_json, database_file,indent=4)
         print(selected_seed_list)
     
-    return selected_seed_list
+    return (skip_flag,selected_seed_list)
 
 
 def llvm_link():
@@ -404,11 +423,13 @@ if __name__ == '__main__':
         database.json write in one_mutation_round
         '''
         
-        selected_seed_list = one_mutation_round(database_json)
-    
+        (skip_flag,selected_seed_list) = one_mutation_round(database_json)
+        if skip_flag:
+            continue
         # if this list exists as a bad seed or it has run out of combinations, skip this round
 
         mutation_target = mutation_match(selected_seed_list)
+
         test_result, timeout_flag = test(round)
 
         '''
