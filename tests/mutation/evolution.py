@@ -8,6 +8,7 @@ import os.path
 import random
 import regex as re
 from tqdm import tqdm
+import datetime
 
 Initialization_pass_dir = "../../mutation/passes/Initialization/build/Initialization/libInitialization.so"
 saw_file_dir = "../saw/"
@@ -121,12 +122,21 @@ def random_select_from_pool(random_pool_data, database_json):
     for i in database_json:
         selected_list.append(i["label"])
     selection_list = []
-    valid_seed = []
+    report_json = {}
+    invalid_seed = []
+    # Those already in report will be considered invalid
+    with open("./report.json","r") as report_file:
+        report_json = json.load(report_file)
+    for i in report_json:
+        key_list = list(i.keys())
+        for j in key_list:
+            if j != "0":
+                invalid_seed.append(int(j))
 
     cnt = 0
     for i in random_pool_data:
         cnt = cnt + 1 
-        if cnt not in selected_list:
+        if (cnt not in selected_list) and (cnt not in invalid_seed) :
           
             selection_list.append(cnt)
     
@@ -227,6 +237,8 @@ def feedback(mutation_point_list, test_result, round, mutation_target, timeout_f
             else:    
                 selected_seed_info = random_pool_data[i-1]
                 selected_seed_info["mutated_type"] = mutation_target[cnt_inner]
+                
+                selected_seed_info["timestamp"] = str(datetime.datetime.now())
                 temp_report[i] = selected_seed_info
             cnt_inner = cnt_inner+1
     
