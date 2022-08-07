@@ -98,13 +98,22 @@ def database_seed_selection(database_json):
     # if the seed is a useless seed, then continue on this one
     max_grade = 0
     max_grade_label = []
-   
+    max_grade_label_list = []
     for i in database_json:
 
         if i["grade"] > max_grade:
             max_grade = i["grade"]
             max_grade_label = i["label"]
-    return max_grade_label
+    
+    # In order prevent the situation when 
+    # the seed in database is selected as a base-seed
+    # And end up focusing on base-seeed one by one(which turns to some brute force method)
+
+    for i in database_json:
+        if i["grade"] == max_grade:
+            max_grade_label_list.append(i["label"])
+    selected_seed = random.choice(max_grade_label_list)
+    return selected_seed
 
 # This function randomly pick one mutation point from random pool
 def random_select_from_pool(random_pool_data, database_json):
@@ -112,6 +121,8 @@ def random_select_from_pool(random_pool_data, database_json):
     for i in database_json:
         selected_list.append(i["label"])
     selection_list = []
+    valid_seed = []
+
     cnt = 0
     for i in random_pool_data:
         cnt = cnt + 1 
@@ -225,8 +236,13 @@ def feedback(mutation_point_list, test_result, round, mutation_target, timeout_f
             json.dump(report_json, report_file, indent =4)    
     else:    
         #check for new error message
+
+        # globally
         result1 = new_error_message_check(history_json, current_error_message)
+        
+        # compared with seed
         result2 = error_elimination_check(history_json, seed, current_error_message)
+        
         if result1 == False and result2 == False:
             add_count = 0
         elif (result1 == False and result2 ==True) or (result1 == True and result2 ==False):
@@ -252,6 +268,8 @@ def feedback(mutation_point_list, test_result, round, mutation_target, timeout_f
                 new_record = {}
                 new_record["label"] = seed
                 new_record["grade"] = record["grade"] + add_count
+         
+        database_json.append({"label":mutation_point_list, "grade": 10})
      
         with open(database_file_path, "w") as database_file_another:
             json.dump(database_json, database_file_another, indent=4)
@@ -307,6 +325,9 @@ def one_mutation_round(database_json):
     # check if the database is empty or not
     if database_json == []:
         database_json.append(database_empty)
+                
+        with open(database_file_path, "w") as database_file_another:
+            json.dump(database_json, database_file_another, indent=4)
 
     #****Phase1****
     # select the seed with the largest grade from the dataset
@@ -350,15 +371,7 @@ def one_mutation_round(database_json):
         
         return (skip_flag, [])
     # add the selected_seed into the database
-    
-    database_json.append({"label":selected_seed_list, "grade": 10})
-    print(database_json)
-    # dump into database file
-    
-    with open(database_file_path,"w") as database_file:
-        json.dump(database_json, database_file,indent=4)
-        print(selected_seed_list)
-    
+
     return (skip_flag,selected_seed_list)
 
 
@@ -414,7 +427,7 @@ if __name__ == '__main__':
     
     report_json = []
     cnt = 0
-    for round in tqdm(range(1000)):
+    for round in tqdm(range(10000)):
         cnt = cnt +1 
    
         print("round number"+ str(round))
