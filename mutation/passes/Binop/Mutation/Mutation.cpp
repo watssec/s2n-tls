@@ -22,93 +22,94 @@ static cl::opt<std::string> TargetType("target_type", cl::desc("Specify the targ
 namespace {
 
 
-  struct SkeletonPass : public ModulePass {
+struct SkeletonPass : public ModulePass {
     static char ID;
 
 
     SkeletonPass() : ModulePass(ID) {}
 
-    virtual bool runOnModule(Module &M) {    
-    int function_num = 0;
-    int instruction_num = 0;
-    for (auto &F: M){
-      function_num = function_num + 1;
-      for (auto &B : F) {
-        
-        for (auto &I : B) {
-    
-          instruction_num = instruction_num +1;
-          if (!(function_num == FunctionId and instruction_num == InstructionId)){
-            continue;
-          }
-        errs() << "target_type" << TargetType << "\n";
-          if (auto *op = dyn_cast<BinaryOperator>(&I)) {
-            errs() << "old block" << B << "\n";
-            // Insert at the point where the instruction `op` appears.
-            IRBuilder<> builder(op);
-	          
-            // Make a multiply with the same operands as `op`.
-            Value *lhs = op->getOperand(0);
-            Value *rhs = op->getOperand(1);
-            Value *newinst;
-            
-            if(TargetType == "add"){
-                newinst = builder.CreateAdd(lhs,rhs);
-            }else if(TargetType == "sub")
-             {                
-                newinst = builder.CreateSub(lhs,rhs);
-            }else if(TargetType == "fadd")
-            {  
-                newinst = builder.CreateFAdd(lhs, rhs);
-            }else if(TargetType == "fsub")
-            {
-                newinst = builder.CreateFSub(lhs, rhs);
-            }else if(TargetType == "fmul")
-            {
-                newinst = builder.CreateFMul(lhs, rhs);
-            }else if(TargetType == "udiv")
-            { 
-                newinst = builder.CreateUDiv(lhs, rhs);
-            }else if(TargetType == "urem")
-            {
-                newinst = builder.CreateURem(lhs, rhs);
-            }else if(TargetType == "fdiv"){
-                newinst = builder.CreateFDiv(lhs, rhs);
-            }else if(TargetType == "frem"){
-                newinst = builder.CreateFRem(lhs, rhs);
-            }else if(TargetType == "sdiv"){
-                newinst = builder.CreateSDiv(lhs, rhs);
-            }else if(TargetType == "srem"){
-                newinst = builder.CreateSRem(lhs, rhs);
-            }else if(TargetType == "shl"){
-                newinst = builder.CreateShl(lhs, rhs);
-            }else if(TargetType == "lshr"){
-                newinst = builder.CreateLShr(lhs, rhs);
-            }else if(TargetType == "ashr"){
-                newinst = builder.CreateAShr(lhs, rhs);
-            }else if(TargetType == "and"){
-                newinst = builder.CreateAnd(lhs, rhs);
-            }else if(TargetType == "or"){
-                newinst = builder.CreateOr(lhs, rhs);
-            }else if(TargetType == "xor"){
-                newinst = builder.CreateXor(lhs, rhs);
-            }else if(TargetType == "mul"){
-                newinst = builder.CreateMul(lhs, rhs);
-            }
-            
-            // Everywhere the old instruction was used as an operand, use our
-            // new multiply instruction instead.
-            op->replaceAllUsesWith(newinst);
-            errs() << "new block" << B << "\n";
-            // We modified the code.
-            return true; 
-          }
-        }
-        }
-      }
+    virtual bool runOnModule(Module &M) {
+        int function_num = 0;
+        int instruction_num = 0;
+        for (auto &F: M) {
+            function_num = function_num + 1;
+            for (auto &B : F) {
 
-       return false;}
-  };
+                for (auto &I : B) {
+
+                    instruction_num = instruction_num +1;
+                    if (!(function_num == FunctionId and instruction_num == InstructionId)) {
+                        continue;
+                    }
+                    errs() << "target_type" << TargetType << "\n";
+                    if (auto *op = dyn_cast<BinaryOperator>(&I)) {
+                        errs() << "old block" << B << "\n";
+                        // Insert at the point where the instruction `op` appears.
+                        IRBuilder<> builder(op);
+
+                        // Make a multiply with the same operands as `op`.
+                        Value *lhs = op->getOperand(0);
+                        Value *rhs = op->getOperand(1);
+                        Value *newinst;
+
+                        if(TargetType == "add") {
+                            newinst = builder.CreateAdd(lhs,rhs);
+                        } else if(TargetType == "sub")
+                        {
+                            newinst = builder.CreateSub(lhs,rhs);
+                        } else if(TargetType == "fadd")
+                        {
+                            newinst = builder.CreateFAdd(lhs, rhs);
+                        } else if(TargetType == "fsub")
+                        {
+                            newinst = builder.CreateFSub(lhs, rhs);
+                        } else if(TargetType == "fmul")
+                        {
+                            newinst = builder.CreateFMul(lhs, rhs);
+                        } else if(TargetType == "udiv")
+                        {
+                            newinst = builder.CreateUDiv(lhs, rhs);
+                        } else if(TargetType == "urem")
+                        {
+                            newinst = builder.CreateURem(lhs, rhs);
+                        } else if(TargetType == "fdiv") {
+                            newinst = builder.CreateFDiv(lhs, rhs);
+                        } else if(TargetType == "frem") {
+                            newinst = builder.CreateFRem(lhs, rhs);
+                        } else if(TargetType == "sdiv") {
+                            newinst = builder.CreateSDiv(lhs, rhs);
+                        } else if(TargetType == "srem") {
+                            newinst = builder.CreateSRem(lhs, rhs);
+                        } else if(TargetType == "shl") {
+                            newinst = builder.CreateShl(lhs, rhs);
+                        } else if(TargetType == "lshr") {
+                            newinst = builder.CreateLShr(lhs, rhs);
+                        } else if(TargetType == "ashr") {
+                            newinst = builder.CreateAShr(lhs, rhs);
+                        } else if(TargetType == "and") {
+                            newinst = builder.CreateAnd(lhs, rhs);
+                        } else if(TargetType == "or") {
+                            newinst = builder.CreateOr(lhs, rhs);
+                        } else if(TargetType == "xor") {
+                            newinst = builder.CreateXor(lhs, rhs);
+                        } else if(TargetType == "mul") {
+                            newinst = builder.CreateMul(lhs, rhs);
+                        }
+
+                        // Everywhere the old instruction was used as an operand, use our
+                        // new multiply instruction instead.
+                        op->replaceAllUsesWith(newinst);
+                        errs() << "new block" << B << "\n";
+                        // We modified the code.
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+};
 }
 
 char SkeletonPass::ID = 0;

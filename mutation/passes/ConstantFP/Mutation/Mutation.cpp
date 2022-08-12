@@ -22,7 +22,7 @@ static cl::opt<std::string> TargetType("target_type", cl::desc("Specify target t
 
 
 namespace {
-  struct SkeletonPass : public ModulePass {
+struct SkeletonPass : public ModulePass {
     static char ID;
     int function_num = 0;
     int instruction_num = 0;
@@ -30,52 +30,52 @@ namespace {
     SkeletonPass() : ModulePass(ID) {}
 
     virtual bool runOnModule(Module &M) {
-    for (auto &F: M){
-     
-      function_num = function_num + 1; 
-      for (auto &B : F){
-        for (auto &I : B) {
-          int operand_num = 0;
-          instruction_num = instruction_num +1;
+        for (auto &F: M) {
+
+            function_num = function_num + 1;
+            for (auto &B : F) {
+                for (auto &I : B) {
+                    int operand_num = 0;
+                    instruction_num = instruction_num +1;
 
 
-            for(Use &U: I.operands())
-            {
-              operand_num = operand_num +1;
-              if(!(function_num == FunctionId and instruction_num == InstructionId and operand_num == OperandId)){
-                continue;
-              }
-              Value *V = U.get();
-              if(auto *op = dyn_cast<ConstantFP>(V)){
-              float value = op->getValueAPF().convertToFloat();
-              errs() << "value" << value << "\n";
-              errs() << "getType" << *op->getType() << "\n";
-              if (TargetType == "0"){
-                value = 0;
-              }else if(TargetType == "1"){
-                value = 1;
-              }else if(TargetType == "2"){
-                value = -1;
-              }else if(TargetType == "3"){
-                value = value + 1;
-              }else if(TargetType == "4"){
-                value = value - 1;
-              }
-              Value *newvalue = ConstantFP::get(op->getType(),value);
-              errs() << "new value" << *newvalue << "\n";
-              I.setOperand(U.getOperandNo(),newvalue);
-            
-              errs() << "U" << *U << "\n";
-              errs() << "V" << *V << "\n";
-              errs() << "op" << *op << "\n";
+                    for(Use &U: I.operands())
+                    {
+                        operand_num = operand_num +1;
+                        if(!(function_num == FunctionId and instruction_num == InstructionId and operand_num == OperandId)) {
+                            continue;
+                        }
+                        Value *V = U.get();
+                        if(auto *op = dyn_cast<ConstantFP>(V)) {
+                            float value = op->getValueAPF().convertToFloat();
+                            errs() << "value" << value << "\n";
+                            errs() << "getType" << *op->getType() << "\n";
+                            if (TargetType == "0") {
+                                value = 0;
+                            } else if(TargetType == "1") {
+                                value = 1;
+                            } else if(TargetType == "2") {
+                                value = -1;
+                            } else if(TargetType == "3") {
+                                value = value + 1;
+                            } else if(TargetType == "4") {
+                                value = value - 1;
+                            }
+                            Value *newvalue = ConstantFP::get(op->getType(),value);
+                            errs() << "new value" << *newvalue << "\n";
+                            I.setOperand(U.getOperandNo(),newvalue);
+
+                            errs() << "U" << *U << "\n";
+                            errs() << "V" << *V << "\n";
+                            errs() << "op" << *op << "\n";
+                        }
+                    }
                 }
             }
-            }
+            return true;
         }
-      return true;  
     }
-    }
-  };
+};
 }
 
 char SkeletonPass::ID = 0;

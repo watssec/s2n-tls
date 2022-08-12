@@ -22,46 +22,46 @@ static cl::opt<int> InstructionId("instruction_num", cl::desc("Specify instructi
 namespace {
 
 
-  struct SkeletonPass : public ModulePass {
+struct SkeletonPass : public ModulePass {
     static char ID;
 
 
     SkeletonPass() : ModulePass(ID) {}
 
     virtual bool runOnModule(Module &M) {
-      int function_num = 0;
-      int instruction_num = 0;
-      for (auto &F : M){ 
-      function_num = function_num + 1;
-      for (auto &B : F) {
-    
-        for (auto &I : B) {
-          instruction_num = instruction_num +1;
-     
-          if (!(function_num == FunctionId and instruction_num == InstructionId)){
-            
-            continue;
-          }
-          
-          if (auto *op = dyn_cast<BranchInst>(&I)) {
-            if (op->isConditional() == true)
-            {
-              errs() << "old op" << *op << "\n";
-              op->swapSuccessors();
-              errs() << "new op" << *op << "\n";
-              
-            }
-           
-            // We modified the code.
-            return true; 
-          }
-        
-        }
-      }
+        int function_num = 0;
+        int instruction_num = 0;
+        for (auto &F : M) {
+            function_num = function_num + 1;
+            for (auto &B : F) {
 
+                for (auto &I : B) {
+                    instruction_num = instruction_num +1;
+
+                    if (!(function_num == FunctionId and instruction_num == InstructionId)) {
+
+                        continue;
+                    }
+
+                    if (auto *op = dyn_cast<BranchInst>(&I)) {
+                        if (op->isConditional() == true)
+                        {
+                            errs() << "old op" << *op << "\n";
+                            op->swapSuccessors();
+                            errs() << "new op" << *op << "\n";
+
+                        }
+
+                        // We modified the code.
+                        return true;
+                    }
+
+                }
+            }
+
+        }
+        return false;
     }
-  	    return false;
-  }
 };
 }
 char SkeletonPass::ID = 0;

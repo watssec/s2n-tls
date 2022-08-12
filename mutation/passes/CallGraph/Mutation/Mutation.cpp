@@ -33,7 +33,7 @@ static cl::opt<int> InstructionId("instruction_num", cl::desc("Specify instructi
 namespace {
 
 
-  struct SkeletonPass : public ModulePass {
+struct SkeletonPass : public ModulePass {
     static char ID;
 
 
@@ -41,49 +41,49 @@ namespace {
 
     virtual bool runOnModule(Module &M) {
 
-    CallGraph CG = CallGraph(M); 
-    int cnt = 0;
-    int prev_node_length = 0;
-    auto prev_node = df_begin(&CG);
-    json path_array = json::array();
+        CallGraph CG = CallGraph(M);
+        int cnt = 0;
+        int prev_node_length = 0;
+        auto prev_node = df_begin(&CG);
+        json path_array = json::array();
 
-    for(auto bnode = CG.begin(), enode = CG.end(); bnode!=enode;bnode++) {
-      if(bnode->second != nullptr)
-      {
-       CallGraphNode *cgn = bnode->second.get();
-       if(Function *fptr = cgn->getFunction()){
-         std::vector<std::string> path_node;  
-       
-         json single_path = json::object();
-         errs() << "fptr" << fptr->getName() << "\n";
-         dbgs() << "operator" << cgn->size()<< "\n";
-         if (cgn->size()>0){
-            for(int i=0; i < cgn->size(); i++){
-              if(cgn->operator[](i) != nullptr)
-                {
-                  if(cgn->operator[](i)->getFunction() != nullptr){
+        for(auto bnode = CG.begin(), enode = CG.end(); bnode!=enode; bnode++) {
+            if(bnode->second != nullptr)
+            {
+                CallGraphNode *cgn = bnode->second.get();
+                if(Function *fptr = cgn->getFunction()) {
+                    std::vector<std::string> path_node;
 
-                    if(!(std::count(std::begin(path_node), std::end(path_node), cgn->operator[](i)->getFunction()->getName()) > 0)){
-                    path_node.push_back(cgn->operator[](i)->getFunction()->getName());
+                    json single_path = json::object();
+                    errs() << "fptr" << fptr->getName() << "\n";
+                    dbgs() << "operator" << cgn->size()<< "\n";
+                    if (cgn->size()>0) {
+                        for(int i=0; i < cgn->size(); i++) {
+                            if(cgn->operator[](i) != nullptr)
+                            {
+                                if(cgn->operator[](i)->getFunction() != nullptr) {
+
+                                    if(!(std::count(std::begin(path_node), std::end(path_node), cgn->operator[](i)->getFunction()->getName()) > 0)) {
+                                        path_node.push_back(cgn->operator[](i)->getFunction()->getName());
+                                    }
+                                }
+                            }
+                        }
+                        single_path[fptr->getName()] = path_node;
+                        path_array.push_back(single_path);
                     }
-                  }
+
                 }
             }
-            single_path[fptr->getName()] = path_node; 
-            path_array.push_back(single_path);
-         }
+        }
 
-       } 
-      }
-    }
-   
-  
 
-    std::ofstream o ("callgraphnode_callgraph.json", std::ofstream::trunc);
-    o << std::setw(4) << path_array << std::endl;
-  
+
+        std::ofstream o ("callgraphnode_callgraph.json", std::ofstream::trunc);
+        o << std::setw(4) << path_array << std::endl;
+
     }
-  };
+};
 }
 
 char SkeletonPass::ID = 0;

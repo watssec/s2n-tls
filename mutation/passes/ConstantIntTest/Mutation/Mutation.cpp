@@ -24,7 +24,7 @@ static cl::opt<std::string> TargetType("target_type", cl::desc("Specify target t
 
 
 namespace {
-  struct SkeletonPass : public ModulePass {
+struct SkeletonPass : public ModulePass {
     static char ID;
     int function_num = 0;
     int instruction_num = 0;
@@ -32,62 +32,62 @@ namespace {
     SkeletonPass() : ModulePass(ID) {}
 
     virtual bool runOnModule(Module &M) {
-      errs() << "functionID" << FunctionId << "\n";
-    for (auto &F: M){
-     
-      function_num = function_num + 1; 
-      for (auto &B : F){
-        for (auto &I : B) {
-          int operand_num = 0;
-          instruction_num = instruction_num +1;
-  	  if (auto *inst = dyn_cast<IntrinsicInst>(&I)){
-	    errs() << "inst"<< *inst << "\n";
-	  }       
-	  for(Use &U: I.operands())
-            {
-  
-              operand_num = operand_num +1;
-	      Value *V = U.get();
-	     
-              if(!(function_num == FunctionId and instruction_num == InstructionId)){
-                continue;
-              }
-              errs() << "instruction_num" << instruction_num << "\n";
-              errs() << "I" << I << "\n";
-              errs() << "old V" << *V << "\n";
+        errs() << "functionID" << FunctionId << "\n";
+        for (auto &F: M) {
 
-              if(auto *func = dyn_cast<Function>(V)){
-                errs() << "func" << func << "\n";
-                errs() << "func is intrinsic or not " << func->isIntrinsic() << "\n";
-              }
+            function_num = function_num + 1;
+            for (auto &B : F) {
+                for (auto &I : B) {
+                    int operand_num = 0;
+                    instruction_num = instruction_num +1;
+                    if (auto *inst = dyn_cast<IntrinsicInst>(&I)) {
+                        errs() << "inst"<< *inst << "\n";
+                    }
+                    for(Use &U: I.operands())
+                    {
 
-	      if(auto *op = dyn_cast<ConstantInt>(V)){
-              int value = op->getZExtValue();
-	     
-              if (TargetType == "0"){
-                value = 0;
-              }else if(TargetType == "1"){
-                value = 1;
-              }else if(TargetType == "2"){
-                value = -1;
-              }else if(TargetType == "3"){
-                value = value + 1;
-              }else if(TargetType == "4"){
-                value = value - 1;
-              }
-              Value *newvalue = ConstantInt::get(op->getType(),value);
-              errs() << "new value" << *newvalue << "\n";
-              I.setOperand(U.getOperandNo(),newvalue);
-            
-             
+                        operand_num = operand_num +1;
+                        Value *V = U.get();
+
+                        if(!(function_num == FunctionId and instruction_num == InstructionId)) {
+                            continue;
+                        }
+                        errs() << "instruction_num" << instruction_num << "\n";
+                        errs() << "I" << I << "\n";
+                        errs() << "old V" << *V << "\n";
+
+                        if(auto *func = dyn_cast<Function>(V)) {
+                            errs() << "func" << func << "\n";
+                            errs() << "func is intrinsic or not " << func->isIntrinsic() << "\n";
+                        }
+
+                        if(auto *op = dyn_cast<ConstantInt>(V)) {
+                            int value = op->getZExtValue();
+
+                            if (TargetType == "0") {
+                                value = 0;
+                            } else if(TargetType == "1") {
+                                value = 1;
+                            } else if(TargetType == "2") {
+                                value = -1;
+                            } else if(TargetType == "3") {
+                                value = value + 1;
+                            } else if(TargetType == "4") {
+                                value = value - 1;
+                            }
+                            Value *newvalue = ConstantInt::get(op->getType(),value);
+                            errs() << "new value" << *newvalue << "\n";
+                            I.setOperand(U.getOperandNo(),newvalue);
+
+
+                        }
+                    }
                 }
             }
-            }
         }
+        return true;
     }
-      return true;  
-    }
-  };
+};
 }
 
 char SkeletonPass::ID = 0;
