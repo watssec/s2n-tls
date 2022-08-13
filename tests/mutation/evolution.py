@@ -87,8 +87,10 @@ def mutation_match(selected_seed_list):
             mutation_target.append("no target")
             command = "opt -load " + mutation_pass_dir + mutation_type + "/build/Mutation/libMutation.so"  + " -file_name " + file_name + \
             " -function_num " + str(function_num) + " -instruction_num " + str(instruction_num) + " -" + mutation_type + " <" + " ./bitcode/all_llvm.bc"  + " > ./bitcode/all_llvm_mutated.bc"
+        
         print(mutation_type)
         print(command)
+        
         os.system(command)
         os.system("rm ./bitcode/all_llvm.bc")
         os.system("mv ./bitcode/all_llvm_mutated.bc ./bitcode/all_llvm.bc")
@@ -106,9 +108,10 @@ def database_seed_selection(database_json):
             max_grade = i["grade"]
             max_grade_label = i["label"]
     
+    # The randomization added here is
     # In order prevent the situation when 
     # the seed in database is selected as a base-seed
-    # And end up focusing on base-seeed one by one(which turns to some brute force method)
+    # And end up focusing on base-seed one by one(which turns to some brute force method)
 
     for i in database_json:
         if i["grade"] == max_grade:
@@ -117,26 +120,17 @@ def database_seed_selection(database_json):
     return selected_seed
 
 # This function randomly pick one mutation point from random pool
-def random_select_from_pool(random_pool_data, database_json):
-    selected_list = []
-    for i in database_json:
-        selected_list.append(i["label"])
+def random_select_from_pool(random_pool_data, database_selected_seed):
+   
+    # Eliminate the possibility of self + self
+
     selection_list = []
-    report_json = {}
-    invalid_seed = []
-    # Those already in report will be considered invalid
-    with open("./report.json","r") as report_file:
-        report_json = json.load(report_file)
-    for i in report_json:
-        key_list = list(i.keys())
-        for j in key_list:
-            if j != "0":
-                invalid_seed.append(int(j))
+  
 
     cnt = 0
     for i in random_pool_data:
         cnt = cnt + 1 
-        if (cnt not in selected_list) and (cnt not in invalid_seed) :
+        if (cnt not in database_selected_seed) :
           
             selection_list.append(cnt)
     
@@ -344,43 +338,68 @@ def one_mutation_round(database_json):
     #****Phase1****
     # select the seed with the largest grade from the dataset
     selected_seed_list = []
-    selected_seed_list = selected_seed_list + database_seed_selection(database_json)
+    database_selected_seed = database_seed_selection(database_json)
+    selected_seed_list = selected_seed_list + database_selected_seed
 
 
 
     #****Phase2****
-    selected_seed = random_select_from_pool(random_pool_data, database_json)
+    selected_seed = random_select_from_pool(random_pool_data, database_selected_seed)
     
     selected_seed_list.append(selected_seed)
     # Deduct mark for the seed mutation
     
     #TODO: eliminate repeat combination
-    
+    history_json = {}
+    history_list = []
+    with open("history.json","r") as history_file:
+        history_json = json.load(history_file)
+
+    for i in history_json:
+        history_list.append(i["mutaion_point_list"])
     
     if len(selected_seed_list) ==1:
         seed = selected_seed_list
     else:
         seed = selected_seed_list[:-1]
-    current_combination = []
-    for i in database_json:
-        current_combination.append(i["label"])
-    if selected_seed_list in current_combination:
+
+    # If this seed got deducted, 
+    # Deduct mark for the seed then
+    # return empty and skip_flag to stop the testing process
+
+    # Condition 1: selected_seed_list is the same as one of the seed in history
+    # Condition 2: selected from random pool a seed in report.
+
+    invalid_seed = []
+    # Those already in report will be considered invalid
+    with open("./report.json","r") as report_file:
+        report_json = json.load(report_file)
+    for i in report_json:
+        key_list = list(i.keys())
+        if len(key_list) == 2:
+            for j in key_list:
+                if j != "0":
+                    invalid_seed.append(int(j))
+
+    if selected_seed_list in history_list:
         skip_flag = 1
+
         sub_count = sub_count + 1
-    
-        if sub_count != 0:
-            for record in database_json:
-                print("seed"+str(seed))
-                if record["label"] == seed:
-                    record["grade"] = record["grade"] - sub_count
-                    print("record_grade"+str(record["grade"]))
-                    new_record = {}
-                    new_record["label"] = seed
-                    new_record["grade"] = record["grade"] - sub_count
+
+    if selected_seed in invalid_seed:
+        skip_flag = 1
+        sub_count = sub_count + 1 
+    if sub_count != 0:
+        for record in database_json:
+            print("seed"+str(seed))
+            if record["label"] == seed:
+                record["grade"] = record["grade"] - sub_count
+                print("record_grade"+str(record["grade"]))
             
-            with open(database_file_path, "w") as database_file_another:
-                json.dump(database_json, database_file_another, indent=4)
         
+        with open(database_file_path, "w") as database_file_another:
+            json.dump(database_json, database_file_another, indent=4)
+    
         return (skip_flag, [])
     # add the selected_seed into the database
 
@@ -402,28 +421,30 @@ Copy .saw file under tests/saw and copy spec dir under tests/saw/spec
 '''
 if __name__ == '__main__':
 
-    # Open history json, if that does not exist, create an empty one
+    
+    init_flag = input("Is this the first time? 0 for yes 1 for no\n")
+    
+    if init_flag == "0":
+        for saw_file in glob.glob(saw_file_dir+"*.saw"):
+            os.system("cp " + saw_file_dir + saw_file + " .")
 
-    for saw_file in glob.glob(saw_file_dir+"*.saw"):
-        os.system("cp " + saw_file_dir + saw_file + " .")
-
-    os.system("cp -r "+ saw_file_dir+ "bike_r1/ ./bike_r1" )
-    os.system("cp -r "+ saw_file_dir+ "bike_r2/ ./bike_r2" )
-    os.system("cp -r "+ saw_file_dir+ "failure_tests/ ./failure_tests" )
-    #os.system("cp -r "+ saw_file_dir+ "HMAC/ ./HMAC" )
-    os.system("cp -r "+ saw_file_dir+ "sike_r1/ ./sike_r1" )
-
-    os.system("cp -r "+ saw_file_dir+ "spec/ ./spec" )
-    os.system("cp -r "+ saw_file_dir+ "HMAC/ ./HMAC")
-    os.system("mkdir log")
-    os.system("touch history.json")
-    # Makefile is edited to the steps before llvm link
-    make_process = subprocess.Popen("make") 
-    stdout, stderr = make_process.communicate()
-    llvm_link()
-    # invoke the initialization pass
-    init_command = "opt -load " + Initialization_pass_dir + " -Initialization < " +  "./bitcode/all_llvm.bc" + " > /dev/null"
-    # os.system(init_command)
+        os.system("cp -r "+ saw_file_dir+ "bike_r1/ ./bike_r1" )
+        os.system("cp -r "+ saw_file_dir+ "bike_r2/ ./bike_r2" )
+        os.system("cp -r "+ saw_file_dir+ "failure_tests/ ./failure_tests" )
+        #os.system("cp -r "+ saw_file_dir+ "HMAC/ ./HMAC" )
+        os.system("cp -r "+ saw_file_dir+ "sike_r1/ ./sike_r1" )
+        os.system("cp -r "+ saw_file_dir+ "spec/ ./spec" )
+        os.system("cp -r "+ saw_file_dir+ "HMAC/ ./HMAC")
+        os.system("mkdir log")
+        os.system("touch history.json")
+        
+        # Makefile is edited to the steps before llvm link
+        make_process = subprocess.Popen("make") 
+        stdout, stderr = make_process.communicate()
+        llvm_link()
+        # invoke the initialization pass
+        init_command = "opt -load " + Initialization_pass_dir + " -Initialization < " +  "./bitcode/all_llvm.bc" + " > /dev/null"
+        os.system(init_command)
     json_file = open(filtered_genesis_info_file_path)
     random_pool_data = json.load(json_file)
 
@@ -449,9 +470,10 @@ if __name__ == '__main__':
         '''
         
         (skip_flag,selected_seed_list) = one_mutation_round(database_json)
+
         if skip_flag:
             continue
-        # if this list exists as a bad seed or it has run out of combinations, skip this round
+        # if this list has run out of combinations, skip this round
 
         mutation_target = mutation_match(selected_seed_list)
 
