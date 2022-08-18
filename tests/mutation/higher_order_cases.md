@@ -1,5 +1,78 @@
 # 
 
+
+# Some thoughts
+
+Trying to figure out a possible case that first-order mutant will not be detected but higher-order will.
+
+## Source Code
+
+```
+old_c = c
+c = c + 1
+if (a < b)
+{
+    c = old_c
+}
+```
+
+Spec with deficiencies:
+
+```
+if (a < b)
+{
+  c = old_c
+}
+```
+
+It should also monitor the else branch
+
+```
+if (a >= b)
+{
+   c = c + 1
+}
+```
+
+Only mutate one point
+
+```
+old_c = c
+c = c + 1
+if (a >= b)
+{
+    c = old_c
+}
+```
+
+This will be detected by the spec function
+
+Mutate two points
+
+```
+old_c = c
+c = c + 0
+if (a >= b)
+{
+    c = old_c
+}
+```
+
+Prover pass
+
+But if mutate in the reverse order
+
+```
+old_c = c
+c = c + 0
+if (a < b)
+{
+    c = old_c
+}
+```
+
+The prover will pass
+## False Postives
 ```
 {
     "0": "null",
