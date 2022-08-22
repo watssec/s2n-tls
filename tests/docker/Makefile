@@ -12,10 +12,12 @@ help:
 # path
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(dir $(mkfile_path))
-project_dir := $(realpath $(current_dir)/..)
+project_dir := $(realpath $(current_dir)/../..)
 
-# variables
-tag = s2n-tls
+where:
+	@echo $(project_dir)
+# variablee
+tag = bf278a66aa1f
 
 #targets
 build:
@@ -29,9 +31,14 @@ once:
 # When it is initialization we build the passes here
 init:
 	@docker run \
-		-v #(project_dir):/project \
+		-v $(project_dir):/project \
 		-it \
 		$(tag) \
-		bash /project/pass_build.py
+		python3 /project/tests/docker/pass_build.py
 
-
+test:
+	@docker run \
+		-v $(project_dir):/project \
+		-it \
+		$(tag) \
+	        python3 /project/tests/mutation/evolution.py	
